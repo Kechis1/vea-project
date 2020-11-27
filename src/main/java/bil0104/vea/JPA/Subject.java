@@ -11,21 +11,24 @@ public class Subject {
     private long id;
     private String name;
     private String year;
-    private Semester semester;
+    public Semester semester;
     private int credits;
-    @OneToMany(mappedBy = "subject")
-    private List<Study> studies;
+    @OneToMany(mappedBy = "Subject")
+    public List<Study> studies;
+    @ManyToOne
+    public Teacher teacher;
 
     public Subject() {
     }
 
-    public Subject(long id, String name, String year, Semester semester, int credits, List<Study> studies) {
+    public Subject(long id, String name, String year, Semester semester, int credits, List<Study> studies, Teacher teacher) {
         this.id = id;
         this.name = name;
         this.year = year;
         this.semester = semester;
         this.credits = credits;
         this.studies = studies;
+        this.teacher = teacher;
     }
 
     public long getId() {
@@ -76,6 +79,7 @@ public class Subject {
         this.studies = studies;
     }
 
+
     @Override
     public String toString() {
         return "Subject{" +
@@ -85,6 +89,7 @@ public class Subject {
                 ", semester=" + semester +
                 ", credits=" + credits +
                 ", studies=" + studies +
+                ", teacher=" + teacher +
                 '}';
     }
 }

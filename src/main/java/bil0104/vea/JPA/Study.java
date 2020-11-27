@@ -15,9 +15,9 @@ public class Study {
     private int points;
 
     @ManyToOne
-    private Student student;
+    public Student student;
     @ManyToOne
-    private Subject subject;
+    public Subject subject;
 
     public Study() {
     }
