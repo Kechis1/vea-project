@@ -9,6 +9,8 @@ public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name = "teacher_id", updatable = true, insertable = false)
+    private long teacherId;
     private String name;
     private String year;
     public Semester semester;

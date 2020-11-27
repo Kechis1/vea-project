@@ -7,8 +7,10 @@ import javax.persistence.*;
 @IdClass(StudyPrimaryKey.class)
 public class Study {
     @Id
+    @Column(name = "subject_id", updatable = false, insertable = false)
     private long subjectId;
     @Id
+    @Column(name = "student_id", updatable = false, insertable = false)
     private long studentId;
     @Id
     private char year;
