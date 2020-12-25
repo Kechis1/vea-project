@@ -2,9 +2,38 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>#{Subjects.Head.Title} | Edison</title>
 </head>
 <body>
 <!-- get all, delete -->
+<h1>#{Subjects.Body.Title}</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>#{Subjects.Properties.Name}</th>
+            <th>#{Subjects.Properties.Year}</th>
+            <th>#{Subjects.Properties.Semester}</th>
+            <th>#{Subjects.Properties.Credits}</th>
+            <th>#{Subjects.Properties.Teacher}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="s : ${subjects}">
+            <td>${s.id}</td>
+            <td>${s.name}</td>
+            <td>${s.year}</td>
+            <td>${s.semester}</td>
+            <td>${s.credits}</td>
+            <td>${s.teacher.firstName} ${s.teacher.lastName}</td>
+            <td>
+                <a href="">#{Actions.Edit}</a>
+                <form action="" method="get">
+                    <button type="submit">#{Actions.Delete}</button>
+                </form>
+            </td>
+        </tr>
+    </tbody>
+</table>
 </body>
 </html>

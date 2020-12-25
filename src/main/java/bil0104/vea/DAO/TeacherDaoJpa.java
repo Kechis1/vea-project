@@ -24,7 +24,7 @@ public class TeacherDaoJpa implements AbstractDao<Teacher> {
         em.persist(teacher);
     }
 
-    public List<Teacher> list() {
+    public List<Teacher> getAll() {
         return em.createQuery("select t from Teacher t", Teacher.class).getResultList();
     }
 
