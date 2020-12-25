@@ -7,7 +7,7 @@ import java.util.List;
 
 @Entity
 public class Teacher extends Person {
-    @OneToMany(mappedBy = "Teacher")
+    @OneToMany
     public List<Subject> teaches;
 
     public Teacher() {

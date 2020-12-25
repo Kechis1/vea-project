@@ -9,13 +9,13 @@ public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "teacher_id", updatable = true, insertable = false)
+    @Column(name = "teacher_id", insertable = false, updatable = false)
     private long teacherId;
     private String name;
     private String year;
     public Semester semester;
     private int credits;
-    @OneToMany(mappedBy = "Subject")
+    @OneToMany
     public List<Study> studies;
     @ManyToOne
     public Teacher teacher;
