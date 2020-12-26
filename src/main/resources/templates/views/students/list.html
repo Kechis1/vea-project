@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="#{Students.Head.Title}"></title>
+</head>
+<body>
+<!-- get all, delete -->
+<div>
+    <ul>
+        <li>
+            <a href="#" th:href="@{/}" th:text="#{Nav.Home}"></a>
+        </li>
+        <li>
+            <a href="#" th:href="@{/students}" th:text="#{Nav.Students}"></a>
+        </li>
+        <li>
+            <a href="#" th:href="@{/subjects}" th:text="#{Nav.Subjects}"></a>
+        </li>
+    </ul>
+    <ul>
+        <li>
+            <a href="/login" th:href="@{/login}" th:text="#{Nav.LogIn}"></a>
+        </li>
+        <li>
+            <a href="/logout" th:href="@{/logout}" th:text="#{Nav.LogOut}"></a>
+        </li>
+    </ul>
+</div>
+<div th:fragment="content">
+    <h1 th:text="#{Students.Body.Title}"></h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th th:text="#{Person.Properties.Login}"></th>
+                <th th:text="#{Person.Properties.FirstName}"></th>
+                <th th:text="#{Person.Properties.LastName}"></th>
+                <th th:text="#{Person.Properties.DateOfBirth}"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${students == null or students.isEmpty()}">
+                <td th:text="#{Labels.NoData}" colspan="5"></td>
+            </tr>
+            <tr th:each="s : ${students}">
+                <td th:text="${s.id}"></td>
+                <td th:text="${s.login}"></td>
+                <td th:text="${s.firstName}"></td>
+                <td th:text="${s.lastName}"></td>
+                <td th:text="${#dates.format(s.dateOfBirth, 'dd. MM. yyyy')}"></td>
+                <td>
+                    <a href="" th:text="#{Actions.Edit}"></a>
+                    <form action="" method="get">
+                        <button type="submit" th:text="#{Actions.Delete}"></button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

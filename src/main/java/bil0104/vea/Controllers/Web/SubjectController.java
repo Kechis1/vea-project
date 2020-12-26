@@ -14,7 +14,7 @@ public class SubjectController {
     @GetMapping("/subjects")
     public String list(Model model) {
         model.addAttribute("subjects", subjectService.getAll());
-        return "subjects/list";
+        return "views/subjects/list";
     }
 
 }

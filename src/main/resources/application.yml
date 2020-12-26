@@ -1,14 +1,14 @@
-logging:
-    level:
-        ROOT: INFO
+#logging:
+#    level:
+#        ROOT: INFO
 spring:
-    datasource:
+#    datasource:
 #    url: jdbc:derby://localhost/vea2020;create=true
 #    username: app
 #    password: app
 #    driverClassName: org.apache.derby.client.ClientAutoloadedDriver
-        url: jdbc:h2:mem:bil0104
-        driverClassName: org.h2.Driver
+#        url: jdbc:h2:mem:bil0104
+#        driverClassName: org.h2.Driver
     messages:
         basename: messages
     thymeleaf:
@@ -16,7 +16,8 @@ spring:
         cacheable: false
     mandatory-file-encoding: UTF-8
     http:
-        server.port=8082
         encoding:
             charset: UTF-8
             enabled: true
+server:
+    port: 8082

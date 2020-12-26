@@ -12,13 +12,18 @@
 	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>VEA-BIL0104</name>
-	<description>Demo project for Spring Boot</description>
+	<description>VEA project 2020</description>
 
 	<properties>
 		<java.version>8</java.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>nz.net.ultraq.thymeleaf</groupId>
+			<artifactId>thymeleaf-layout-dialect</artifactId>
+			<version>2.0.5</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
