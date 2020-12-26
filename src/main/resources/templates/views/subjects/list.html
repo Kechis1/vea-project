@@ -1,39 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>#{Subjects.Head.Title} | Edison</title>
-</head>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
 <body>
-<!-- get all, delete -->
-<h1>#{Subjects.Body.Title}</h1>
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>#{Subjects.Properties.Name}</th>
-            <th>#{Subjects.Properties.Year}</th>
-            <th>#{Subjects.Properties.Semester}</th>
-            <th>#{Subjects.Properties.Credits}</th>
-            <th>#{Subjects.Properties.Teacher}</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="s : ${subjects}">
-            <td>${s.id}</td>
-            <td>${s.name}</td>
-            <td>${s.year}</td>
-            <td>${s.semester}</td>
-            <td>${s.credits}</td>
-            <td>${s.teacher.firstName} ${s.teacher.lastName}</td>
-            <td>
-                <a href="">#{Actions.Edit}</a>
-                <form action="" method="get">
-                    <button type="submit">#{Actions.Delete}</button>
-                </form>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div layout:fragment="content">
+    <!-- get all, delete -->
+    <div th:fragment="content">
+        <h1 th:text="#{Subjects.Body.Title}"></h1>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th th:text="#{Subjects.Properties.Name}"></th>
+                <th th:text="#{Subjects.Properties.Year}"></th>
+                <th th:text="#{Subjects.Properties.Semester}"></th>
+                <th th:text="#{Subjects.Properties.Credits}"></th>
+                <th th:text="#{Subjects.Properties.Teacher}"></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${subjects == null or subjects.isEmpty()}">
+                <td th:text="#{Labels.NoData}" colspan="7"></td>
+            </tr>
+            <tr th:each="s : ${subjects}">
+                <td th:text="${s.id}"></td>
+                <td th:text="${s.name}"></td>
+                <td th:text="${s.year}"></td>
+                <td th:text="${s.semester}"></td>
+                <td th:text="${s.credits}"></td>
+                <td th:text="${s.teacher.firstName} ${s.teacher.lastName}"></td>
+                <td>
+                    <a href="" th:text="#{Actions.Edit}"></a>
+                    <form action="" method="get">
+                        <button type="submit" th:text="#{Actions.Delete}"></button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 </body>
 </html>
