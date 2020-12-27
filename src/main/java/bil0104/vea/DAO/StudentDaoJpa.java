@@ -4,8 +4,8 @@ import bil0104.vea.JPA.Student;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -38,11 +38,18 @@ public class StudentDaoJpa implements StudentDao {
 
     @Override
     public void delete(long id) {
-
+        Student student = em.find(Student.class, id);
+        em.getTransaction().begin();
+        em.remove(student);
+        em.getTransaction().commit();
     }
 
     @Override
     public Student findByLogin(String login) {
-        return em.createQuery("select t from Student t where t.login=:login", Student.class).setParameter("login", login).getSingleResult();
+        try {
+            return em.createQuery("select t from Student t where t.login=:login", Student.class).setParameter("login", login).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

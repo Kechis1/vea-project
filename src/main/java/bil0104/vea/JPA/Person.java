@@ -1,5 +1,7 @@
 package bil0104.vea.JPA;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -11,6 +13,7 @@ public class Person {
     protected String login;
     protected String firstName;
     protected String lastName;
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     protected Date dateOfBirth;
 
     public Person() {

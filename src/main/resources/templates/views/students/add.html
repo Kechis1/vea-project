@@ -7,19 +7,19 @@
 <div layout:fragment="content">
     <div class="p-2" th:fragment="content">
         <h1 class="font-bold text-3xl mb-4" th:text="#{Students.Body.Title} + ' - ' + #{Actions.Create}"></h1>
-        <form th:action="@{/students/create}" action="" method="post">
+        <form th:action="@{/students/create}" th:object="${student}" th:method="post">
             <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-3">
                     <label class="block text-sm font-medium text-gray-700" for="firstName" th:text="#{Person.Properties.FirstName}"></label>
-                    <input class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" name="firstName" id="firstName">
+                    <input class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="firstName" id="firstName">
                 </div>
                 <div class="col-span-6 sm:col-span-3">
                     <label class="block text-sm font-medium text-gray-700" for="lastName" th:text="#{Person.Properties.LastName}"></label>
-                    <input class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" name="lastName" id="lastName">
+                    <input class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="lastName" id="lastName">
                 </div>
                 <div class="pb-4 col-span-6 sm:col-span-3">
                     <label class="block text-sm font-medium text-gray-700" for="dateOfBirth" th:text="#{Person.Properties.DateOfBirth}"></label>
-                    <input class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="date" name="dateOfBirth" id="dateOfBirth">
+                    <input class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="date" th:name="dateOfBirth" id="dateOfBirth">
                 </div>
             </div>
             <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">

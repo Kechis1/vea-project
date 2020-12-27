@@ -62,9 +62,10 @@ public class StudentController {
     private String findNextLogin(Student student) {
         int i = 0;
         String login;
-        String pre = Normalizer.normalize(student.getLastName(), Normalizer.Form.NFD).replaceAll("\\p{M}", "").toUpperCase();
+        String pre = Normalizer.normalize(student.getLastName().substring(0, 3), Normalizer.Form.NFD).replaceAll("\\p{M}", "").toUpperCase();
         while (true) {
             login = pre + String.format("%03d", i);
+            System.out.println(login);
             if (studentService.findByLogin(login) == null) {
                 return login;
             }
