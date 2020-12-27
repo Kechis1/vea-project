@@ -2,9 +2,9 @@
 <html>
 <head th:replace="fragments/head :: head"></head>
 <body>
-<div class="container">
+<div>
     <div th:replace="fragments/header :: header"></div>
-    <div layout:fragment="content"></div>
+    <div class="pt-5 lg:container lg:mx-auto" layout:fragment="content"></div>
 </div>
 </body>
 </html>

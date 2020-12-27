@@ -8,8 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Locale;
-
 @Controller
 public class StudentController {
     @Autowired
@@ -20,6 +18,7 @@ public class StudentController {
 
     @GetMapping("/students")
     public String list(Model model) {
+        model.addAttribute("pageActive", "students");
         model.addAttribute("students", studentService.getAll());
         model.addAttribute("metaTitle", messageSource.getMessage("Students.Head.Title", null, LocaleContextHolder.getLocale()));
         return "views/students/list";

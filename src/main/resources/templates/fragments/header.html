@@ -1,21 +1,28 @@
-<header th:fragment="header">
-    <ul>
-        <li>
-            <a href="#" th:href="@{/}" th:text="#{Nav.Home}"></a>
-        </li>
-        <li>
-            <a href="#" th:href="@{/students}" th:text="#{Nav.Students}"></a>
-        </li>
-        <li>
-            <a href="#" th:href="@{/subjects}" th:text="#{Nav.Subjects}"></a>
-        </li>
-    </ul>
-    <ul>
-        <li>
-            <a href="/login" th:href="@{/login}" th:text="#{Nav.LogIn}"></a>
-        </li>
-        <li>
-            <a href="/logout" th:href="@{/logout}" th:text="#{Nav.LogOut}"></a>
-        </li>
-    </ul>
+<header class="bg-indigo-100" th:fragment="header">
+    <div class="lg:container lg:mx-auto">
+        <div class="relative flex items-center justify-between h-16">
+            <div class="block pl-2 sm:flex-1 sm:flex sm:items-stretch sm:justify-start">
+                <div class="flex space-x-4">
+                    <a th:classappend="${pageActive == 'home' ? 'bg-indigo-600' : 'bg-indigo-300'}"
+                       class="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
+                       href="#" th:href="@{/}" th:text="#{Nav.Home}"></a>
+                    <a th:classappend="${pageActive == 'students' ? 'bg-indigo-600' : 'bg-indigo-300'}"
+                       class="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
+                       href="#" th:href="@{/students}" th:text="#{Nav.Students}"></a>
+                    <a th:classappend="${pageActive == 'subjects' ? 'bg-indigo-600' : 'bg-indigo-300'}"
+                       class="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
+                       href="#" th:href="@{/subjects}" th:text="#{Nav.Subjects}"></a>
+                </div>
+            </div>
+            <div class="block sm:inset-y-0 sm:right-0 sm:flex sm:items-center pr-2 sm:static sm:inset-auto sm:ml-6">
+                <div class="flex space-x-4">
+                    <a class="text-white hover:bg-indigo-500 bg-indigo-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                       href="/login" th:href="@{/login}" th:text="#{Nav.LogIn}"></a>
+                    <a class="text-white hover:bg-indigo-500 bg-indigo-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                       href="/logout" th:href="@{/logout}" th:text="#{Nav.LogOut}"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </header>
