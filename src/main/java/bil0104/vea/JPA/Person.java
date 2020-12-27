@@ -3,6 +3,7 @@ package bil0104.vea.JPA;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @MappedSuperclass
@@ -11,7 +12,9 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
     protected String login;
+    @NotNull
     protected String firstName;
+    @NotNull
     protected String lastName;
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     protected Date dateOfBirth;

@@ -7,7 +7,6 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.text.Normalizer;
-import java.util.Locale;
 
 @Controller
 public class StudentController {
@@ -41,9 +39,9 @@ public class StudentController {
         return "views/students/add";
     }
 
-    @PostMapping(value = "/students/create")
+    @PostMapping(value = "/students/add")
     public String create(@ModelAttribute @Validated Student student, BindingResult studentResult) {
-        if(studentResult.hasErrors()) {
+        if (studentResult.hasErrors()) {
             System.out.println(studentResult.getAllErrors());
             return "views/students/add";
         }
@@ -62,10 +60,14 @@ public class StudentController {
     private String findNextLogin(Student student) {
         int i = 0;
         String login;
-        String pre = Normalizer.normalize(student.getLastName().substring(0, 3), Normalizer.Form.NFD).replaceAll("\\p{M}", "").toUpperCase();
+        String pre = Normalizer.normalize(student.getLastName().length() > 3 ?
+                student.getLastName().substring(0, 3) :
+                student.getLastName(), Normalizer.Form.NFD
+        ).replaceAll("\\p{M}", "")
+                .replaceAll("\\s", "")
+                .toUpperCase();
         while (true) {
             login = pre + String.format("%03d", i);
-            System.out.println(login);
             if (studentService.findByLogin(login) == null) {
                 return login;
             }

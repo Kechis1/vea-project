@@ -39,9 +39,7 @@ public class StudentDaoJpa implements StudentDao {
     @Override
     public void delete(long id) {
         Student student = em.find(Student.class, id);
-        em.getTransaction().begin();
         em.remove(student);
-        em.getTransaction().commit();
     }
 
     @Override
