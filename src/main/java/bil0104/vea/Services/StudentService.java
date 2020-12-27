@@ -1,6 +1,7 @@
 package bil0104.vea.Services;
 
 import bil0104.vea.DAO.AbstractDao;
+import bil0104.vea.DAO.StudentDao;
 import bil0104.vea.JPA.Student;
 import bil0104.vea.JPA.Study;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.util.List;
 public class StudentService {
 
     @Autowired
-    private AbstractDao<Student> studentDao;
+    private StudentDao studentDao;
 
     private List<Student> students = new ArrayList<>();
 
@@ -30,6 +31,10 @@ public class StudentService {
         students.add(new Student(3, "KAL0104", "Karel", "Kalic", new Date(80, Calendar.JULY,6), null));
         students.add(new Student(4, "MON0104", "Monika", "Monka", new Date(99, Calendar.MARCH,14), null));
         students.add(new Student(5, "BAL0104", "Adriana", "Balicova", new Date(78, Calendar.MAY,23), null));
+    }
+
+    public Student findByLogin(String login) {
+        return studentDao.findByLogin(login);
     }
 
     public List<Student> getAll() {
