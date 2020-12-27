@@ -1,10 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
 <body>
-<!-- get one, post -->
+<div layout:fragment="content">
+    <div class="p-2" th:fragment="content">
+        <h1 class="font-bold text-3xl mb-4" th:text="#{Subjects.Body.Title} + ' - ' + #{Actions.Create}"></h1>
+        <form th:action="@{/subjects/add}" th:object="${subject}" th:method="post">
+            <div class="grid grid-cols-6 gap-6">
+                <div class="col-span-6 sm:col-span-3">
+                    <label class="block text-sm font-medium text-gray-700" for="name" th:text="#{Subjects.Properties.Name}"></label>
+                    <input th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="name" id="name">
+                </div>
+                <div class="col-span-6 sm:col-span-3">
+                    <label class="block text-sm font-medium text-gray-700" for="teacher" th:text="#{Subjects.Properties.Teacher}"></label>
+                    <select id="teacher">
+                        <option value="1" selected>1</option>
+                    </select>
+                </div>
+                <div class="col-span-6 sm:col-span-3">
+                    <label class="block text-sm font-medium text-gray-700" for="year" th:text="#{Subjects.Properties.Year}"></label>
+                    <input th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="year" id="year">
+                </div>
+                <div class="col-span-6 sm:col-span-3">
+                    <label class="block text-sm font-medium text-gray-700" for="semester" th:text="#{Subjects.Properties.Semester}"></label>
+                    <select id="semester">
+                        <option value="1" selected>WINTER</option>
+                        <option value="2" selected>SUMMER</option>
+                    </select>
+                </div>
+                <div class="pb-4 col-span-6 sm:col-span-3">
+                    <label class="block text-sm font-medium text-gray-700" for="credits" th:text="#{Subjects.Properties.Credits}"></label>
+                    <input th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="number" th:name="credits" id="credits">
+                </div>
+            </div>
+            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" th:text="#{Actions.Create}"></button>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>
+

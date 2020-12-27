@@ -19,4 +19,12 @@ public class SubjectService {
     public List<Subject> getAll() {
         return subjectDao.getAll();
     }
+
+    public void delete(long id) {
+        subjectDao.delete(id);
+    }
+
+    public void insert(Subject subject) {
+        subjectDao.insert(subject);
+    }
 }

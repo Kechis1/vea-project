@@ -1,6 +1,7 @@
 package bil0104.vea.JPA;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
@@ -11,9 +12,13 @@ public class Subject {
     private long id;
     @Column(name = "teacher_id", insertable = false, updatable = false)
     private long teacherId;
+    @NotNull
     private String name;
+    @NotNull
     private String year;
+    @NotNull
     public Semester semester;
+    @NotNull
     private int credits;
     @OneToMany
     public List<Study> studies;

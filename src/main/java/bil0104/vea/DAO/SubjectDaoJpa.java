@@ -15,23 +15,30 @@ public class SubjectDaoJpa implements AbstractDao<Subject> {
     @PersistenceContext
     private EntityManager em;
 
+    @Override
     public void insert(Subject subject) {
         em.persist(subject);
     }
 
+    @Override
     public List<Subject> getAll() {
         return em.createQuery("select t from Subject t", Subject.class).getResultList();
     }
 
+    @Override
     public Subject findById(long id) {
         return em.find(Subject.class, id);
     }
 
+    @Override
     public void update(Subject subject) {
 
     }
 
+    @Override
     public void delete(long id) {
-
+        Subject subject = em.find(Subject.class, id);
+        em.remove(subject);
     }
+
 }
