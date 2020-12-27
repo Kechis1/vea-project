@@ -27,15 +27,16 @@ public class Teacher extends Person {
         this.teaches = teaches;
     }
 
+
     @Override
     public String toString() {
-        return "Student{" +
-                "teaches=" + teaches +
-                ", id=" + id +
+        return "Teacher{" +
+                "id=" + id +
                 ", login='" + login + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
+                ", teaches=" + teaches +
                 '}';
     }
 }

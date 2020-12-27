@@ -29,9 +29,9 @@
                 <td class="p-2 border border-black" th:text="${s.id}"></td>
                 <td class="p-2 border border-black" th:text="${s.name}"></td>
                 <td class="p-2 border border-black" th:text="${s.year}"></td>
-                <td class="p-2 border border-black" th:text="${s.semester}"></td>
+                <td class="p-2 border border-black" th:text="${#messages.msg('Semesters.' + s.semester)}"></td>
                 <td class="p-2 border border-black" th:text="${s.credits}"></td>
-                <td class="p-2 border border-black" th:text="${s.teacher.firstName} ${s.teacher.lastName}"></td>
+                <td class="p-2 border border-black" th:text="${s.teacher.firstName} + ' ' + ${s.teacher.lastName}"></td>
                 <td class="p-2 border border-black">
                     <div class="flex">
                         <a class="flex-auto ml-3 mr-3 hover:underline text-green-500" href="" th:text="#{Actions.Edit}"></a>

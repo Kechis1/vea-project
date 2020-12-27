@@ -10,8 +10,6 @@ public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    @Column(name = "teacher_id", insertable = false, updatable = false)
-    private long teacherId;
     @NotNull
     private String name;
     @NotNull
@@ -22,19 +20,28 @@ public class Subject {
     private int credits;
     @OneToMany
     public List<Study> studies;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.DETACH)
+    @JoinColumn(name="teacher_id")
     public Teacher teacher;
 
     public Subject() {
     }
 
-    public Subject(long id, String name, String year, Semester semester, int credits, List<Study> studies, Teacher teacher) {
+    public Subject(long id, @NotNull String name, @NotNull String year, @NotNull Semester semester, @NotNull int credits, List<Study> studies, Teacher teacher) {
         this.id = id;
         this.name = name;
         this.year = year;
         this.semester = semester;
         this.credits = credits;
         this.studies = studies;
+        this.teacher = teacher;
+    }
+
+    public Teacher getTeacher() {
+        return teacher;
+    }
+
+    public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
     }
 

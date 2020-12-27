@@ -9,6 +9,9 @@
                     <a th:classappend="${pageActive == 'students' ? 'bg-indigo-600' : 'bg-indigo-300'}"
                        class="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
                        href="#" th:href="@{/students}" th:text="#{Nav.Students}"></a>
+                    <a th:classappend="${pageActive == 'teachers' ? 'bg-indigo-600' : 'bg-indigo-300'}"
+                       class="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
+                       href="#" th:href="@{/teachers}" th:text="#{Nav.Teachers}"></a>
                     <a th:classappend="${pageActive == 'subjects' ? 'bg-indigo-600' : 'bg-indigo-300'}"
                        class="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
                        href="#" th:href="@{/subjects}" th:text="#{Nav.Subjects}"></a>

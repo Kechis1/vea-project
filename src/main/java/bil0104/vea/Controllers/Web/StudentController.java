@@ -1,5 +1,6 @@
 package bil0104.vea.Controllers.Web;
 
+import bil0104.vea.JPA.Person;
 import bil0104.vea.JPA.Student;
 import bil0104.vea.Services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.text.Normalizer;
 
 @Controller
 public class StudentController {
@@ -45,7 +44,7 @@ public class StudentController {
             System.out.println(studentResult.getAllErrors());
             return "views/students/add";
         }
-        student.setLogin(findNextLogin(student));
+        student.setLogin(Person.findNextLogin(student, studentService::findByLogin));
         studentService.insert(student);
         return "redirect:/students/add";
     }
@@ -54,24 +53,5 @@ public class StudentController {
     public String delete(@PathVariable long id) {
         studentService.delete(id);
         return "redirect:/students";
-    }
-
-
-    private String findNextLogin(Student student) {
-        int i = 0;
-        String login;
-        String pre = Normalizer.normalize(student.getLastName().length() > 3 ?
-                student.getLastName().substring(0, 3) :
-                student.getLastName(), Normalizer.Form.NFD
-        ).replaceAll("\\p{M}", "")
-                .replaceAll("\\s", "")
-                .toUpperCase();
-        while (true) {
-            login = pre + String.format("%03d", i);
-            if (studentService.findByLogin(login) == null) {
-                return login;
-            }
-            i++;
-        }
     }
 }

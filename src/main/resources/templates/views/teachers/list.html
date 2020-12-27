@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
+<body>
+<div layout:fragment="content">
+    <!-- get all, delete -->
+    <div class="p-2" th:fragment="content">
+        <h1 class="font-bold text-3xl mb-4" th:text="#{Teachers.Body.Title}"></h1>
+        <a href="" th:href="@{/teachers/add}" class="mb-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" th:text="#{Actions.Create}"></a>
+        <table class="border-collapse table-auto">
+            <thead>
+            <tr>
+                <th class="p-2 border border-black">ID</th>
+                <th class="p-2 border border-black" th:text="#{Person.Properties.Login}"></th>
+                <th class="p-2 border border-black" th:text="#{Person.Properties.FirstName}"></th>
+                <th class="p-2 border border-black" th:text="#{Person.Properties.LastName}"></th>
+                <th class="p-2 border border-black" th:text="#{Person.Properties.DateOfBirth}"></th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:if="${teachers == null or teachers.isEmpty()}">
+                <td class="p-2 border border-black" th:text="#{Labels.NoData}" colspan="6"></td>
+            </tr>
+            <tr th:each="s : ${teachers}">
+                <td class="p-2 border border-black" th:text="${s.id}"></td>
+                <td class="p-2 border border-black" th:text="${s.login}"></td>
+                <td class="p-2 border border-black" th:text="${s.firstName}"></td>
+                <td class="p-2 border border-black" th:text="${s.lastName}"></td>
+                <td class="p-2 border border-black" th:text="${#dates.format(s.dateOfBirth, 'dd. MM. yyyy')}"></td>
+                <td class="p-2 border border-black">
+                    <div class="flex">
+                        <a class="flex-auto ml-3 mr-3 hover:underline text-green-500" href="" th:text="#{Actions.Edit}"></a>
+                        <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline" th:href="@{/teachers/{id}/delete(id=${s.id})}" href="" th:text="#{Actions.Delete}"></a>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+
