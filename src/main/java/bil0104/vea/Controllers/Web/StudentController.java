@@ -7,12 +7,16 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.text.Normalizer;
+import java.util.Locale;
 
 @Controller
 public class StudentController {
@@ -43,6 +47,7 @@ public class StudentController {
             System.out.println(studentResult.getAllErrors());
             return "views/students/add";
         }
+        student.setLogin(findNextLogin(student));
         studentService.insert(student);
         return "redirect:/students/add";
     }
@@ -53,4 +58,17 @@ public class StudentController {
         return "redirect:/students";
     }
 
+
+    private String findNextLogin(Student student) {
+        int i = 0;
+        String login;
+        String pre = Normalizer.normalize(student.getLastName(), Normalizer.Form.NFD).replaceAll("\\p{M}", "").toUpperCase();
+        while (true) {
+            login = pre + String.format("%03d", i);
+            if (studentService.findByLogin(login) == null) {
+                return login;
+            }
+            i++;
+        }
+    }
 }
