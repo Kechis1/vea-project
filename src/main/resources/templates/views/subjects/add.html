@@ -15,8 +15,8 @@
                 </div>
                 <div class="col-span-6 sm:col-span-3">
                     <label class="block text-sm font-medium text-gray-700" for="teacher" th:text="#{Subjects.Properties.Teacher}"></label>
-                    <select id="teacher">
-                        <option value="1" selected>1</option>
+                    <select id="teacher" name="teacherId">
+                        <option th:each="t : ${teachers}" th:value="${t.id}" th:text="${t.firstName} + ' ' + ${t.lastName}"></option>
                     </select>
                 </div>
                 <div class="col-span-6 sm:col-span-3">
@@ -25,9 +25,8 @@
                 </div>
                 <div class="col-span-6 sm:col-span-3">
                     <label class="block text-sm font-medium text-gray-700" for="semester" th:text="#{Subjects.Properties.Semester}"></label>
-                    <select id="semester">
-                        <option value="1" selected>WINTER</option>
-                        <option value="2" selected>SUMMER</option>
+                    <select id="semester" name="semester">
+                        <option th:each="se : ${semesters}" th:value="${se}" th:text="${#messages.msg('Semesters.' + se)}"></option>
                     </select>
                 </div>
                 <div class="pb-4 col-span-6 sm:col-span-3">

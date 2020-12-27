@@ -1,7 +1,9 @@
 package bil0104.vea.Controllers.Web;
 
+import bil0104.vea.JPA.Semester;
 import bil0104.vea.JPA.Subject;
 import bil0104.vea.Services.SubjectService;
+import bil0104.vea.Services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+
 @Controller
 public class SubjectController {
     @Autowired
@@ -21,6 +24,8 @@ public class SubjectController {
 
     @Autowired
     private SubjectService subjectService;
+    @Autowired
+    private TeacherService teacherService;
 
     @GetMapping("/subjects")
     public String list(Model model) {
@@ -33,6 +38,8 @@ public class SubjectController {
     @GetMapping(value = "/subjects/add")
     public String add(Model model) {
         model.addAttribute("pageActive", "subjects");
+        model.addAttribute("semesters", Semester.values());
+        model.addAttribute("teachers", teacherService.getAll());
         model.addAttribute("metaTitle", messageSource.getMessage("Subjects.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Create", null, LocaleContextHolder.getLocale()));
         return "views/subjects/add";
     }
@@ -52,5 +59,4 @@ public class SubjectController {
         subjectService.delete(id);
         return "redirect:/subjects";
     }
-
 }
