@@ -18,8 +18,9 @@ public class SubjectController {
 
     @GetMapping("/subjects")
     public String list(Model model) {
+        model.addAttribute("pageActive", "subjects");
         model.addAttribute("subjects", subjectService.getAll());
-        model.addAttribute("metaTitle", messageSource.getMessage("Subjects.Head.Title", null, LocaleContextHolder.getLocale()));
+        model.addAttribute("metaTitle", messageSource.getMessage("Subjects.Body.Title", null, LocaleContextHolder.getLocale()));
         return "views/subjects/list";
     }
 

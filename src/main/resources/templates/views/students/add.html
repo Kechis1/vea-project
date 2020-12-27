@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
 <body>
-<!-- get one, post -->
+<div layout:fragment="content">
+    <div class="p-2" th:fragment="content">
+        <h1 class="font-bold text-3xl mb-4" th:text="#{Students.Body.Title} + ' - ' + #{Actions.Create}"></h1>
+        <form th:action="@{/students/create}" action="" method="post">
+            <div class="grid grid-cols-6 gap-6">
+                <div class="col-span-6 sm:col-span-3">
+                    <label class="block text-sm font-medium text-gray-700" for="firstName" th:text="#{Person.Properties.FirstName}"></label>
+                    <input class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" name="firstName" id="firstName">
+                </div>
+                <div class="col-span-6 sm:col-span-3">
+                    <label class="block text-sm font-medium text-gray-700" for="lastName" th:text="#{Person.Properties.LastName}"></label>
+                    <input class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" name="lastName" id="lastName">
+                </div>
+                <div class="pb-4 col-span-6 sm:col-span-3">
+                    <label class="block text-sm font-medium text-gray-700" for="dateOfBirth" th:text="#{Person.Properties.DateOfBirth}"></label>
+                    <input class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="date" name="dateOfBirth" id="dateOfBirth">
+                </div>
+            </div>
+            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" th:text="#{Actions.Create}"></button>
+            </div>
+        </form>
+    </div>
+</div>
 </body>
 </html>
+
