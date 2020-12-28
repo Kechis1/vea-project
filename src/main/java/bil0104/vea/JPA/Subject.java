@@ -11,6 +11,8 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotNull
+    private String abbreviation;
+    @NotNull
     private String name;
     @NotNull
     private String year;
@@ -27,14 +29,23 @@ public class Subject {
     public Subject() {
     }
 
-    public Subject(long id, @NotNull String name, @NotNull String year, @NotNull Semester semester, @NotNull int credits, List<Study> studies, Teacher teacher) {
+    public Subject(long id, @NotNull String abbreviation, @NotNull String name, @NotNull String year, @NotNull Semester semester, @NotNull int credits, List<Study> studies, Teacher teacher) {
         this.id = id;
+        this.abbreviation = abbreviation;
         this.name = name;
         this.year = year;
         this.semester = semester;
         this.credits = credits;
         this.studies = studies;
         this.teacher = teacher;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
     }
 
     public Teacher getTeacher() {
@@ -98,6 +109,7 @@ public class Subject {
     public String toString() {
         return "Subject{" +
                 "id=" + id +
+                ", abbreviation='" + abbreviation + '\'' +
                 ", name='" + name + '\'' +
                 ", year='" + year + '\'' +
                 ", semester=" + semester +

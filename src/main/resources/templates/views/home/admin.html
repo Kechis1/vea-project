@@ -4,9 +4,28 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="layout">
 <body>
-    <div layout:fragment="content">
-        <h1></h1>
+<div layout:fragment="content">
+    <h1 th:text="#{Home.Body.Title} + ' ' + ${auth.login}"></h1>
 
+    <div>
+        <h2 th:text="#{Labels.PersonalDetails}"></h2>
+        <div>
+            <div th:text="#{Person.Properties.FirstName}"></div>
+            <div th:text="${auth.firstName}"></div>
+        </div>
+        <div>
+            <div th:text="#{Person.Properties.LastName}"></div>
+            <div th:text="${auth.lastName}"></div>
+        </div>
+        <div>
+            <div th:text="#{Person.Properties.Login}"></div>
+            <div th:text="${auth.login}"></div>
+        </div>
+        <div>
+            <div th:text="#{Person.Properties.DateOfBirth}"></div>
+            <div th:text="${auth.dateOfBirth}"></div>
+        </div>
     </div>
+</div>
 </body>
 </html>

@@ -1,10 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
 <body>
+<div layout:fragment="content">
+    <h1 th:text="#{Home.Body.Title} + ' ' + ${auth.login}"></h1>
 
+    <div>
+        <h2 th:text="#{Labels.PersonalDetails}"></h2>
+        <div>
+            <div th:text="#{Person.Properties.FirstName}"></div>
+            <div th:text="${auth.firstName}"></div>
+        </div>
+        <div>
+            <div th:text="#{Person.Properties.LastName}"></div>
+            <div th:text="${auth.lastName}"></div>
+        </div>
+        <div>
+            <div th:text="#{Person.Properties.Login}"></div>
+            <div th:text="${auth.login}"></div>
+        </div>
+        <div>
+            <div th:text="#{Person.Properties.DateOfBirth}"></div>
+            <div th:text="${auth.dateOfBirth}"></div>
+        </div>
+    </div>
+
+    <div>
+        <h2 th:text="#{Labels.MySubjects}"></h2>
+        <div>
+            <label for="year" th:text="#{Labels.AcademicYear} + ':'"></label>
+            <form th:action="@{/}" method="get">
+                <select id="year" name="year">
+                    <option th:each="y : ${years}" th:text="${y}" th:value="${y}"></option>
+                </select>
+                <button type="submit" th:text="OK"></button>
+            </form>
+        </div>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th th:text="#{Subjects.Properties.Semester}"></th>
+                    <th th:text="#{Subjects.Properties.Abbreviation}"></th>
+                    <th th:text="#{Subjects.Properties.Name}"></th>
+                    <th th:text="#{Subjects.Properties.Credits}"></th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="s : ${auth.teaches}">
+                    <td th:text="${s.semester}"></td>
+                    <td th:text="${s.abbreviation}"></td>
+                    <td th:text="${s.name}"></td>
+                    <td th:text="${s.credits}"></td>
+                    <td>
+                        <div class="flex">
+                            <a class="flex-auto ml-3 mr-3 hover:underline text-green-500" href="" th:text="#{Actions.Detail}"></a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>
