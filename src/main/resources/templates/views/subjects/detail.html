@@ -1,10 +1,40 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
 <body>
-<!-- put, delete -->
+<div layout:fragment="content">
+    <h1 th:text="#{Subjects.Body.Title} + ' - ' + #{Actions.Detail}"></h1>
+    <div>
+        <h2 th:text="#{Labels.Details}"></h2>
+        <div>
+            <div th:text="#{Subjects.Properties.Abbreviation}"></div>
+            <div th:text="${subject.abbreviation}"></div>
+        </div>
+        <div>
+            <div th:text="#{Subjects.Properties.Name}"></div>
+            <div th:text="${subject.name}"></div>
+        </div>
+        <div>
+            <div th:text="#{Subjects.Properties.Semester}"></div>
+            <div th:text="${subject.semester}"></div>
+        </div>
+        <div>
+            <div th:text="#{Subjects.Properties.Year}"></div>
+            <div th:text="${subject.year}"></div>
+        </div>
+        <div>
+            <div th:text="#{Subjects.Properties.Credits}"></div>
+            <div th:text="${subject.credits}"></div>
+        </div>
+        <div>
+            <div th:text="#{Subjects.Properties.Teacher}"></div>
+            <div th:text="${subject.teacher.firstName} + ' ' + ${subject.teacher.lastName}"></div>
+        </div>
+
+    </div>
+</div>
 </body>
 </html>
+
