@@ -38,6 +38,30 @@
                 <button type="submit" th:text="OK"></button>
             </form>
         </div>
+        <div>
+            <table>
+                <thead>
+                <tr>
+                    <th th:text="#{Subjects.Properties.Semester}"></th>
+                    <th th:text="#{Subjects.Properties.Abbreviation}"></th>
+                    <th th:text="#{Subjects.Properties.Name}"></th>
+                    <th th:text="#{Subjects.Properties.Teacher}"></th>
+                    <th th:text="#{Subjects.Properties.Credits}"></th>
+                    <th th:text="#{Study.Properties.Points}"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="s : ${auth.studies}">
+                    <td th:text="${s.subject.semester}"></td>
+                    <td th:text="${s.subject.abbreviation}"></td>
+                    <td th:text="${s.subject.name}"></td>
+                    <td th:text="${s.subject.teacher.firstName} + ' ' + ${s.subject.teacher.lastName}"></td>
+                    <td th:text="${s.subject.credits}"></td>
+                    <td th:text="${s.points}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 </body>
