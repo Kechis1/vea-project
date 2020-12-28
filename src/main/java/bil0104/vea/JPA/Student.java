@@ -11,13 +11,15 @@ import java.util.List;
 public class Student extends Person {
     @OneToMany
     public List<Study> studies;
+    public int year;
 
     public Student() {
         super();
     }
 
-    public Student(long id, String login, @NotNull String firstName, @NotNull String lastName, Date dateOfBirth, @NotNull @Length(min = 5) String password, List<Study> studies) {
+    public Student(long id, String login, @NotNull String firstName, @NotNull String lastName, Date dateOfBirth, @NotNull @Length(min = 5) String password, List<Study> studies, int year) {
         super(id, login, firstName, lastName, dateOfBirth, password, Role.STUDENT);
+        this.year = year;
         this.studies = studies;
     }
 
@@ -27,6 +29,14 @@ public class Student extends Person {
 
     public void setStudies(List<Study> studies) {
         this.studies = studies;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
     }
 
     @Override
@@ -40,6 +50,7 @@ public class Student extends Person {
                 ", dateOfBirth=" + dateOfBirth +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", year=" + year +
                 '}';
     }
 }

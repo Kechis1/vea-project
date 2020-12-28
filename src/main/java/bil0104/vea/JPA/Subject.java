@@ -15,7 +15,7 @@ public class Subject {
     @NotNull
     private String name;
     @NotNull
-    private String year;
+    private int year;
     @NotNull
     public Semester semester;
     @NotNull
@@ -29,7 +29,7 @@ public class Subject {
     public Subject() {
     }
 
-    public Subject(long id, @NotNull String abbreviation, @NotNull String name, @NotNull String year, @NotNull Semester semester, @NotNull int credits, List<Study> studies, Teacher teacher) {
+    public Subject(long id, @NotNull String abbreviation, @NotNull String name, @NotNull int year, @NotNull Semester semester, @NotNull int credits, List<Study> studies, Teacher teacher) {
         this.id = id;
         this.abbreviation = abbreviation;
         this.name = name;
@@ -72,11 +72,11 @@ public class Subject {
         this.name = name;
     }
 
-    public String getYear() {
+    public int getYear() {
         return year;
     }
 
-    public void setYear(String year) {
+    public void setYear(int year) {
         this.year = year;
     }
 
