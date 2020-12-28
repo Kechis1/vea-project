@@ -38,6 +38,13 @@ public class StudentController {
         return "views/students/add";
     }
 
+    @GetMapping(value = "/students/{id}/detail")
+    public String detail(Model model) {
+        model.addAttribute("pageActive", "students");
+        model.addAttribute("metaTitle", messageSource.getMessage("Students.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Detail", null, LocaleContextHolder.getLocale()));
+        return "views/students/detail";
+    }
+
     @PostMapping(value = "/students/add")
     public String create(@ModelAttribute @Validated Student student, BindingResult studentResult) {
         if (studentResult.hasErrors()) {

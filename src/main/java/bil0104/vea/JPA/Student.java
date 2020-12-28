@@ -1,11 +1,13 @@
 package bil0104.vea.JPA;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="Student")
 public class Student extends Person {
     @OneToMany
     public List<Study> studies;
@@ -14,8 +16,8 @@ public class Student extends Person {
         super();
     }
 
-    public Student(long id, String login, String firstName, String lastName, Date dateOfBirth, List<Study> studies) {
-        super(id, login, firstName, lastName, dateOfBirth);
+    public Student(long id, String login, @NotNull String firstName, @NotNull String lastName, Date dateOfBirth, @NotNull @Length(min = 5) String password, List<Study> studies) {
+        super(id, login, firstName, lastName, dateOfBirth, password, Role.STUDENT);
         this.studies = studies;
     }
 
@@ -36,6 +38,8 @@ public class Student extends Person {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
+                ", password='" + password + '\'' +
+                ", role=" + role +
                 '}';
     }
 }
