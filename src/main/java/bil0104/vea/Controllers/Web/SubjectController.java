@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
-public class SubjectController {
+public class SubjectController extends AbstractController {
     @Autowired
     private MessageSource messageSource;
 

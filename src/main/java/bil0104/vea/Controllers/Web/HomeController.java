@@ -15,13 +15,10 @@ import java.security.Principal;
 
 
 @Controller
-public class HomeController {
+public class HomeController extends AbstractController {
 
     @Autowired
     MessageSource messageSource;
-
-    @Autowired
-    PersonService personService;
 
     @GetMapping("/")
     @PreAuthorize("isAuthenticated()")

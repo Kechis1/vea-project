@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.text.Normalizer;
 
 @Controller
-public class TeacherController {
+public class TeacherController extends AbstractController {
     @Autowired
     private MessageSource messageSource;
 

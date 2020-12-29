@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+
 @Controller
-public class StudentController {
+public class StudentController extends AbstractController {
     @Autowired
     private MessageSource messageSource;
 

@@ -24,6 +24,10 @@
                        sec:authorize="!isAuthenticated()"
                        class="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
                        href="/login" th:href="@{/login}" th:text="#{Nav.LogIn}"></a>
+                    <span sec:authorize="isAuthenticated()"
+                       class="text-black px-3 py-2 rounded-md text-sm font-medium"
+                          th:text="${authUser.login} + ', ' + ${authUser.firstName} + ' ' + ${authUser.lastName}"
+                    ></span>
                     <a sec:authorize="isAuthenticated()"
                        class="text-white hover:bg-indigo-500 bg-indigo-300 px-3 py-2 rounded-md text-sm font-medium"
                        href="/logout" th:href="@{/logout}" th:text="#{Nav.LogOut}"></a>

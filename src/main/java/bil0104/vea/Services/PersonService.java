@@ -51,8 +51,6 @@ public class PersonService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         Person appUser = this.personDao.findByLogin(userName);
 
-        System.out.println(appUser.getClass().toString());
-
         if (appUser == null) {
             System.out.println("User not found! " + userName);
             throw new UsernameNotFoundException("User " + userName + " was not found in the database");
