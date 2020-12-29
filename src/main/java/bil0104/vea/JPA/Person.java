@@ -1,20 +1,16 @@
 package bil0104.vea.JPA;
 
-import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.Normalizer;
-import java.util.Collection;
 import java.util.Date;
 import java.util.function.Function;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Person implements UserDetails {
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected long id;
@@ -25,15 +21,14 @@ public class Person implements UserDetails {
     protected String lastName;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     protected Date dateOfBirth;
-    @NotNull
-    @Length(min = 5)
+    @Column(name = "password", length = 128, nullable = false)
     protected String password;
     protected Role role;
 
     public Person() {
     }
 
-    public Person(long id, String login, @NotNull String firstName, @NotNull String lastName, Date dateOfBirth, @NotNull @Length(min = 5) String password, Role role) {
+    public Person(long id, String login, @NotNull String firstName, @NotNull String lastName, Date dateOfBirth, @NotNull String password, Role role) {
         this.id = id;
         this.login = login;
         this.firstName = firstName;
@@ -43,7 +38,7 @@ public class Person implements UserDetails {
         this.role = role;
     }
 
-    public Person(String login, @NotNull String firstName, @NotNull String lastName, Date dateOfBirth, @NotNull @Length(min = 5) String password, Role role) {
+    public Person(String login, @NotNull String firstName, @NotNull String lastName, Date dateOfBirth, @NotNull String password, Role role) {
         this.login = login;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -92,6 +87,10 @@ public class Person implements UserDetails {
         this.dateOfBirth = dateOfBirth;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
@@ -102,41 +101,6 @@ public class Person implements UserDetails {
 
     public void setRole(Role role) {
         this.role = role;
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return login;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 
     public static String findNextLogin(Person person, Function<String, Person> fn) {
