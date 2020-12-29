@@ -65,7 +65,6 @@ public class PersonService implements UserDetailsService {
             grantList.add(authority);
         }
 
-        UserDetails userDetails = (UserDetails) new User(appUser.getLogin(), appUser.getPassword(), grantList);
-        return userDetails;
+        return new User(appUser.getLogin(), appUser.getPassword(), grantList);
     }
 }
