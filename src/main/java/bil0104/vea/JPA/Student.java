@@ -23,6 +23,12 @@ public class Student extends Person {
         this.studies = studies;
     }
 
+    public Student(String login, @NotNull String firstName, @NotNull String lastName, Date dateOfBirth, @NotNull @Length(min = 5) String password, List<Study> studies, int year) {
+        super(login, firstName, lastName, dateOfBirth, password, Role.STUDENT);
+        this.year = year;
+        this.studies = studies;
+    }
+
     public List<Study> getStudies() {
         return studies;
     }

@@ -40,6 +40,17 @@ public class Subject {
         this.teacher = teacher;
     }
 
+
+    public Subject(@NotNull String abbreviation, @NotNull String name, @NotNull int year, @NotNull Semester semester, @NotNull int credits, List<Study> studies, Teacher teacher) {
+        this.abbreviation = abbreviation;
+        this.name = name;
+        this.year = year;
+        this.semester = semester;
+        this.credits = credits;
+        this.studies = studies;
+        this.teacher = teacher;
+    }
+
     public String getAbbreviation() {
         return abbreviation;
     }

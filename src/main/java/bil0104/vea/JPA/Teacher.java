@@ -22,6 +22,11 @@ public class Teacher extends Person {
         this.teaches = teaches;
     }
 
+    public Teacher(String login, @NotNull String firstName, @NotNull String lastName, Date dateOfBirth, @NotNull @Length(min = 5) String password, List<Subject> teaches) {
+        super(login, firstName, lastName, dateOfBirth, password, Role.TEACHER);
+        this.teaches = teaches;
+    }
+
     public List<Subject> getTeaches() {
         return teaches;
     }
