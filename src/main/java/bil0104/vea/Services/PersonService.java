@@ -1,8 +1,8 @@
 package bil0104.vea.Services;
 
 import bil0104.vea.DAO.PersonDao;
+import bil0104.vea.JPA.Admin;
 import bil0104.vea.JPA.Person;
-import bil0104.vea.JPA.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -13,12 +13,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@Transactional
 public class PersonService implements UserDetailsService {
 
     @Autowired
@@ -26,7 +28,7 @@ public class PersonService implements UserDetailsService {
 
     @PostConstruct
     public void init() {
-        this.insert(new Person("ADM000", "Admin", "Admin", new Date(80, Calendar.APRIL, 2), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", Role.ADMIN));
+        this.insert(new Admin("ADM000", "Admin", "Admin", new Date(80, Calendar.APRIL, 2), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy"));
     }
 
     public Person findByLogin(String login) {
@@ -48,6 +50,8 @@ public class PersonService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         Person appUser = this.personDao.findByLogin(userName);
+
+        System.out.println(appUser.getClass().toString());
 
         if (appUser == null) {
             System.out.println("User not found! " + userName);
