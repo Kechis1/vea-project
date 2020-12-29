@@ -20,9 +20,9 @@ public class TeacherService {
 
     @PostConstruct
     public void init() {
-        this.insert(new Teacher("DUB000", "Lukáš", "Denver", new Date(1992, Calendar.FEBRUARY,9), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null));
-        this.insert(new Teacher( "BRE123", "Alžběta", "Helsinki", new Date(1991, Calendar.DECEMBER,8), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null));
-        this.insert(new Teacher( "ZEN003", "Eliška", "Tokyo", new Date(1990, Calendar.JANUARY,10), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null));
+        this.insert(new Teacher("DUB000", "Lukáš", "Denver", new Date(92, Calendar.FEBRUARY,9), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null));
+        this.insert(new Teacher( "BRE123", "Alžběta", "Helsinki", new Date(91, Calendar.DECEMBER,8), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null));
+        this.insert(new Teacher( "ZEN003", "Eliška", "Tokyo", new Date(90, Calendar.JANUARY,10), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null));
     }
 
     public Teacher findByLogin(String login) {

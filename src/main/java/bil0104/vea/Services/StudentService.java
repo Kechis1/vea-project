@@ -21,9 +21,9 @@ public class StudentService {
 
     @PostConstruct
     public void init() {
-        this.insert(new Student("BIL104", "Daniel", "Bill", new Date(1999, Calendar.APRIL,2), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null, 3));
-        this.insert(new Student("ALE201", "Alena", "Aleso", new Date(1998, Calendar.MARCH,5), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null, 4));
-        this.insert(new Student( "DRA001", "Bronze", "Drag", new Date(1997, Calendar.JANUARY,11), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null, 5));
+        this.insert(new Student("BIL104", "Daniel", "Bill", new Date(99, Calendar.APRIL,2), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null, 3));
+        this.insert(new Student("ALE201", "Alena", "Aleso", new Date(98, Calendar.MARCH,5), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null, 4));
+        this.insert(new Student( "DRA001", "Bronze", "Drag", new Date(97, Calendar.JANUARY,11), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null, 5));
     }
 
     public Student findByLogin(String login) {

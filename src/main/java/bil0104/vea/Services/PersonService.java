@@ -23,7 +23,7 @@ public class PersonService {
 
     @PostConstruct
     public void init() {
-        this.insert(new Person("ADM000", "Admin", "Admin", new Date(1980, Calendar.APRIL, 2), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", Role.ADMIN));
+        this.insert(new Person("ADM000", "Admin", "Admin", new Date(80, Calendar.APRIL, 2), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", Role.ADMIN));
     }
 
     public Person findByLogin(String login) {

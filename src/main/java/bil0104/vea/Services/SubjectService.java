@@ -19,9 +19,9 @@ public class SubjectService {
 
     @PostConstruct
     public void init() {
-        this.insert(new Subject(1, "UDBS", "Úvod do dbs", 2, Semester.SUMMER, 4, null, null));
-        this.insert(new Subject(2, "AVD", "Algority vykonání dotazů", 5, Semester.SUMMER, 5, null, null));
-        this.insert(new Subject(3, "ADBS", "Administrace DBS", 3, Semester.WINTER, 3, null, null));
+        this.insert(new Subject("UDBS", "Úvod do dbs", 2, Semester.SUMMER, 4, null, null));
+        this.insert(new Subject("AVD", "Algority vykonání dotazů", 5, Semester.SUMMER, 5, null, null));
+        this.insert(new Subject( "ADBS", "Administrace DBS", 3, Semester.WINTER, 3, null, null));
     }
 
     public List<Subject> getAll() {
