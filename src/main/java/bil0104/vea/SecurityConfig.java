@@ -19,14 +19,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        return bCryptPasswordEncoder;
+        return new BCryptPasswordEncoder();
     }
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-        // Setting Service to find User in the database.
-        // And Setting PasswordEncoder
         auth.userDetailsService(personService).passwordEncoder(passwordEncoder());
     }
 
@@ -35,7 +32,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable();
 
-        http.authorizeRequests().antMatchers("/**").authenticated().and().formLogin().loginProcessingUrl("/j_spring_security_check")
+        http.authorizeRequests().antMatchers("/**").authenticated().and().formLogin().loginProcessingUrl("/login")
                 .loginPage("/login").permitAll()
                 .defaultSuccessUrl("/")
                 .failureUrl("/login?error=true")
