@@ -8,7 +8,7 @@
     <div class="p-2" th:fragment="content">
         <h1 class="font-bold text-3xl mb-4" th:text="#{Home.Body.Title} + ' ' + ${authUser.login}"></h1>
 
-        <h2 class="font-medium text-xl mb-3" th:text="#{Labels.PersonalDetails} + ':'"></h2>
+        <h2 class="font-medium text-xl mb-3" th:text="#{Labels.PersonalDetails}"></h2>
         <div class="p-3 border border-gray-300 rounded-md mb-5 grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
                 <div class="font-medium" th:text="#{Person.Properties.FirstName} + ':'"></div>
@@ -29,15 +29,7 @@
         </div>
 
         <h2 class="font-medium text-xl mb-3" th:text="#{Labels.MySubjects}"></h2>
-        <div class="p-3 border border-gray-300 rounded-md ">
-            <div class="mb-4">
-                <form th:action="@{/}" method="get">
-                    <label class="inline-flex" for="year" th:text="#{Labels.AcademicYear} + ':'"></label>
-                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="year" name="year">
-                        <option th:each="y : ${years}" th:text="${y}" th:value="${y}"></option>
-                    </select>
-                </form>
-            </div>
+        <div class="p-3 border border-gray-300 rounded-md">
             <div>
                 <table class="border-collapse table-auto">
                     <thead>
@@ -54,13 +46,14 @@
                         <td class="p-2 border border-black" th:text="#{Labels.NoData}" colspan="6"></td>
                     </tr>
                     <tr th:each="t : ${authUser.teaches}">
-                        <td class="p-2 border border-black" th:text="${t.semester}"></td>
+                        <td class="p-2 border border-black" th:text="${#messages.msg('Semesters.' + t.semester)}"></td>
                         <td class="p-2 border border-black" th:text="${t.abbreviation}"></td>
                         <td class="p-2 border border-black" th:text="${t.name}"></td>
                         <td class="p-2 border border-black" th:text="${t.credits}"></td>
-                        <td>
+                        <td class="p-2 border border-black">
                             <div class="flex">
                                 <a class="flex-auto ml-3 mr-3 hover:underline text-green-500" href=""
+                                   th:href="@{/subjects/{id}/detail(id=${t.id})}"
                                    th:text="#{Actions.Detail}"></a>
                             </div>
                         </td>
