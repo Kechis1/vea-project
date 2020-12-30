@@ -20,7 +20,7 @@
                 <th class="p-2 border border-black" th:text="#{Person.Properties.FirstName}"></th>
                 <th class="p-2 border border-black" th:text="#{Person.Properties.LastName}"></th>
                 <th class="p-2 border border-black" th:text="#{Person.Properties.DateOfBirth}"></th>
-                <th th:if="${authUser.getRole().isAdmin()}"></th>
+                <th th:if="${authUser.getRole().isAdmin() or authUser.getRole().isTeacher()}"></th>
             </tr>
             </thead>
             <tbody>
@@ -33,11 +33,14 @@
                 <td class="p-2 border border-black" th:text="${s.firstName}"></td>
                 <td class="p-2 border border-black" th:text="${s.lastName}"></td>
                 <td class="p-2 border border-black" th:text="${#dates.format(s.dateOfBirth, 'dd. MM. yyyy')}"></td>
-                <td th:if="${authUser.getRole().isAdmin()}" class="p-2 border border-black">
+                <td th:if="${authUser.getRole().isAdmin() or authUser.getRole().isTeacher()}" class="p-2 border border-black">
                     <div class="flex">
-                        <a class="flex-auto ml-3 mr-3 hover:underline text-green-500" href=""
-                           th:text="#{Actions.Edit}"></a>
-                        <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
+                        <a th:if="${authUser.getRole().isAdmin() or authUser.getRole().isTeacher()}"
+                           class="flex-auto ml-3 mr-3 hover:underline text-green-500" href=""
+                           th:href="@{/students/{id}/detail(id=${s.id})}"
+                           th:text="#{Actions.Detail}"></a>
+                        <a th:if="${authUser.getRole().isAdmin()}"
+                           class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
                            th:href="@{/students/{id}/delete(id=${s.id})}" href="" th:text="#{Actions.Delete}"></a>
                     </div>
                 </td>

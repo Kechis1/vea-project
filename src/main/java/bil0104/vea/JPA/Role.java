@@ -6,4 +6,8 @@ public enum Role {
     public boolean isAdmin() {
         return this.name().equals(ADMIN.toString());
     }
+
+    public boolean isTeacher() {
+        return this.name().equals(TEACHER.toString());
+    }
 }
