@@ -3,57 +3,37 @@ package bil0104.vea.JPA;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Study")
+@Table(name = "studies")
 @IdClass(StudyPrimaryKey.class)
 public class Study {
     @Id
-    @Column(name = "subject_id", updatable = false, insertable = false)
-    private long subjectId;
-    @Id
-    @Column(name = "student_id", updatable = false, insertable = false)
-    private long studentId;
-    @Id
-    private char year;
+    private String year;
     private int points;
 
     @ManyToOne
+    @Id
+    @JoinColumn(name = "student_id")
     public Student student;
     @ManyToOne
+    @Id
+    @JoinColumn(name = "subject_id")
     public Subject subject;
 
     public Study() {
     }
 
-    public Study(long subjectId, long studentId, char year, int points, Student student, Subject subject) {
-        this.subjectId = subjectId;
-        this.studentId = studentId;
+    public Study(String year, int points, Student student, Subject subject) {
         this.year = year;
         this.points = points;
         this.student = student;
         this.subject = subject;
     }
 
-    public long getSubjectId() {
-        return subjectId;
-    }
-
-    public void setSubjectId(long subjectId) {
-        this.subjectId = subjectId;
-    }
-
-    public long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(long studentId) {
-        this.studentId = studentId;
-    }
-
-    public char getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(char year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
@@ -84,12 +64,10 @@ public class Study {
     @Override
     public String toString() {
         return "Study{" +
-                "subjectId=" + subjectId +
-                ", studentId=" + studentId +
-                ", year=" + year +
+                " year=" + year +
                 ", points=" + points +
-                ", student=" + student +
-                ", subject=" + subject +
+                ", student=" + student.getLogin() +
+                ", subject=" + subject.getAbbreviation() +
                 '}';
     }
 }

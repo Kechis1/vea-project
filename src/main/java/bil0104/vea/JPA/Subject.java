@@ -5,7 +5,6 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Entity
-@Table(name="Subject")
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,9 +19,9 @@ public class Subject {
     public Semester semester;
     @NotNull
     private int credits;
-    @OneToMany
+    @OneToMany(mappedBy = "subject")
     public List<Study> studies;
-    @ManyToOne(cascade = CascadeType.DETACH)
+    @ManyToOne
     @JoinColumn(name="teacher_id")
     public Teacher teacher;
 

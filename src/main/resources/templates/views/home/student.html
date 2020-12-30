@@ -5,25 +5,25 @@
       layout:decorate="layout">
 <body>
 <div layout:fragment="content">
-    <h1 th:text="#{Home.Body.Title} + ' ' + ${auth.login}"></h1>
+    <h1 th:text="#{Home.Body.Title} + ' ' + ${authUser.login}"></h1>
 
     <div>
         <h2 th:text="#{Labels.PersonalDetails}"></h2>
         <div>
             <div th:text="#{Person.Properties.FirstName}"></div>
-            <div th:text="${auth.firstName}"></div>
+            <div th:text="${authUser.firstName}"></div>
         </div>
         <div>
             <div th:text="#{Person.Properties.LastName}"></div>
-            <div th:text="${auth.lastName}"></div>
+            <div th:text="${authUser.lastName}"></div>
         </div>
         <div>
             <div th:text="#{Person.Properties.Login}"></div>
-            <div th:text="${auth.login}"></div>
+            <div th:text="${authUser.login}"></div>
         </div>
         <div>
             <div th:text="#{Person.Properties.DateOfBirth}"></div>
-            <div th:text="${auth.dateOfBirth}"></div>
+            <div th:text="${authUser.dateOfBirth}"></div>
         </div>
     </div>
 
@@ -51,7 +51,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="s : ${auth.studies}">
+                <tr th:each="s : ${authUser.studies}">
                     <td th:text="${s.subject.semester}"></td>
                     <td th:text="${s.subject.abbreviation}"></td>
                     <td th:text="${s.subject.name}"></td>

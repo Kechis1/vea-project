@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 public class Student extends Person {
-    @OneToMany
+    @OneToMany(mappedBy = "student")
     public List<Study> studies;
     public int year;
 

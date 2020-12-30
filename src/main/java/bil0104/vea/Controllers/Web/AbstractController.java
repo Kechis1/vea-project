@@ -9,6 +9,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 public abstract class AbstractController {
     @Autowired
     PersonService personService;
@@ -20,6 +26,16 @@ public abstract class AbstractController {
             return personService.findByLogin(user.getUsername());
         }
         return null;
+    }
+
+    @ModelAttribute("years")
+    public List<String> getAcademicYears() {
+        int currentYear = LocalDate.now().getYear();
+        List<String> years = new ArrayList<>();
+        for (int i = currentYear; i >= 2010; i--) {
+            years.add(i + "/" + (i+1));
+        }
+        return years;
     }
 
     public boolean isAuthenticated() {
