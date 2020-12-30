@@ -50,15 +50,9 @@ public class PersonService implements UserDetailsService {
 
         System.out.println("Found User: " + appUser);
 
-        List<String> roleNames = new ArrayList<>();
-        roleNames.add(appUser.getRole().toString());
-
-        List<GrantedAuthority> grantList = new ArrayList<>();
-        for (String role : roleNames) {
-            GrantedAuthority authority = new SimpleGrantedAuthority(role);
-            grantList.add(authority);
-        }
-
-        return new User(appUser.getLogin(), appUser.getPassword(), grantList);
+        return User.withUsername(appUser.getLogin())
+                .password(appUser.getPassword())
+                .roles(appUser.getRole().toString())
+                .build();
     }
 }
