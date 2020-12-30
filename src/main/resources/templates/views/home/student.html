@@ -5,62 +5,67 @@
       layout:decorate="layout">
 <body>
 <div layout:fragment="content">
-    <h1 th:text="#{Home.Body.Title} + ' ' + ${authUser.login}"></h1>
+    <div class="p-2" th:fragment="content">
+        <h1 class="font-bold text-3xl mb-4" th:text="#{Home.Body.Title} + ' ' + ${authUser.login}"></h1>
 
-    <div>
-        <h2 th:text="#{Labels.PersonalDetails}"></h2>
-        <div>
-            <div th:text="#{Person.Properties.FirstName}"></div>
-            <div th:text="${authUser.firstName}"></div>
+        <h2 class="font-medium text-xl mb-3" th:text="#{Labels.PersonalDetails}"></h2>
+        <div class="p-3 border border-gray-300 rounded-md mb-5 grid grid-cols-6 gap-6">
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.FirstName} + ':'"></div>
+                <div th:text="${authUser.firstName}"></div>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.LastName} + ':'"></div>
+                <div th:text="${authUser.lastName}"></div>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.Login} + ':'"></div>
+                <div th:text="${authUser.login}"></div>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.DateOfBirth} + ':'"></div>
+                <div th:text="${#dates.format(authUser.dateOfBirth, 'dd. MM. yyyy')}"></div>
+            </div>
         </div>
-        <div>
-            <div th:text="#{Person.Properties.LastName}"></div>
-            <div th:text="${authUser.lastName}"></div>
-        </div>
-        <div>
-            <div th:text="#{Person.Properties.Login}"></div>
-            <div th:text="${authUser.login}"></div>
-        </div>
-        <div>
-            <div th:text="#{Person.Properties.DateOfBirth}"></div>
-            <div th:text="${authUser.dateOfBirth}"></div>
-        </div>
-    </div>
 
-    <div>
-        <h2 th:text="#{Labels.MyResults}"></h2>
-        <div>
-            <label for="year" th:text="#{Labels.AcademicYear} + ':'"></label>
-            <form th:action="@{/}" method="get">
-                <select id="year" name="year">
-                    <option th:each="y : ${years}" th:text="${y}" th:value="${y}"></option>
-                </select>
-                <button type="submit" th:text="OK"></button>
-            </form>
-        </div>
-        <div>
-            <table>
-                <thead>
-                <tr>
-                    <th th:text="#{Subjects.Properties.Semester}"></th>
-                    <th th:text="#{Subjects.Properties.Abbreviation}"></th>
-                    <th th:text="#{Subjects.Properties.Name}"></th>
-                    <th th:text="#{Subjects.Properties.Teacher}"></th>
-                    <th th:text="#{Subjects.Properties.Credits}"></th>
-                    <th th:text="#{Study.Properties.Points}"></th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="s : ${authUser.studies}">
-                    <td th:text="${s.subject.semester}"></td>
-                    <td th:text="${s.subject.abbreviation}"></td>
-                    <td th:text="${s.subject.name}"></td>
-                    <td th:text="${s.subject.teacher.firstName} + ' ' + ${s.subject.teacher.lastName}"></td>
-                    <td th:text="${s.subject.credits}"></td>
-                    <td th:text="${s.points}"></td>
-                </tr>
-                </tbody>
-            </table>
+        <h2 class="font-medium text-xl mb-3" th:text="#{Labels.MyResults}"></h2>
+        <div class="p-3 border border-gray-300 rounded-md ">
+            <div class="mb-4">
+                <form th:action="@{/}" method="get">
+                    <label class="inline-flex" for="year" th:text="#{Labels.AcademicYear} + ':'"></label>
+                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="year" name="year">
+                        <option th:each="y : ${years}" th:text="${y}" th:value="${y}"></option>
+                    </select>
+                    <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit" th:text="OK"></button>
+                </form>
+            </div>
+            <div>
+                <table class="border-collapse table-auto">
+                    <thead>
+                    <tr>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Semester}"></th>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Abbreviation}"></th>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Name}"></th>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Teacher}"></th>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Credits}"></th>
+                        <th class="p-2 border border-black" th:text="#{Study.Properties.Points}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${authUser.studies == null or authUser.studies.isEmpty()}">
+                        <td class="p-2 border border-black" th:text="#{Labels.NoData}" colspan="6"></td>
+                    </tr>
+                    <tr th:each="s : ${authUser.studies}">
+                        <td class="p-2 border border-black" th:text="${s.subject.semester}"></td>
+                        <td class="p-2 border border-black" th:text="${s.subject.abbreviation}"></td>
+                        <td class="p-2 border border-black" th:text="${s.subject.name}"></td>
+                        <td class="p-2 border border-black" th:text="${s.subject.teacher.firstName} + ' ' + ${s.subject.teacher.lastName}"></td>
+                        <td class="p-2 border border-black" th:text="${s.subject.credits}"></td>
+                        <td class="p-2 border border-black" th:text="${s.points}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
