@@ -16,8 +16,10 @@ public class TeacherDaoJpa implements TeacherDao {
     private EntityManager em;
 
     @Override
-    public void insert(Teacher teacher) {
+    public Teacher insert(Teacher teacher) {
         em.persist(teacher);
+        em.flush();
+        return teacher;
     }
 
     @Override
@@ -31,8 +33,10 @@ public class TeacherDaoJpa implements TeacherDao {
     }
 
     @Override
-    public void update(Teacher teacher) {
-
+    public Teacher update(Teacher teacher) {
+        em.merge(teacher);
+        em.flush();
+        return teacher;
     }
 
     @Override

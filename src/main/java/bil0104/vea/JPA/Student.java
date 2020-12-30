@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 public class Student extends Person {
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student", cascade=CascadeType.PERSIST, fetch = FetchType.EAGER)
     public List<Study> studies;
     public int year;
 
@@ -35,6 +35,10 @@ public class Student extends Person {
 
     public void setStudies(List<Study> studies) {
         this.studies = studies;
+
+        for (Study s : studies) {
+            s.student = this;
+        }
     }
 
     public int getYear() {
@@ -48,8 +52,7 @@ public class Student extends Person {
     @Override
     public String toString() {
         return "Student{" +
-                "studies=" + studies +
-                ", id=" + id +
+                " id=" + id +
                 ", login='" + login + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
@@ -57,6 +60,7 @@ public class Student extends Person {
                 ", password='" + password + '\'' +
                 ", role=" + role +
                 ", year=" + year +
+                ", studies=" + studies +
                 '}';
     }
 }

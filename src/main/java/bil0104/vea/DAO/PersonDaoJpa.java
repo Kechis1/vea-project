@@ -18,8 +18,10 @@ public class PersonDaoJpa implements PersonDao<Person> {
     private EntityManager em;
 
     @Override
-    public void insert(Person person) {
+    public Person insert(Person person) {
         em.persist(person);
+        em.flush();
+        return person;
     }
 
     @Override
@@ -33,8 +35,10 @@ public class PersonDaoJpa implements PersonDao<Person> {
     }
 
     @Override
-    public void update(Person person) {
-
+    public Person update(Person person) {
+        em.merge(person);
+        em.flush();
+        return person;
     }
 
     @Override

@@ -16,8 +16,10 @@ public class SubjectDaoJpa implements AbstractDao<Subject> {
     private EntityManager em;
 
     @Override
-    public void insert(Subject subject) {
+    public Subject insert(Subject subject) {
         em.persist(subject);
+        em.flush();
+        return subject;
     }
 
     @Override
@@ -31,8 +33,10 @@ public class SubjectDaoJpa implements AbstractDao<Subject> {
     }
 
     @Override
-    public void update(Subject subject) {
-
+    public Subject update(Subject subject) {
+        em.merge(subject);
+        em.flush();
+        return subject;
     }
 
     @Override

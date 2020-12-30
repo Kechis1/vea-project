@@ -9,6 +9,7 @@ import java.util.List;
 public interface StudyDao {
 
     void insert(Study study);
+    List<Study> getAll();
 
     List<Study> findByStudentAndYear(Person person, String year);
 }

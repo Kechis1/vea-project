@@ -17,8 +17,10 @@ public class StudentDaoJpa implements StudentDao {
     private EntityManager em;
 
     @Override
-    public void insert(Student student) {
+    public Student insert(Student student) {
         em.persist(student);
+        em.flush();
+        return student;
     }
 
     @Override
@@ -32,8 +34,10 @@ public class StudentDaoJpa implements StudentDao {
     }
 
     @Override
-    public void update(Student student) {
-
+    public Student update(Student student) {
+        em.merge(student);
+        em.flush();
+        return student;
     }
 
     @Override

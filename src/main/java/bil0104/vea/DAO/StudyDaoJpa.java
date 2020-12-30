@@ -16,6 +16,10 @@ public class StudyDaoJpa implements StudyDao {
     @PersistenceContext
     private EntityManager em;
 
+    @Override
+    public List<Study> getAll() {
+        return em.createQuery("select s from Study s", Study.class).getResultList();
+    }
 
     @Override
     public void insert(Study study) {

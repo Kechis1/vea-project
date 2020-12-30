@@ -2,16 +2,19 @@ package bil0104.vea.JPA;
 
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 public class Teacher extends Person {
-    @OneToMany
-    public List<Subject> teaches;
+    @OneToMany(cascade=CascadeType.PERSIST, mappedBy = "teacher", fetch = FetchType.EAGER)
+    public List<Subject> teaches = new ArrayList<>();
 
     public Teacher() {
         super();
@@ -33,20 +36,23 @@ public class Teacher extends Person {
 
     public void setTeaches(List<Subject> teaches) {
         this.teaches = teaches;
+
+        for (Subject s : teaches) {
+            s.teacher = this;
+        }
     }
 
 
     @Override
     public String toString() {
-        return "Teacher{" +
-                "teaches=" + teaches +
-                ", id=" + id +
-                ", login='" + login + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", password='" + password + '\'' +
-                ", role=" + role +
-                '}';
+        return "Teacher{ id=" + id +
+                        ", login='" + login + '\'' +
+                        ", firstName='" + firstName + '\'' +
+                        ", lastName='" + lastName + '\'' +
+                        ", dateOfBirth=" + dateOfBirth +
+                        ", password='" + password + '\'' +
+                        ", role=" + role +
+                ", teaches=" + teaches +
+                        '}';
     }
 }

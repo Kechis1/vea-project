@@ -19,9 +19,9 @@ public class Subject {
     public Semester semester;
     @NotNull
     private int credits;
-    @OneToMany(mappedBy = "subject")
+    @OneToMany(mappedBy = "subject", cascade=CascadeType.PERSIST, fetch = FetchType.EAGER)
     public List<Study> studies;
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name="teacher_id")
     public Teacher teacher;
 
@@ -64,6 +64,7 @@ public class Subject {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+        teacher.teaches.add(this);
     }
 
     public long getId() {
@@ -112,6 +113,10 @@ public class Subject {
 
     public void setStudies(List<Study> studies) {
         this.studies = studies;
+
+        for (Study s : studies) {
+            s.subject = this;
+        }
     }
 
 
@@ -124,8 +129,8 @@ public class Subject {
                 ", year='" + year + '\'' +
                 ", semester=" + semester +
                 ", credits=" + credits +
+                ", teacher=" + teacher.getLogin() +
                 ", studies=" + studies +
-                ", teacher=" + teacher +
                 '}';
     }
 }
