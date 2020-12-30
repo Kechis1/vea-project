@@ -1,6 +1,8 @@
 package bil0104.vea.JPA;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Entity
 @Table(name = "studies")
@@ -8,6 +10,8 @@ import javax.persistence.*;
 public class Study {
     @Id
     private String year;
+    @Min(0)
+    @Max(100)
     private int points;
 
     @ManyToOne
@@ -22,7 +26,7 @@ public class Study {
     public Study() {
     }
 
-    public Study(String year, int points, Student student, Subject subject) {
+    public Study(String year, @Min(0) @Max(100) int points, Student student, Subject subject) {
         this.year = year;
         this.points = points;
         this.student = student;

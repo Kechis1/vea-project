@@ -1,11 +1,13 @@
 package bil0104.vea.DAO;
 
+import bil0104.vea.JPA.Person;
 import bil0104.vea.JPA.Study;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Transactional
 @Repository
@@ -23,8 +25,13 @@ public class StudyDaoJpa implements StudyDao {
                 .setParameter(3, study.getStudent().getId())
                 .setParameter(4, study.getSubject().getId())
                 .executeUpdate();
-        // em.persist(study);
     }
 
-
+    @Override
+    public List<Study> findByStudentAndYear(Person person, String year) {
+        return em.createQuery("select s from Study s where s.student = :student and s.year = :year", Study.class)
+                .setParameter("student", person)
+                .setParameter("year", year)
+                .getResultList();
+    }
 }

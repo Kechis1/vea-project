@@ -9,10 +9,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 public abstract class AbstractController {
@@ -36,6 +34,10 @@ public abstract class AbstractController {
             years.add(i + "/" + (i+1));
         }
         return years;
+    }
+
+    protected String getCurrentAcademicYear() {
+        return this.getAcademicYears().get(0);
     }
 
     public boolean isAuthenticated() {

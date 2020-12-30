@@ -61,6 +61,7 @@ public class InitDbService {
 
         studyDao.insert(new Study("2020/2021", 98, stu.get(0), subs.get(0)));
         studyDao.insert(new Study("2020/2021", 89, stu.get(0), subs.get(1)));
-        studyDao.insert(new Study("2020/2021", 777, stu.get(0), subs.get(2)));
+        studyDao.insert(new Study("2020/2021", 77, stu.get(0), subs.get(2)));
+        studyDao.insert(new Study("2019/2020", 41, stu.get(0), subs.get(2)));
     }
 }

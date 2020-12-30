@@ -6,6 +6,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class AuthController extends AbstractController {
@@ -22,7 +23,7 @@ public class AuthController extends AbstractController {
         return "views/home/login";
     }
 
-    @GetMapping("/error/403")
+    @RequestMapping("/error/403")
     public String error(Model model) {
         model.addAttribute("metaTitle", messageSource.getMessage("Errors.NotAllowed", null, LocaleContextHolder.getLocale()));
         return "views/errors/403";
