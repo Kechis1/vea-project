@@ -1,10 +1,7 @@
 package bil0104.vea.Services;
 
 
-import bil0104.vea.DAO.AbstractDao;
-import bil0104.vea.DAO.StudentDao;
-import bil0104.vea.DAO.StudyDao;
-import bil0104.vea.DAO.TeacherDao;
+import bil0104.vea.DAO.*;
 import bil0104.vea.JPA.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +25,8 @@ public class InitDbService {
     private StudentDao studentDao;
     @Autowired
     private StudyDao studyDao;
+    @Autowired
+    private PersonDao<Person> personDao;
 
     @PostConstruct
     public void init() {
@@ -35,6 +34,9 @@ public class InitDbService {
         List<Student> stu = new ArrayList<>();
         List<Teacher> teas = new ArrayList<>();
         List<Study> studies = new ArrayList<>();
+
+        personDao.insert(new Person("ADM000", "Admin", "Admin", new Date(80, Calendar.APRIL, 2), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", Role.ADMIN));
+
 
         teas.add(new Teacher("DUB000", "Lukáš", "Denver", new Date(92, Calendar.FEBRUARY,9), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null));
         teas.add(new Teacher( "BRE123", "Alžběta", "Helsinki", new Date(91, Calendar.DECEMBER,8), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null));
