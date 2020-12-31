@@ -6,6 +6,7 @@ import bil0104.vea.Services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -34,6 +35,7 @@ public class TeacherController extends AbstractController {
     }
 
     @GetMapping(value = "/teachers/add")
+    @Secured({"ROLE_ADMIN"})
     public String add(Model model) {
         model.addAttribute("pageActive", "teachers");
         model.addAttribute("metaTitle", messageSource.getMessage("Teachers.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Create", null, LocaleContextHolder.getLocale()));
@@ -41,6 +43,7 @@ public class TeacherController extends AbstractController {
     }
 
     @PostMapping(value = "/teachers/add")
+    @Secured({"ROLE_ADMIN"})
     public String create(@ModelAttribute @Validated Teacher teacher, BindingResult teacherResult) {
         if (teacherResult.hasErrors()) {
             System.out.println(teacherResult.getAllErrors());
@@ -51,7 +54,16 @@ public class TeacherController extends AbstractController {
         return "redirect:/teachers/add";
     }
 
+    @GetMapping(value = "/teachers/{id}/detail")
+    public String detail(Model model, @PathVariable long id) {
+        model.addAttribute("pageActive", "teachers");
+        model.addAttribute("metaTitle", messageSource.getMessage("Teachers.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Detail", null, LocaleContextHolder.getLocale()));
+        model.addAttribute("teacher", teacherService.findById(id));
+        return "views/teachers/detail";
+    }
+
     @GetMapping(value = "/teachers/{id}/delete")
+    @Secured({"ROLE_ADMIN"})
     public String delete(@PathVariable long id) {
         teacherService.delete(id);
         return "redirect:/teachers";

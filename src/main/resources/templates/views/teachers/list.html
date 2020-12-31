@@ -8,7 +8,10 @@
     <!-- get all, delete -->
     <div class="p-2" th:fragment="content">
         <h1 class="font-bold text-3xl mb-4" th:text="#{Teachers.Body.Title}"></h1>
-        <a href="" th:href="@{/teachers/add}" class="mb-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" th:text="#{Actions.Create}"></a>
+        <a href="" th:href="@{/teachers/add}"
+           th:if="${authUser.getRole().isAdmin()}"
+           class="mb-4 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+           th:text="#{Actions.Create}"></a>
         <table class="border-collapse table-auto">
             <thead>
             <tr>
@@ -32,8 +35,11 @@
                 <td class="p-2 border border-black" th:text="${#dates.format(s.dateOfBirth, 'dd. MM. yyyy')}"></td>
                 <td class="p-2 border border-black">
                     <div class="flex">
-                        <a class="flex-auto ml-3 mr-3 hover:underline text-green-500" href="" th:text="#{Actions.Edit}"></a>
-                        <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline" th:href="@{/teachers/{id}/delete(id=${s.id})}" href="" th:text="#{Actions.Delete}"></a>
+                        <a class="flex-auto ml-3 mr-3 hover:underline text-green-500" href=""
+                           th:text="#{Actions.Edit}"></a>
+                        <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
+                           th:if="${authUser.getRole().isAdmin()}"
+                           th:href="@{/teachers/{id}/delete(id=${s.id})}" href="" th:text="#{Actions.Delete}"></a>
                     </div>
                 </td>
             </tr>

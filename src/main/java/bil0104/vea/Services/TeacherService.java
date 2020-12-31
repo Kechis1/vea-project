@@ -5,10 +5,7 @@ import bil0104.vea.JPA.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -32,5 +29,9 @@ public class TeacherService {
 
     public void insert(Teacher teacher) {
         teacherDao.insert(teacher);
+    }
+
+    public Teacher findById(long id) {
+        return teacherDao.findById(id);
     }
 }

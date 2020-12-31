@@ -7,6 +7,7 @@ import bil0104.vea.Services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,6 +37,7 @@ public class SubjectController extends AbstractController {
     }
 
     @GetMapping(value = "/subjects/add")
+    @Secured({"ROLE_ADMIN"})
     public String add(Model model) {
         model.addAttribute("pageActive", "subjects");
         model.addAttribute("semesters", Semester.values());
@@ -44,7 +46,16 @@ public class SubjectController extends AbstractController {
         return "views/subjects/add";
     }
 
+    @GetMapping(value = "/subjects/{id}/detail")
+    public String detail(Model model, @PathVariable long id) {
+        model.addAttribute("pageActive", "subjects");
+        model.addAttribute("metaTitle", messageSource.getMessage("Subjects.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Detail", null, LocaleContextHolder.getLocale()));
+        model.addAttribute("subject", subjectService.findById(id));
+        return "views/subjects/detail";
+    }
+
     @PostMapping(value = "/subjects/add")
+    @Secured({"ROLE_ADMIN"})
     public String create(@ModelAttribute @Validated Subject subject, BindingResult subjectResult) {
         if (subjectResult.hasErrors()) {
             System.out.println(subjectResult.getAllErrors());
@@ -55,6 +66,7 @@ public class SubjectController extends AbstractController {
     }
 
     @GetMapping(value = "/subjects/{id}/delete")
+    @Secured({"ROLE_ADMIN"})
     public String delete(@PathVariable long id) {
         subjectService.delete(id);
         return "redirect:/subjects";
