@@ -1,6 +1,7 @@
 package bil0104.vea.Controllers.Web;
 
 import bil0104.vea.JPA.Person;
+import bil0104.vea.JPA.Role;
 import bil0104.vea.JPA.Teacher;
 import bil0104.vea.Services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.text.Normalizer;
+
+import static bil0104.vea.Utils.EncryptedPasswordUtils.encryptPassword;
 
 @Controller
 public class TeacherController extends AbstractController {
@@ -50,6 +53,8 @@ public class TeacherController extends AbstractController {
             return "views/teachers/add";
         }
         teacher.setLogin(Person.findNextLogin(teacher, teacherService::findByLogin));
+        teacher.setRole(Role.TEACHER);
+        teacher.setPassword(encryptPassword(teacher.getPassword()));
         teacherService.insert(teacher);
         return "redirect:/teachers/add";
     }

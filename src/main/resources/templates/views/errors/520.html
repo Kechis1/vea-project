@@ -5,7 +5,9 @@
       layout:decorate="layout">
 <body>
 <div layout:fragment="content">
-    <h1 class="font-bold text-3xl" th:text="${code} + ': ' + ${message}"></h1>
+    <div class="p-2" th:fragment="content">
+        <h1 class="font-bold text-3xl" th:text="${code} + ': ' + ${message}"></h1>
+    </div>
 </div>
 </body>
 </html>
