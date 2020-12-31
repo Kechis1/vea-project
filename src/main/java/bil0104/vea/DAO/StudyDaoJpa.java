@@ -39,4 +39,22 @@ public class StudyDaoJpa implements StudyDao {
                 .setParameter("year", year)
                 .getResultList();
     }
+
+    @Override
+    public Study find(long id) {
+        return em.createQuery("select st from Study st where st.id = :id", Study.class)
+                .setParameter("id", id)
+                .getSingleResult();
+    }
+
+    @Override
+    public void delete(long id) {
+        Study study = find(id);
+        em.remove(study);
+    }
+
+    @Override
+    public void update(Study study) {
+        em.merge(study);
+    }
 }

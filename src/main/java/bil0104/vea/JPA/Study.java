@@ -5,21 +5,23 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @Entity
-@Table(name = "studies")
-@IdClass(StudyPrimaryKey.class)
+@Table(name = "studies", uniqueConstraints = {
+    @UniqueConstraint(columnNames = {"year", "student_id", "subject_id"}, name = "study_uk")
+})
 public class Study {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private String year;
     @Min(0)
     @Max(100)
     private int points;
 
     @ManyToOne
-    @Id
     @JoinColumn(name = "student_id")
     public Student student;
     @ManyToOne
-    @Id
     @JoinColumn(name = "subject_id")
     public Subject subject;
 
@@ -31,6 +33,22 @@ public class Study {
         this.points = points;
         this.student = student;
         this.subject = subject;
+    }
+
+    public Study(long id, String year, @Min(0) @Max(100) int points, Student student, Subject subject) {
+        this.id = id;
+        this.year = year;
+        this.points = points;
+        this.student = student;
+        this.subject = subject;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getYear() {

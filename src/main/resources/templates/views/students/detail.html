@@ -33,7 +33,7 @@
         <h2 class="font-medium text-xl mb-3" th:text="#{Nav.Subjects}"></h2>
         <div class="p-3 border border-gray-300 rounded-md">
             <div class="mb-4">
-                <form th:action="@{/}" method="get">
+                <form th:action="@{/students/{id}/detail(id=${student.id})}" method="get">
                     <label class="inline-flex" for="year" th:text="#{Labels.AcademicYear} + ':'"></label>
                     <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="year" name="year">
                         <option th:each="y : ${years}" th:text="${y}" th:value="${y}" th:selected="${#request.getParameter('year') == null or not #request.getParameter('year').equals(y) ? false : true}"></option>
@@ -58,13 +58,32 @@
                         <td class="p-2 border border-black" th:text="#{Labels.NoData}" colspan="6"></td>
                     </tr>
                     <tr th:each="s : ${studies}">
-                        <td class="p-2 border border-black" th:text="${#messages.msg('Semesters.' + s.subject.semester)}"></td>
-                        <td class="p-2 border border-black" th:text="${s.subject.abbreviation}"></td>
-                        <td class="p-2 border border-black" th:text="${s.subject.name}"></td>
-                        <td class="p-2 border border-black" th:text="${s.subject.teacher.firstName} + ' ' + ${s.subject.teacher.lastName}"></td>
-                        <td class="p-2 border border-black" th:text="${s.subject.credits}"></td>
-                        <td th:classappend="${s.points < 51 ? 'text-red-500' : 'text-black'}"
-                            class="p-2 border border-black" th:text="${s.points}"></td>
+                            <td class="p-2 border border-black" th:text="${#messages.msg('Semesters.' + s.subject.semester)}"></td>
+                            <td class="p-2 border border-black" th:text="${s.subject.abbreviation}"></td>
+                            <td class="p-2 border border-black" th:text="${s.subject.name}"></td>
+                            <td class="p-2 border border-black" th:text="${s.subject.teacher.firstName} + ' ' + ${s.subject.teacher.lastName}"></td>
+                            <td class="p-2 border border-black" th:text="${s.subject.credits}"></td>
+                            <td th:if="${authUser.getRole().isTeacher() and authUser.getId() != s.subject.teacher.getId()}"
+                                th:classappend="${s.points < 51 ? 'text-red-500' : 'text-black'}"
+                                class="p-2 border border-black" th:text="${s.points}"></td>
+                            <td th:if="${authUser.getRole().isAdmin() or authUser.getId() == s.subject.teacher.getId()}"
+                                class="p-2 border border-black">
+                                <form th:action="@{/studies/{id}/update?url=students/{studentId}/detail(id=${s.id}, studentId=${s.student.id})}"
+                                      method="post" class="flex">
+                                    <input max="100" min="0" th:required="true" class="mr-2 p-2 border focus:ring-blue-500 focus:border-blue-500 flex-auto shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                           type="number" th:name="points" id="points" th:value="${s.points}">
+                                    <button type="submit" class="inline-block justify-center px-3 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                            th:text="#{Actions.Save}"></button>
+                                </form>
+
+                            </td>
+                            <td class="p-2 border border-black" th:if="${authUser.getRole().isAdmin()}">
+                                <div class="flex">
+                                    <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
+                                       th:href="@{/studies/{id}/delete?url=students/{studentId}/detail(id=${s.id}, studentId=${s.student.id})}"
+                                       href="" th:text="#{Actions.Delete}"></a>
+                                </div>
+                            </td>
                     </tr>
                     </tbody>
                 </table>

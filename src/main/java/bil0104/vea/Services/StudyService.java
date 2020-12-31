@@ -23,4 +23,16 @@ public class StudyService {
     public List<Study> findByStudentAndYear(Person person, String year) {
         return studyDao.findByStudentAndYear(person, year);
     }
+
+    public void delete(long id) {
+        studyDao.delete(id);
+    }
+
+    public Study find(long id) {
+        return studyDao.find(id);
+    }
+
+    public void update(Study study) {
+        studyDao.update(study);
+    }
 }

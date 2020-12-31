@@ -12,4 +12,9 @@ public interface StudyDao {
     List<Study> getAll();
 
     List<Study> findByStudentAndYear(Person person, String year);
+    void delete(long id);
+
+    Study find(long id);
+
+    void update(Study study);
 }
