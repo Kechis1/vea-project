@@ -4,6 +4,8 @@ import bil0104.vea.JPA.Person;
 import bil0104.vea.JPA.Role;
 import bil0104.vea.JPA.Student;
 import bil0104.vea.Services.StudentService;
+import bil0104.vea.Services.StudyService;
+import bil0104.vea.Services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -12,10 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import static bil0104.vea.Utils.EncryptedPasswordUtils.encryptPassword;
 
@@ -27,6 +26,8 @@ public class StudentController extends AbstractController {
 
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private StudyService studyService;
 
     @GetMapping("/students")
     public String list(Model model) {
@@ -46,8 +47,14 @@ public class StudentController extends AbstractController {
 
     @GetMapping(value = "/students/{id}/detail")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public String detail(Model model) {
+    public String detail(Model model, @PathVariable long id, @RequestParam(required = false) String year) {
+        Student student = studentService.findById(id);
+        if (year == null) {
+            year = this.getCurrentAcademicYear();
+        }
         model.addAttribute("pageActive", "students");
+        model.addAttribute("student", student);
+        model.addAttribute("studies", studyService.findByStudentAndYear(student, year));
         model.addAttribute("metaTitle", messageSource.getMessage("Students.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Detail", null, LocaleContextHolder.getLocale()));
         return "views/students/detail";
     }

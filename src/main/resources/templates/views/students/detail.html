@@ -1,10 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
 <body>
-<!-- put, delete -->
+<div layout:fragment="content">
+    <div class="p-2" th:fragment="content">
+        <h1 class="font-bold text-3xl mb-4" th:text="#{Students.Body.Title} + ' - ' + #{Actions.Detail}"></h1>
+        <h2 class="font-medium text-xl mb-3" th:text="#{Labels.PersonalDetails}"></h2>
+        <div class="p-3 border border-gray-300 rounded-md mb-5 grid grid-cols-6 gap-6">
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.FirstName} + ':'"></div>
+                <div th:text="${student.firstName}"></div>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.LastName} + ':'"></div>
+                <div th:text="${student.lastName}"></div>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.Login} + ':'"></div>
+                <div th:text="${student.login}"></div>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.DateOfBirth} + ':'"></div>
+                <div th:text="${#dates.format(student.dateOfBirth, 'dd. MM. yyyy')}"></div>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Students.Properties.Year} + ':'"></div>
+                <div th:text="${student.year}"></div>
+            </div>
+        </div>
+        <h2 class="font-medium text-xl mb-3" th:text="#{Nav.Subjects}"></h2>
+        <div class="p-3 border border-gray-300 rounded-md">
+            <div class="mb-4">
+                <form th:action="@{/}" method="get">
+                    <label class="inline-flex" for="year" th:text="#{Labels.AcademicYear} + ':'"></label>
+                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="year" name="year">
+                        <option th:each="y : ${years}" th:text="${y}" th:value="${y}" th:selected="${#request.getParameter('year') == null or not #request.getParameter('year').equals(y) ? false : true}"></option>
+                    </select>
+                    <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit" th:text="OK"></button>
+                </form>
+            </div>
+            <div>
+                <table class="border-collapse table-auto">
+                    <thead>
+                    <tr>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Semester}"></th>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Abbreviation}"></th>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Name}"></th>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Teacher}"></th>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Credits}"></th>
+                        <th class="p-2 border border-black" th:text="#{Study.Properties.Points}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${studies == null or studies.isEmpty()}">
+                        <td class="p-2 border border-black" th:text="#{Labels.NoData}" colspan="6"></td>
+                    </tr>
+                    <tr th:each="s : ${studies}">
+                        <td class="p-2 border border-black" th:text="${#messages.msg('Semesters.' + s.subject.semester)}"></td>
+                        <td class="p-2 border border-black" th:text="${s.subject.abbreviation}"></td>
+                        <td class="p-2 border border-black" th:text="${s.subject.name}"></td>
+                        <td class="p-2 border border-black" th:text="${s.subject.teacher.firstName} + ' ' + ${s.subject.teacher.lastName}"></td>
+                        <td class="p-2 border border-black" th:text="${s.subject.credits}"></td>
+                        <td th:classappend="${s.points < 51 ? 'text-red-500' : 'text-black'}"
+                            class="p-2 border border-black" th:text="${s.points}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
+

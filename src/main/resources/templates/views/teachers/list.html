@@ -36,6 +36,7 @@
                 <td class="p-2 border border-black">
                     <div class="flex">
                         <a class="flex-auto ml-3 mr-3 hover:underline text-green-500" href=""
+                           th:href="@{/teachers/{id}/detail(id=${s.id})}"
                            th:text="#{Actions.Detail}"></a>
                         <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
                            th:if="${authUser.getRole().isAdmin()}"

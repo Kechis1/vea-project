@@ -1,6 +1,7 @@
 package bil0104.vea.DAO;
 
 import bil0104.vea.JPA.Person;
+import bil0104.vea.JPA.Student;
 import bil0104.vea.JPA.Study;
 import org.springframework.stereotype.Repository;
 
@@ -33,7 +34,7 @@ public class StudyDaoJpa implements StudyDao {
 
     @Override
     public List<Study> findByStudentAndYear(Person person, String year) {
-        return em.createQuery("select s from Study s where s.student = :student and s.year = :year", Study.class)
+        return em.createQuery("select st from Study st join Subject su on st.subject = su where st.student = :student and st.year = :year", Study.class)
                 .setParameter("student", person)
                 .setParameter("year", year)
                 .getResultList();

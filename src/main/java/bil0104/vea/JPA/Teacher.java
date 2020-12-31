@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 public class Teacher extends Person {
-    @OneToMany(cascade=CascadeType.PERSIST, mappedBy = "teacher", fetch = FetchType.EAGER)
+    @OneToMany(cascade={CascadeType.ALL}, mappedBy = "teacher", fetch = FetchType.EAGER)
     public List<Subject> teaches = new ArrayList<>();
 
     public Teacher() {

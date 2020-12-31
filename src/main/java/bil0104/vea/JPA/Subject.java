@@ -19,9 +19,9 @@ public class Subject {
     public Semester semester;
     @NotNull
     private int credits;
-    @OneToMany(mappedBy = "subject", cascade=CascadeType.PERSIST, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "subject", cascade={CascadeType.ALL, CascadeType.PERSIST}, fetch = FetchType.EAGER)
     public List<Study> studies;
-    @ManyToOne(cascade=CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name="teacher_id")
     public Teacher teacher;
 

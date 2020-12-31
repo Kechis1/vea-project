@@ -30,4 +30,8 @@ public class StudentService {
     public void insert(Student student) {
         studentDao.insert(student);
     }
+
+    public Student findById(long id) {
+        return studentDao.findById(id);
+    }
 }
