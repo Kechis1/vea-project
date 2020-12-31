@@ -34,4 +34,8 @@ public class StudentService {
     public Student findById(long id) {
         return studentDao.findById(id);
     }
+
+    public void update(Student student) {
+        studentDao.update(student);
+    }
 }

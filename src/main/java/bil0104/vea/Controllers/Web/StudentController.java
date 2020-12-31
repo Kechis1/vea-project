@@ -45,6 +45,18 @@ public class StudentController extends AbstractController {
         return "views/students/add";
     }
 
+    @PostMapping(value = "/students/{id}/update")
+    @Secured({"ROLE_ADMIN"})
+    public String update(@Validated @ModelAttribute Student student, @PathVariable long id) {
+        Student st = studentService.findById(id);
+        st.setFirstName(student.getFirstName());
+        st.setLastName(student.getLastName());
+        st.setDateOfBirth(student.getDateOfBirth());
+        st.setYear(student.getYear());
+        studentService.update(st);
+        return "redirect:/students/" + id + "/detail";
+    }
+
     @GetMapping(value = "/students/{id}/detail")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
     public String detail(Model model, @PathVariable long id, @RequestParam(required = false) String year) {

@@ -20,6 +20,7 @@
                 <th class="p-2 border border-black" th:text="#{Person.Properties.FirstName}"></th>
                 <th class="p-2 border border-black" th:text="#{Person.Properties.LastName}"></th>
                 <th class="p-2 border border-black" th:text="#{Person.Properties.DateOfBirth}"></th>
+                <th class="p-2 border border-black" th:text="#{Students.Properties.Year}"></th>
                 <th th:if="${authUser.getRole().isAdmin() or authUser.getRole().isTeacher()}"></th>
             </tr>
             </thead>
@@ -33,6 +34,7 @@
                 <td class="p-2 border border-black" th:text="${s.firstName}"></td>
                 <td class="p-2 border border-black" th:text="${s.lastName}"></td>
                 <td class="p-2 border border-black" th:text="${#dates.format(s.dateOfBirth, 'dd. MM. yyyy')}"></td>
+                <td class="p-2 border border-black" th:text="${s.year}"></td>
                 <td th:if="${authUser.getRole().isAdmin() or authUser.getRole().isTeacher()}" class="p-2 border border-black">
                     <div class="flex">
                         <a th:if="${authUser.getRole().isAdmin() or authUser.getRole().isTeacher()}"
