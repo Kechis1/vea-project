@@ -1,6 +1,6 @@
 package bil0104.vea.Services;
 
-import bil0104.vea.DAO.AbstractDao;
+import bil0104.vea.DAO.SubjectDao;
 import bil0104.vea.JPA.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.List;
 public class SubjectService {
 
     @Autowired
-    private AbstractDao<Subject> subjectDao;
+    private SubjectDao subjectDao;
 
     public SubjectService() { }
 
@@ -31,5 +31,9 @@ public class SubjectService {
 
     public Subject findById(long id) {
         return subjectDao.findById(id);
+    }
+
+    public List<Subject> getWithoutStudent(long id) {
+        return subjectDao.getWithoutStudent(id);
     }
 }

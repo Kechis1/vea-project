@@ -27,6 +27,8 @@ public class StudentController extends AbstractController {
     @Autowired
     private StudentService studentService;
     @Autowired
+    private SubjectService subjectService;
+    @Autowired
     private StudyService studyService;
 
     @GetMapping("/students")
@@ -68,6 +70,9 @@ public class StudentController extends AbstractController {
         model.addAttribute("student", student);
         model.addAttribute("studies", studyService.findByStudentAndYear(student, year));
         model.addAttribute("metaTitle", messageSource.getMessage("Students.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Detail", null, LocaleContextHolder.getLocale()));
+        if (getAuthUser().getRole().isAdmin()) {
+            model.addAttribute("subjects", subjectService.getWithoutStudent(id));
+        }
         return "views/students/detail";
     }
 

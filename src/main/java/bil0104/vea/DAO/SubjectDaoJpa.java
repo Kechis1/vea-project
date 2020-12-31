@@ -10,7 +10,7 @@ import java.util.List;
 
 @Transactional
 @Repository
-public class SubjectDaoJpa implements AbstractDao<Subject> {
+public class SubjectDaoJpa implements SubjectDao {
    
     @PersistenceContext
     private EntityManager em;
@@ -45,4 +45,10 @@ public class SubjectDaoJpa implements AbstractDao<Subject> {
         em.remove(subject);
     }
 
+    @Override
+    public List<Subject> getWithoutStudent(long id) {
+        return em.createQuery("select s from Subject s where s.id not in (select st.subject.id from Study st where st.student.id = :studentId)", Subject.class)
+                .setParameter("studentId", id)
+                .getResultList();
+    }
 }

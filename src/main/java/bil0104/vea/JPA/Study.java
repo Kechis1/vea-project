@@ -90,8 +90,8 @@ public class Study {
         return "Study{" +
                 " year=" + year +
                 ", points=" + points +
-                ", student=" + student.getLogin() +
-                ", subject=" + subject.getAbbreviation() +
+                ", student=" + (student == null ? "null" : student.getLogin())+
+                ", subject=" + (subject == null ? "null" : subject.getAbbreviation())+
                 '}';
     }
 }

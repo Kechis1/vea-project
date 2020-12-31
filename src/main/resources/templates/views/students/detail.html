@@ -70,7 +70,7 @@
                     <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit" th:text="OK"></button>
                 </form>
             </div>
-            <div>
+            <div class="mb-4">
                 <table class="border-collapse table-auto">
                     <thead>
                     <tr>
@@ -116,6 +116,20 @@
                     </tr>
                     </tbody>
                 </table>
+            </div>
+            <div th:if="${authUser.getRole().isAdmin() and subjects.size() != 0}">
+                <form th:object="${study}" th:action="@{/studies/add?url=students/{studentId}/detail(studentId=${student.id})}" method="post">
+                    <label class="inline-flex" for="subject" th:text="#{Labels.AddSubject} + ':'"></label>
+                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="subject" name="subjectId">
+                        <option th:each="subj : ${subjects}" th:text="${subj.getAbbreviation() + ' | ' + subj.getName()}" th:value="${subj.id}"></option>
+                    </select>
+                    <input type="hidden" name="studentId" th:value="${student.id}">
+                    <input type="hidden" name="year" th:value="${#request.getParameter('year') == null ? years.get(0) : #request.getParameter('year')}">
+                    <label class="inline-flex" for="addPoints" th:text="#{Study.Properties.Points} + ':'"></label>
+                    <input max="100" min="0" th:required="true" class="mr-2 p-2 border focus:ring-blue-500 focus:border-blue-500 flex-auto shadow-sm sm:text-sm border-gray-300 rounded-md"
+                           type="number" th:name="points" id="addPoints" th:value="0">
+                    <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit" th:text="OK"></button>
+                </form>
             </div>
         </div>
     </div>

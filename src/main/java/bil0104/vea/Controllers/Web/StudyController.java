@@ -38,4 +38,16 @@ public class StudyController extends AbstractController {
         studyService.delete(id);
         return "redirect:/" + url;
     }
+
+    @PostMapping(value = "/studies/add")
+    @Secured({"ROLE_ADMIN"})
+    public String create(@Validated @ModelAttribute Study study, @RequestParam String url, BindingResult studyResult) {
+        if (studyResult.hasErrors()) {
+            System.out.println(studyResult.getAllErrors());
+            return "redirect:/" + url;
+        }
+        System.out.println(study);
+        // studyService.insert(study);
+        return "redirect:/" + url;
+    }
 }
