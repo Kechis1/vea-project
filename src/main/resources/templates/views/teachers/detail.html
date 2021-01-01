@@ -1,10 +1,100 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="layout">
 <body>
-<!-- put, delete -->
+<div layout:fragment="content">
+    <div class="p-2" th:fragment="content">
+        <h1 class="font-bold text-3xl mb-4" th:text="#{Teachers.Body.Title} + ' - ' + #{Actions.Detail}"></h1>
+        <h2 class="font-medium text-xl mb-3" th:text="#{Labels.PersonalDetails}"></h2>
+        <div th:if="${!authUser.getRole().isAdmin()}" class="p-3 border border-gray-300 rounded-md mb-5 grid grid-cols-6 gap-6">
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.FirstName} + ':'"></div>
+                <div th:text="${teacher.firstName}"></div>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.LastName} + ':'"></div>
+                <div th:text="${teacher.lastName}"></div>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.Login} + ':'"></div>
+                <div th:text="${teacher.login}"></div>
+            </div>
+            <div class="col-span-6 sm:col-span-3">
+                <div class="font-medium" th:text="#{Person.Properties.DateOfBirth} + ':'"></div>
+                <div th:text="${#dates.format(teacher.dateOfBirth, 'dd. MM. yyyy')}"></div>
+            </div>
+        </div>
+        <div class="p-3 mb-5 border border-gray-300 rounded-md" th:if="${authUser.getRole().isAdmin()}">
+            <form th:action="@{/teachers/{id}/update(id=${teacher.id})}" th:object="${teacher}" th:method="post">
+                <div class="grid grid-cols-6 gap-6">
+                    <div class="col-span-6 sm:col-span-3">
+                        <label class="block text-sm font-medium text-gray-700" for="firstName" th:text="#{Person.Properties.FirstName}"></label>
+                        <input th:value="${teacher.firstName}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="firstName" id="firstName">
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <label class="block text-sm font-medium text-gray-700" for="lastName" th:text="#{Person.Properties.LastName}"></label>
+                        <input th:value="${teacher.lastName}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="lastName" id="lastName">
+                    </div>
+                    <div class="col-span-6 sm:col-span-3">
+                        <div class="font-medium" th:text="#{Person.Properties.Login} + ':'"></div>
+                        <div th:text="${teacher.login}"></div>
+                    </div>
+                    <div class="mb-4 col-span-6 sm:col-span-3">
+                        <label class="block text-sm font-medium text-gray-700" for="dateOfBirth" th:text="#{Person.Properties.DateOfBirth}"></label>
+                        <input th:value="${#dates.format(teacher.dateOfBirth, 'yyyy-MM-dd')}" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="yyyy-mm-dd" type="date" th:name="dateOfBirth" id="dateOfBirth">
+                    </div>
+                </div>
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" th:text="#{Actions.Save}"></button>
+                </div>
+            </form>
+        </div>
+        <h2 class="font-medium text-xl mb-3" th:text="#{Labels.MySubjects}"></h2>
+        <div class="p-3 border border-gray-300 rounded-md">
+            <div class="mb-4">
+                <table class="border-collapse table-auto">
+                    <thead>
+                    <tr>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Semester}"></th>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Abbreviation}"></th>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Name}"></th>
+                        <th class="p-2 border border-black" th:text="#{Subjects.Properties.Credits}"></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:if="${teacher.teaches == null or teacher.teaches.isEmpty()}">
+                        <td class="p-2 border border-black" th:text="#{Labels.NoData}" colspan="6"></td>
+                    </tr>
+                    <tr th:each="s : ${teacher.teaches}">
+                        <td class="p-2 border border-black" th:text="${#messages.msg('Semesters.' + s.semester)}"></td>
+                        <td class="p-2 border border-black" th:text="${s.abbreviation}"></td>
+                        <td class="p-2 border border-black" th:text="${s.name}"></td>
+                        <td class="p-2 border border-black" th:text="${s.credits}"></td>
+                        <td class="p-2 border border-black" th:if="${authUser.getRole().isAdmin()}">
+                            <div class="flex">
+                                <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
+                                   th:href="@{/teachers/{id}/subject/{subjectId}/detach(id=${teacher.id},subjectId=${s.id})}"
+                                   href="" th:text="#{Actions.Delete}"></a>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${authUser.getRole().isAdmin() and subjects.size() != 0}">
+                <form th:action="@{/teachers/{id}/subject/attach(id=${teacher.id})}" method="post">
+                    <label class="inline-flex" for="subject" th:text="#{Labels.AddSubject} + ':'"></label>
+                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="subject" th:name="subjectId">
+                        <option th:each="subj : ${subjects}" th:text="${subj.getAbbreviation() + ' | ' + subj.getName()}" th:value="${subj.id}"></option>
+                    </select>
+                    <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit" th:text="OK"></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
+

@@ -36,4 +36,9 @@ public class SubjectService {
     public List<Subject> getWithoutStudent(long id) {
         return subjectDao.getWithoutStudent(id);
     }
+
+    public List<Subject> getWithoutTeacher(long id) {
+        return subjectDao.getWithoutTeacher(id);
+    }
+
 }

@@ -64,6 +64,9 @@ public class Subject {
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
+    }
+
+    public void addTeacher(Teacher teacher) {
         teacher.teaches.add(this);
     }
 

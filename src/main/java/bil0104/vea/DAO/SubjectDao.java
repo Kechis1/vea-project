@@ -5,6 +5,6 @@ import bil0104.vea.JPA.Subject;
 import java.util.List;
 
 public interface SubjectDao extends AbstractDao<Subject> {
-
     List<Subject> getWithoutStudent(long id);
+    List<Subject> getWithoutTeacher(long id);
 }

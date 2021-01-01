@@ -99,7 +99,6 @@ public class Study {
 
     public void setStudent(Student student) {
         this.student = student;
-        student.studies.add(this);
     }
 
     public Subject getSubject() {
@@ -108,6 +107,9 @@ public class Study {
 
     public void setSubject(Subject subject) {
         this.subject = subject;
+    }
+
+    public void addSubject(Subject subject) {
         subject.studies.add(this);
     }
 
