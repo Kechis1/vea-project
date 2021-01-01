@@ -56,11 +56,12 @@ public class SubjectController extends AbstractController {
 
     @PostMapping(value = "/subjects/add")
     @Secured({"ROLE_ADMIN"})
-    public String create(@ModelAttribute @Validated Subject subject, BindingResult subjectResult) {
-        if (subjectResult.hasErrors()) {
+    public String create(@ModelAttribute("subject") @Validated Subject subject, BindingResult subjectResult) {
+        if (subjectResult.hasErrors() || subjectResult.getRawFieldValue("teacher.id") == null) {
             System.out.println(subjectResult.getAllErrors());
             return "views/subjects/add";
         }
+        subject.setTeacher(teacherService.findById((long) subjectResult.getRawFieldValue("teacher.id")));
         subjectService.insert(subject);
         return "redirect:/subjects/add";
     }

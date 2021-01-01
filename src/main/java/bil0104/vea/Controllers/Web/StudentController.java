@@ -9,6 +9,7 @@ import bil0104.vea.Services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.lang.Nullable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,29 +50,29 @@ public class StudentController extends AbstractController {
 
     @PostMapping(value = "/students/{id}/update")
     @Secured({"ROLE_ADMIN"})
-    public String update(@Validated @ModelAttribute Student student, @PathVariable long id) {
+    public String update(@RequestParam(required = false) String ayear, @Validated @ModelAttribute Student student, @PathVariable long id) {
         Student st = studentService.findById(id);
         st.setFirstName(student.getFirstName());
         st.setLastName(student.getLastName());
         st.setDateOfBirth(student.getDateOfBirth());
         st.setYear(student.getYear());
         studentService.update(st);
-        return "redirect:/students/" + id + "/detail";
+        return ayear == null ? "redirect:/students/" + id + "/detail" : "redirect:/students/" + id + "/detail?ayear=" + ayear;
     }
 
     @GetMapping(value = "/students/{id}/detail")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
-    public String detail(Model model, @PathVariable long id, @RequestParam(required = false) String year) {
+    public String detail(Model model, @PathVariable long id, @RequestParam(required = false) String ayear) {
         Student student = studentService.findById(id);
-        if (year == null) {
-            year = this.getCurrentAcademicYear();
+        if (ayear == null) {
+            ayear = this.getCurrentAcademicYear();
         }
         model.addAttribute("pageActive", "students");
         model.addAttribute("student", student);
-        model.addAttribute("studies", studyService.findByStudentAndYear(student, year));
+        model.addAttribute("studies", studyService.findByStudentAndYear(student, ayear));
         model.addAttribute("metaTitle", messageSource.getMessage("Students.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Detail", null, LocaleContextHolder.getLocale()));
         if (getAuthUser().getRole().isAdmin()) {
-            model.addAttribute("subjects", subjectService.getWithoutStudent(id));
+            model.addAttribute("subjects", subjectService.getAll());
         }
         return "views/students/detail";
     }

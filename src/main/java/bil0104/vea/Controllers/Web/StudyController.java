@@ -2,7 +2,9 @@ package bil0104.vea.Controllers.Web;
 
 import bil0104.vea.JPA.Study;
 import bil0104.vea.JPA.Subject;
+import bil0104.vea.Services.StudentService;
 import bil0104.vea.Services.StudyService;
+import bil0104.vea.Services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,10 @@ public class StudyController extends AbstractController {
 
     @Autowired
     private StudyService studyService;
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private SubjectService subjectService;
 
     @PostMapping(value = "/studies/{id}/update")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
@@ -41,13 +47,17 @@ public class StudyController extends AbstractController {
 
     @PostMapping(value = "/studies/add")
     @Secured({"ROLE_ADMIN"})
-    public String create(@Validated @ModelAttribute Study study, @RequestParam String url, BindingResult studyResult) {
-        if (studyResult.hasErrors()) {
+    public String create(@Validated @ModelAttribute("study") Study study, @RequestParam String url, BindingResult studyResult) {
+        if (studyResult.hasErrors() || studyResult.getRawFieldValue("studentId") == null || studyResult.getRawFieldValue("subjectId") == null) {
             System.out.println(studyResult.getAllErrors());
             return "redirect:/" + url;
         }
-        System.out.println(study);
-        // studyService.insert(study);
+        Study newStudy = new Study(study.getYear(), study.getPoints(), studentService.findById((long) studyResult.getRawFieldValue("studentId")), subjectService.findById((long) studyResult.getRawFieldValue("subjectId")));
+        Study found = studyService.findByUniqueKey(newStudy.getStudent().getId(), newStudy.getSubject().getId(), newStudy.getYear());
+        if (found != null) {
+            return "redirect:/" + url;
+        }
+        studyService.insert(newStudy);
         return "redirect:/" + url;
     }
 }

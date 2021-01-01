@@ -25,6 +25,11 @@ public class Study {
     @JoinColumn(name = "subject_id")
     public Subject subject;
 
+    @Transient
+    public long studentId;
+    @Transient
+    public long subjectId;
+
     public Study() {
     }
 
@@ -35,12 +40,33 @@ public class Study {
         this.subject = subject;
     }
 
+    public Study(String year, @Min(0) @Max(100) int points) {
+        this.year = year;
+        this.points = points;
+    }
+
     public Study(long id, String year, @Min(0) @Max(100) int points, Student student, Subject subject) {
         this.id = id;
         this.year = year;
         this.points = points;
         this.student = student;
         this.subject = subject;
+    }
+
+    public long getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(long studentId) {
+        this.studentId = studentId;
+    }
+
+    public long getSubjectId() {
+        return subjectId;
+    }
+
+    public void setSubjectId(long subjectId) {
+        this.subjectId = subjectId;
     }
 
     public long getId() {

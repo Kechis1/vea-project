@@ -31,7 +31,7 @@
             </div>
         </div>
         <div class="p-3 mb-5 border border-gray-300 rounded-md" th:if="${authUser.getRole().isAdmin()}">
-            <form th:action="@{/students/{id}/update(id=${student.id})}" th:object="${student}" th:method="post">
+            <form th:action="${#request.getParameter('ayear') == null ? '/students/' + student.id + '/update' : '/students/' + student.id + '/update?ayear=' + #request.getParameter('ayear')}" th:object="${student}" th:method="post">
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="firstName" th:text="#{Person.Properties.FirstName}"></label>
@@ -64,8 +64,8 @@
             <div class="mb-4">
                 <form th:action="@{/students/{id}/detail(id=${student.id})}" method="get">
                     <label class="inline-flex" for="year" th:text="#{Labels.AcademicYear} + ':'"></label>
-                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="year" name="year">
-                        <option th:each="y : ${years}" th:text="${y}" th:value="${y}" th:selected="${#request.getParameter('year') == null or not #request.getParameter('year').equals(y) ? false : true}"></option>
+                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="year" name="ayear">
+                        <option th:each="y : ${years}" th:text="${y}" th:value="${y}" th:selected="${#request.getParameter('ayear') == null or not #request.getParameter('ayear').equals(y) ? false : true}"></option>
                     </select>
                     <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit" th:text="OK"></button>
                 </form>
@@ -97,7 +97,7 @@
                                 class="p-2 border border-black" th:text="${s.points}"></td>
                             <td th:if="${authUser.getRole().isAdmin() or authUser.getId() == s.subject.teacher.getId()}"
                                 class="p-2 border border-black">
-                                <form th:action="@{/studies/{id}/update?url=students/{studentId}/detail(id=${s.id}, studentId=${s.student.id})}"
+                                <form th:action="${#request.getParameter('ayear') == null ? '/studies/' + s.id + '/update' : '/studies/' + s.id + '/update?url=students/' + student.id + '/detail?ayear=' + #request.getParameter('ayear')}"
                                       method="post" class="flex">
                                     <input max="100" min="0" th:required="true" class="mr-2 p-2 border focus:ring-blue-500 focus:border-blue-500 flex-auto shadow-sm sm:text-sm border-gray-300 rounded-md"
                                            type="number" th:name="points" id="points" th:value="${s.points}">
@@ -118,13 +118,13 @@
                 </table>
             </div>
             <div th:if="${authUser.getRole().isAdmin() and subjects.size() != 0}">
-                <form th:object="${study}" th:action="@{/studies/add?url=students/{studentId}/detail(studentId=${student.id})}" method="post">
+                <form modelAttribute="study" th:object="${study}" th:action="${#request.getParameter('ayear') == null ? '/studies/add?url=students/' + student.id + '/detail' : '/studies/add?url=students/' + student.id + '/detail?ayear=' + #request.getParameter('ayear')}" method="post">
                     <label class="inline-flex" for="subject" th:text="#{Labels.AddSubject} + ':'"></label>
-                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="subject" name="subjectId">
+                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="subject" th:name="subjectId">
                         <option th:each="subj : ${subjects}" th:text="${subj.getAbbreviation() + ' | ' + subj.getName()}" th:value="${subj.id}"></option>
                     </select>
-                    <input type="hidden" name="studentId" th:value="${student.id}">
-                    <input type="hidden" name="year" th:value="${#request.getParameter('year') == null ? years.get(0) : #request.getParameter('year')}">
+                    <input type="hidden" th:name="studentId" th:value="${student.id}">
+                    <input type="hidden" th:name="year" th:value="${#request.getParameter('ayear') == null ? years.get(0) : #request.getParameter('ayear')}">
                     <label class="inline-flex" for="addPoints" th:text="#{Study.Properties.Points} + ':'"></label>
                     <input max="100" min="0" th:required="true" class="mr-2 p-2 border focus:ring-blue-500 focus:border-blue-500 flex-auto shadow-sm sm:text-sm border-gray-300 rounded-md"
                            type="number" th:name="points" id="addPoints" th:value="0">

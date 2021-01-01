@@ -35,4 +35,12 @@ public class StudyService {
     public void update(Study study) {
         studyDao.update(study);
     }
+
+    public Study findByUniqueKey(long studentId, long subjectId, String year) {
+        return studyDao.findByUniqueKey(studentId, subjectId, year);
+    }
+
+    public List<Study> getAll() {
+        return studyDao.getAll();
+    }
 }

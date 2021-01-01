@@ -1,12 +1,12 @@
 package bil0104.vea.DAO;
 
 import bil0104.vea.JPA.Person;
-import bil0104.vea.JPA.Student;
 import bil0104.vea.JPA.Study;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.transaction.Transaction;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -45,6 +45,16 @@ public class StudyDaoJpa implements StudyDao {
         return em.createQuery("select st from Study st where st.id = :id", Study.class)
                 .setParameter("id", id)
                 .getSingleResult();
+    }
+
+    @Override
+    public Study findByUniqueKey(long studentId, long subjectId, String year) {
+        List<Study> items = em.createQuery("select st from Study st where st.student.id = :studentId and st.subject.id = :subjectId and st.year = :year", Study.class)
+                .setParameter("studentId", studentId)
+                .setParameter("subjectId", subjectId)
+                .setParameter("year", year)
+                .getResultList();
+        return items.isEmpty() ? null : items.get(0);
     }
 
     @Override

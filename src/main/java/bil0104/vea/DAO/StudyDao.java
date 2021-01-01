@@ -17,4 +17,6 @@ public interface StudyDao {
     Study find(long id);
 
     void update(Study study);
+
+    Study findByUniqueKey(long studentId, long subjectId, String year);
 }
