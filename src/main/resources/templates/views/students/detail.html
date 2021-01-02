@@ -97,7 +97,7 @@
                                 class="p-2 border border-black" th:text="${s.points}"></td>
                             <td th:if="${authUser.getRole().isAdmin() or (s.subject.teacher != null and authUser.getId() == s.subject.teacher.getId())}"
                                 class="p-2 border border-black">
-                                <form th:action="${#request.getParameter('ayear') == null ? '/studies/' + s.id + '/update' : '/studies/' + s.id + '/update?url=students/' + student.id + '/detail?ayear=' + #request.getParameter('ayear')}"
+                                <form th:action="${#request.getParameter('ayear') == null ? '/studies/' + s.id + '/update?url=students/' + student.id + '/detail' : '/studies/' + s.id + '/update?url=students/' + student.id + '/detail?ayear=' + #request.getParameter('ayear')}"
                                       method="post" class="flex">
                                     <input max="100" min="0" th:required="true" class="mr-2 p-2 border focus:ring-blue-500 focus:border-blue-500 flex-auto shadow-sm sm:text-sm border-gray-300 rounded-md"
                                            type="number" th:name="points" id="points" th:value="${s.points}">
