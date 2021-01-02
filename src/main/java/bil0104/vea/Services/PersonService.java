@@ -48,4 +48,8 @@ public class PersonService implements UserDetailsService {
                 .roles(appUser.getRole().toString())
                 .build();
     }
+
+    public Person findById(long id) {
+        return personDao.findById(id);
+    }
 }
