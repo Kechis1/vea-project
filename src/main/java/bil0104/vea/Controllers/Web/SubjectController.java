@@ -1,9 +1,8 @@
 package bil0104.vea.Controllers.Web;
 
-import bil0104.vea.DAO.StudyDao;
-import bil0104.vea.JPA.Semester;
-import bil0104.vea.JPA.Subject;
-import bil0104.vea.JPA.Teacher;
+import bil0104.vea.Entities.Semester;
+import bil0104.vea.Entities.Subject;
+import bil0104.vea.Entities.Teacher;
 import bil0104.vea.Services.StudentService;
 import bil0104.vea.Services.StudyService;
 import bil0104.vea.Services.SubjectService;

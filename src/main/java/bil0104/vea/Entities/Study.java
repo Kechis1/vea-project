@@ -1,4 +1,4 @@
-package bil0104.vea.JPA;
+package bil0104.vea.Entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;

@@ -1,6 +1,6 @@
 package bil0104.vea.Converters;
 
-import bil0104.vea.JPA.Student;
+import bil0104.vea.Entities.Student;
 import bil0104.vea.Services.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;

@@ -1,7 +1,7 @@
-package bil0104.vea.DAO;
+package bil0104.vea.DAO.JPA;
 
-import bil0104.vea.JPA.Person;
-import bil0104.vea.JPA.Person;
+import bil0104.vea.DAO.PersonDao;
+import bil0104.vea.Entities.Person;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;

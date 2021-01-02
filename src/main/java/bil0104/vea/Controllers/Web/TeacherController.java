@@ -1,6 +1,6 @@
 package bil0104.vea.Controllers.Web;
 
-import bil0104.vea.JPA.*;
+import bil0104.vea.Entities.*;
 import bil0104.vea.Services.SubjectService;
 import bil0104.vea.Services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.text.Normalizer;
-import java.util.List;
 
 import static bil0104.vea.Utils.EncryptedPasswordUtils.encryptPassword;
 

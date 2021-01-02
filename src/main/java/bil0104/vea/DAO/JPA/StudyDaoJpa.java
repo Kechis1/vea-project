@@ -1,13 +1,13 @@
-package bil0104.vea.DAO;
+package bil0104.vea.DAO.JPA;
 
-import bil0104.vea.JPA.Person;
-import bil0104.vea.JPA.Study;
-import bil0104.vea.JPA.Subject;
+import bil0104.vea.DAO.StudyDao;
+import bil0104.vea.Entities.Person;
+import bil0104.vea.Entities.Study;
+import bil0104.vea.Entities.Subject;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transaction;
 import javax.transaction.Transactional;
 import java.util.List;
 

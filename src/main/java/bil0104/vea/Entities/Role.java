@@ -1,4 +1,4 @@
-package bil0104.vea.JPA;
+package bil0104.vea.Entities;
 
 public enum Role {
     ADMIN, TEACHER, STUDENT;

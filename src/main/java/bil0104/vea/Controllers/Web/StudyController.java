@@ -1,7 +1,6 @@
 package bil0104.vea.Controllers.Web;
 
-import bil0104.vea.JPA.Study;
-import bil0104.vea.JPA.Subject;
+import bil0104.vea.Entities.Study;
 import bil0104.vea.Services.StudentService;
 import bil0104.vea.Services.StudyService;
 import bil0104.vea.Services.SubjectService;

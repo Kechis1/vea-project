@@ -2,7 +2,7 @@ package bil0104.vea.Services;
 
 
 import bil0104.vea.DAO.*;
-import bil0104.vea.JPA.*;
+import bil0104.vea.Entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

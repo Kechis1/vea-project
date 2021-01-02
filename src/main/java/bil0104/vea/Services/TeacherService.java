@@ -1,7 +1,7 @@
 package bil0104.vea.Services;
 
 import bil0104.vea.DAO.TeacherDao;
-import bil0104.vea.JPA.Teacher;
+import bil0104.vea.Entities.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

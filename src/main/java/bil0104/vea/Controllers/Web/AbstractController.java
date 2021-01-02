@@ -1,6 +1,6 @@
 package bil0104.vea.Controllers.Web;
 
-import bil0104.vea.JPA.Person;
+import bil0104.vea.Entities.Person;
 import bil0104.vea.Services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

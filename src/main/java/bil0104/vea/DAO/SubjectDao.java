@@ -1,6 +1,6 @@
 package bil0104.vea.DAO;
 
-import bil0104.vea.JPA.Subject;
+import bil0104.vea.Entities.Subject;
 
 import java.util.List;
 

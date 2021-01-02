@@ -1,8 +1,7 @@
-package bil0104.vea.JPA;
+package bil0104.vea.Entities;
 
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;

@@ -1,7 +1,7 @@
 package bil0104.vea.Services;
 
 import bil0104.vea.DAO.SubjectDao;
-import bil0104.vea.JPA.Subject;
+import bil0104.vea.Entities.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,15 +1,14 @@
 package bil0104.vea.Controllers.Web;
 
-import bil0104.vea.JPA.Person;
-import bil0104.vea.JPA.Role;
-import bil0104.vea.JPA.Student;
+import bil0104.vea.Entities.Person;
+import bil0104.vea.Entities.Role;
+import bil0104.vea.Entities.Student;
 import bil0104.vea.Services.StudentService;
 import bil0104.vea.Services.StudyService;
 import bil0104.vea.Services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.lang.Nullable;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
