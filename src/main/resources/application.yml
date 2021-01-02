@@ -3,11 +3,10 @@ logging:
     ROOT: INFO
 spring:
   datasource:
-    #    url: jdbc:derby://localhost/vea2020;create=true
-    #    username: app
-    #    password: app
-    #    driverClassName: org.apache.derby.client.ClientAutoloadedDriver
-    url: jdbc:h2:mem:bil0104
+    #url: jdbc:h2:mem:bil0104
+    url: jdbc:h2:file:./edison
+    username: admin
+    password: admin
     driverClassName: org.h2.Driver
   messages:
     basename: messages
@@ -18,6 +17,9 @@ spring:
   http:
     encoding:
       charset: UTF-8
+      enabled: true
+  h2:
+    console:
       enabled: true
 server:
   port: 8082

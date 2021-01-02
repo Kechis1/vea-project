@@ -41,7 +41,7 @@ public class SubjectDaoJdbc implements SubjectDao {
             }
             String sqlCreateTable;
             if ("H2".equals(dbProducerName)) {
-                sqlCreateTable = "create table subjects(id BIGINT NOT NULL AUTO_INCREMENT," +
+                sqlCreateTable = "CREATE TABLE IF NOT EXISTS subjects(id BIGINT NOT NULL AUTO_INCREMENT," +
                         " abbreviation varchar(10) not null, " +
                         " name varchar(255) not null, " +
                         " year smallint not null, " +

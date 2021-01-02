@@ -41,7 +41,7 @@ public class TeacherDaoJdbc implements TeacherDao {
             }
             String sqlCreateTable;
             if ("H2".equals(dbProducerName)) {
-                sqlCreateTable = "create table teachers(id BIGINT NOT NULL AUTO_INCREMENT," +
+                sqlCreateTable = "CREATE TABLE IF NOT EXISTS teachers(id BIGINT NOT NULL AUTO_INCREMENT," +
                         " login varchar(10) not null, " +
                         " firstName varchar(255) not null, " +
                         " lastName varchar(255) not null, " +

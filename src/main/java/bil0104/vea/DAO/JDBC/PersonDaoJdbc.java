@@ -35,7 +35,7 @@ public class PersonDaoJdbc implements PersonDao<Person> {
             }
             String sqlCreateTable;
             if ("H2".equals(dbProducerName)) {
-                sqlCreateTable = "create table persons(id BIGINT NOT NULL AUTO_INCREMENT," +
+                sqlCreateTable = "CREATE TABLE IF NOT EXISTS persons(id BIGINT NOT NULL AUTO_INCREMENT," +
                         " login varchar(10) not null, " +
                         " firstName varchar(255) not null, " +
                         " lastName varchar(255) not null, " +

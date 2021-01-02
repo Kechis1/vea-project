@@ -37,7 +37,7 @@ public class StudentDaoJdbc implements StudentDao {
             }
             String sqlCreateTable;
             if ("H2".equals(dbProducerName)) {
-                sqlCreateTable = "create table students(id BIGINT NOT NULL AUTO_INCREMENT," +
+                sqlCreateTable = "CREATE TABLE IF NOT EXISTS students(id BIGINT NOT NULL AUTO_INCREMENT," +
                         " login varchar(10) not null, " +
                         " firstName varchar(255) not null, " +
                         " lastName varchar(255) not null, " +

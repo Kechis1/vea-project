@@ -1,3 +1,4 @@
+/*
 package bil0104.vea.Services;
 
 
@@ -86,3 +87,4 @@ public class InitDbService {
         }
     }
 }
+*/

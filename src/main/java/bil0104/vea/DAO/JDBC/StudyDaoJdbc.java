@@ -38,7 +38,7 @@ public class StudyDaoJdbc implements StudyDao {
             }
             String sqlCreateTable;
             if ("H2".equals(dbProducerName)) {
-                sqlCreateTable = "create table studies(id BIGINT NOT NULL AUTO_INCREMENT," +
+                sqlCreateTable = "CREATE TABLE IF NOT EXISTS studies(id BIGINT NOT NULL AUTO_INCREMENT," +
                         " year varchar(12) not null, " +
                         " points int, " +
                         " student_id int not null, " +
