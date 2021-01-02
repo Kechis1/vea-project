@@ -3,6 +3,7 @@ package bil0104.vea.Services;
 import bil0104.vea.DAO.StudyDao;
 import bil0104.vea.JPA.Person;
 import bil0104.vea.JPA.Study;
+import bil0104.vea.JPA.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,5 +51,9 @@ public class StudyService {
 
     public void deleteWhereStudentId(long id) {
         studyDao.deleteWhereStudentId(id);
+    }
+
+    public List<Study> findBySubjectAndYear(Subject subject, String year) {
+        return studyDao.findBySubjectAndYear(subject, year);
     }
 }

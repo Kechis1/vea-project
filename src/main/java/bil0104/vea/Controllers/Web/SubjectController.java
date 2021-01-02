@@ -4,6 +4,7 @@ import bil0104.vea.DAO.StudyDao;
 import bil0104.vea.JPA.Semester;
 import bil0104.vea.JPA.Subject;
 import bil0104.vea.JPA.Teacher;
+import bil0104.vea.Services.StudentService;
 import bil0104.vea.Services.StudyService;
 import bil0104.vea.Services.SubjectService;
 import bil0104.vea.Services.TeacherService;
@@ -31,6 +32,8 @@ public class SubjectController extends AbstractController {
     @Autowired
     private TeacherService teacherService;
     @Autowired
+    private StudentService studentService;
+    @Autowired
     private StudyService studyService;
 
     @GetMapping("/subjects")
@@ -52,12 +55,20 @@ public class SubjectController extends AbstractController {
     }
 
     @GetMapping(value = "/subjects/{id}/detail")
-    public String detail(Model model, @PathVariable long id) {
+    public String detail(Model model, @PathVariable long id, @RequestParam(required = false) String ayear) {
+        Subject subject = subjectService.findById(id);
+        if (ayear == null) {
+            ayear = this.getCurrentAcademicYear();
+        }
         model.addAttribute("pageActive", "subjects");
+        model.addAttribute("subject", subject);
+        model.addAttribute("studies", studyService.findBySubjectAndYear(subject, ayear));
         model.addAttribute("metaTitle", messageSource.getMessage("Subjects.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Detail", null, LocaleContextHolder.getLocale()));
-        model.addAttribute("subject", subjectService.findById(id));
         model.addAttribute("semesters", Semester.values());
         model.addAttribute("teachers", teacherService.getAll());
+        if (getAuthUser().getRole().isAdmin()) {
+            model.addAttribute("students", studentService.getAll());
+        }
         return "views/subjects/detail";
     }
 

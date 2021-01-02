@@ -2,6 +2,7 @@ package bil0104.vea.DAO;
 
 import bil0104.vea.JPA.Person;
 import bil0104.vea.JPA.Study;
+import bil0104.vea.JPA.Subject;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -75,6 +76,14 @@ public class StudyDaoJpa implements StudyDao {
         em.createQuery("delete from Study s where s.student.id = :id")
                 .setParameter("id", id)
                 .executeUpdate();
+    }
+
+    @Override
+    public List<Study> findBySubjectAndYear(Subject subject, String year) {
+        return em.createQuery("select st from Study st join Student su on st.student = su where st.subject = :subject and st.year = :year", Study.class)
+                .setParameter("subject", subject)
+                .setParameter("year", year)
+                .getResultList();
     }
 
     @Override

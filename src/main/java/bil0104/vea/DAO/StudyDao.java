@@ -2,6 +2,7 @@ package bil0104.vea.DAO;
 
 import bil0104.vea.JPA.Person;
 import bil0104.vea.JPA.Study;
+import bil0104.vea.JPA.Subject;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface StudyDao {
     void deleteWhereSubjectId(long id);
 
     void deleteWhereStudentId(long id);
+
+    List<Study> findBySubjectAndYear(Subject subject, String year);
 }
