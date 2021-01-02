@@ -3,6 +3,7 @@ package bil0104.vea.Controllers.Web;
 import bil0104.vea.Entities.Person;
 import bil0104.vea.Entities.Role;
 import bil0104.vea.Entities.Student;
+import bil0104.vea.Entities.Study;
 import bil0104.vea.Services.StudentService;
 import bil0104.vea.Services.StudyService;
 import bil0104.vea.Services.SubjectService;
@@ -15,6 +16,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 import static bil0104.vea.Utils.EncryptedPasswordUtils.encryptPassword;
 
@@ -66,9 +69,10 @@ public class StudentController extends AbstractController {
         if (ayear == null) {
             ayear = this.getCurrentAcademicYear();
         }
+        List<Study> stu = studyService.findByStudentAndYear(student, ayear);
         model.addAttribute("pageActive", "students");
         model.addAttribute("student", student);
-        model.addAttribute("studies", studyService.findByStudentAndYear(student, ayear));
+        model.addAttribute("studies", stu);
         model.addAttribute("metaTitle", messageSource.getMessage("Students.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Detail", null, LocaleContextHolder.getLocale()));
         if (getAuthUser().getRole().isAdmin()) {
             model.addAttribute("subjects", subjectService.getAll());
@@ -83,7 +87,6 @@ public class StudentController extends AbstractController {
             System.out.println(studentResult.getAllErrors());
             return "views/students/add";
         }
-        System.out.println("jsem tu");
         student.setLogin(Person.findNextLogin(student, studentService::findByLogin));
         student.setRole(Role.STUDENT);
         student.setPassword(encryptPassword(student.getPassword()));

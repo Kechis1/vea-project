@@ -82,7 +82,7 @@ public class StudyDaoJdbc implements StudyDao {
 
     @Override
     public List<Study> findByStudentAndYear(Person person, String year) {
-        return jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ? and st.year = ?", new Object[]{person.getId(), year}, new StudyMapper());
+        return jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id, t.id t_id, t.firstname t_firstname, t.lastname t_lastname, t.password t_password from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id join teachers t on sub.teacher_id = t.id where st.student_id = ? and st.year = ?", new Object[]{person.getId(), year}, new StudyMapper());
     }
 
     @Override

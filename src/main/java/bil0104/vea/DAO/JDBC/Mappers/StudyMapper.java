@@ -1,13 +1,13 @@
 package bil0104.vea.DAO.JDBC.Mappers;
 
-import bil0104.vea.Entities.Semester;
-import bil0104.vea.Entities.Student;
-import bil0104.vea.Entities.Study;
-import bil0104.vea.Entities.Subject;
+import bil0104.vea.Entities.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.jdbc.core.RowMapper;
 
+import javax.validation.constraints.NotNull;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 public class StudyMapper implements RowMapper<Study> {
     @Override
@@ -30,9 +30,28 @@ public class StudyMapper implements RowMapper<Study> {
                         Semester.valueOf(rs.getString("sub_semester")),
                         rs.getInt("sub_credits"),
                         null,
-                        null));
+                        !isThere(rs, "t_firstname") ?
+                                null :
+                                new Teacher(rs.getLong("t_id"),
+                                        null,
+                                        rs.getString("t_firstname"),
+                                        rs.getString("t_lastname"),
+                                        null,
+                                        rs.getString("t_password"),
+                                        null)));
         st.setStudentId(rs.getInt("student_id"));
         st.setSubjectId(rs.getInt("subject_id"));
         return st;
+    }
+
+    private boolean isThere(ResultSet rs, String column) {
+        try {
+            rs.findColumn(column);
+            return true;
+        } catch (SQLException ignored) {
+
+        }
+
+        return false;
     }
 }
