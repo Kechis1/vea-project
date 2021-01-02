@@ -15,10 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,7 +56,28 @@ public class SubjectController extends AbstractController {
         model.addAttribute("pageActive", "subjects");
         model.addAttribute("metaTitle", messageSource.getMessage("Subjects.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Detail", null, LocaleContextHolder.getLocale()));
         model.addAttribute("subject", subjectService.findById(id));
+        model.addAttribute("semesters", Semester.values());
+        model.addAttribute("teachers", teacherService.getAll());
         return "views/subjects/detail";
+    }
+
+    @PostMapping(value = "/subjects/{id}/update")
+    @Secured({"ROLE_ADMIN"})
+    public String update(@Validated @ModelAttribute(name = "subject") Subject subject, BindingResult subjectResult, @PathVariable long id, @RequestParam(required = false) String ayear) {
+        Subject st = subjectService.findById(id);
+        st.setAbbreviation(subject.getAbbreviation());
+        st.setName(subject.getName());
+        st.setSemester(subject.getSemester());
+        st.setYear(subject.getYear());
+        st.setCredits(subject.getCredits());
+        if (subjectResult.getRawFieldValue("teacher.id") != null) {
+            st.setTeacher(teacherService.findById((long) subjectResult.getRawFieldValue("teacher.id")));
+        } else {
+            st.setTeacher(null);
+        }
+        subjectService.update(st);
+
+        return "redirect:/subjects/" + id + "/detail" + (ayear == null ? "" : "?ayear=" + ayear);
     }
 
     @PostMapping(value = "/subjects/add")
