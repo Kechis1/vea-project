@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class SubjectMapper implements RowMapper<Subject> {
     @Override
     public Subject mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new Subject(rs.getLong("id"),
+        Subject sub = new Subject(rs.getLong("id"),
                 rs.getString("abbreviation"),
                 rs.getString("name"),
                 rs.getInt("year"),
@@ -18,5 +18,7 @@ public class SubjectMapper implements RowMapper<Subject> {
                 rs.getInt("credits"),
                 null,
                 null);
+        sub.setTeacherId(rs.getInt("teacher_id"));
+        return sub;
     }
 }

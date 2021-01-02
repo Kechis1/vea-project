@@ -1,30 +1,29 @@
 package bil0104.vea.DAO.JDBC;
 
+import bil0104.vea.DAO.JDBC.Mappers.StudentMapper;
+import bil0104.vea.DAO.JDBC.Mappers.StudyMapper;
 import bil0104.vea.DAO.StudentDao;
 import bil0104.vea.Entities.Student;
+import bil0104.vea.Entities.Study;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 @Repository
 public class StudentDaoJdbc implements StudentDao {
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert studentInsert;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
-        studentInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("students").usingGeneratedKeyColumns("id")
-                .usingColumns("login", "firstName", "lastName", "dateOfBirth", "password", "role", "year");
     }
 
     @PostConstruct
@@ -58,32 +57,62 @@ public class StudentDaoJdbc implements StudentDao {
     }
 
     @Override
-    public Student insert(Student entity) {
-        return null;
+    public Student insert(Student student) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement("insert into students (login, firstname, lastname, dateofbirth, password, role, year) values (?,?,?,?,?,?,?)");
+            ps.setString(1, student.getLogin());
+            ps.setString(2, student.getFirstName());
+            ps.setString(3, student.getLastName());
+            ps.setDate(4, (Date) student.getDateOfBirth());
+            ps.setString(5, student.getPassword());
+            ps.setString(6, student.getRole().toString());
+            ps.setInt(6, student.getYear());
+            return ps;
+        }, keyHolder);
+        student.setId((long) keyHolder.getKey());
+        return student;
     }
 
     @Override
     public List<Student> getAll() {
-        return null;
+        List<Student> students = jdbcTemplate.query("select * from students", new StudentMapper());
+        for (Student t : students) {
+            List<Study> studies = jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[] {t.getId()}, new StudyMapper());
+            t.setStudies(studies);
+        }
+        return students;
     }
 
     @Override
     public Student findById(long id) {
-        return null;
+        Student student = jdbcTemplate.queryForObject("select * from students where id = ?", new Object[]{id}, new StudentMapper());
+        if (student != null) {
+            List<Study> studies = jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{id}, new StudyMapper());
+            student.setStudies(studies);
+        }
+        return student;
     }
 
     @Override
-    public Student update(Student entity) {
-        return null;
+    public Student update(Student student) {
+        jdbcTemplate.update("UPDATE students SET firstname = ?, lastname = ?, dateofbirth = ?, year = ? WHERE id = ?",
+                student.getFirstName(), student.getLastName(), student.getDateOfBirth(), student.getYear(), student.getId());
+        return student;
     }
 
     @Override
     public void delete(long id) {
-
+        jdbcTemplate.update("DELETE FROM students WHERE id = ?", id);
     }
 
     @Override
     public Student findByLogin(String login) {
-        return null;
+        Student student = jdbcTemplate.queryForObject("select * from students where login=?", new Object[] {login} , new StudentMapper());
+        if (student != null) {
+            List<Study> studies = jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{student.getId()}, new StudyMapper());
+            student.setStudies(studies);
+        }
+        return student;
     }
 }

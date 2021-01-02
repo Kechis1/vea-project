@@ -1,5 +1,6 @@
 package bil0104.vea.DAO.JDBC;
 
+import bil0104.vea.DAO.JDBC.Mappers.StudyMapper;
 import bil0104.vea.DAO.StudyDao;
 import bil0104.vea.Entities.Person;
 import bil0104.vea.Entities.Study;
@@ -7,27 +8,23 @@ import bil0104.vea.Entities.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 @Repository
 public class StudyDaoJdbc implements StudyDao {
 
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert studyInsert;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
-        studyInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("studies").usingGeneratedKeyColumns("id")
-                .usingColumns("year", "points", "student_id", "subject_id");
     }
 
     @PostConstruct
@@ -60,51 +57,61 @@ public class StudyDaoJdbc implements StudyDao {
 
     @Override
     public void insert(Study study) {
-
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement("insert into studies (year, points, student_id, subject_id) values (?,?,?,?)");
+            ps.setString(1, study.getYear());
+            ps.setInt(2, study.getPoints());
+            ps.setLong(3, study.getStudent().getId());
+            ps.setLong(4, study.getSubject().getId());
+            return ps;
+        }, keyHolder);
+        study.setId((long) keyHolder.getKey());
     }
 
     @Override
     public List<Study> getAll() {
-        return null;
-    }
-
-    @Override
-    public List<Study> findByStudentAndYear(Person person, String year) {
-        return null;
+        return jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id", new StudyMapper());
     }
 
     @Override
     public void delete(long id) {
+        jdbcTemplate.update("DELETE FROM studies WHERE id = ?", id);
+    }
 
+    @Override
+    public List<Study> findByStudentAndYear(Person person, String year) {
+        return jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ? and st.year = ?", new Object[]{person.getId(), year}, new StudyMapper());
     }
 
     @Override
     public Study find(long id) {
-        return null;
-    }
-
-    @Override
-    public void update(Study study) {
-
+        return jdbcTemplate.queryForObject("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{id}, new StudyMapper());
     }
 
     @Override
     public Study findByUniqueKey(long studentId, long subjectId, String year) {
-        return null;
+        return jdbcTemplate.queryForObject("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ? and st.subject_id = ? and st.year = ?", new Object[]{studentId, subjectId, year}, new StudyMapper());
     }
 
     @Override
     public void deleteWhereSubjectId(long id) {
-
+        jdbcTemplate.update("DELETE FROM teachers WHERE subject_id = ?", id);
     }
 
     @Override
     public void deleteWhereStudentId(long id) {
+        jdbcTemplate.update("DELETE FROM teachers WHERE student_id = ?", id);
+    }
 
+    @Override
+    public void update(Study study) {
+        jdbcTemplate.update("UPDATE studies SET points = ? WHERE id = ?",
+                study.getPoints(), study.getId());
     }
 
     @Override
     public List<Study> findBySubjectAndYear(Subject subject, String year) {
-        return null;
+        return jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.subject_id = ? and st.year = ?", new Object[]{subject.getId(), year}, new StudyMapper());
     }
 }

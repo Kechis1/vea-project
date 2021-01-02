@@ -1,5 +1,7 @@
 package bil0104.vea.Entities;
 
+import org.springframework.lang.Nullable;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -25,6 +27,9 @@ public class Subject {
     @ManyToOne
     @JoinColumn(name="teacher_id")
     public Teacher teacher;
+    @Transient
+    @Nullable
+    public long teacherId;
 
     public Subject() {
     }
@@ -136,5 +141,13 @@ public class Subject {
                 ", teacher=" + (teacher == null ? "null" : teacher.getLogin()) +
                 ", studies=" + studies +
                 '}';
+    }
+
+    public void setTeacherId(long teacherId) {
+        this.teacherId = teacherId;
+    }
+
+    public long getTeacherId() {
+        return teacherId;
     }
 }

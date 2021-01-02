@@ -69,7 +69,7 @@ public class TeacherDaoJdbc implements TeacherDao {
             ps.setString(3, teacher.getLastName());
             ps.setDate(4, (Date) teacher.getDateOfBirth());
             ps.setString(5, teacher.getPassword());
-            ps.setString(5, teacher.getRole().toString());
+            ps.setString(6, teacher.getRole().toString());
             return ps;
         }, keyHolder);
         teacher.setId((long) keyHolder.getKey());

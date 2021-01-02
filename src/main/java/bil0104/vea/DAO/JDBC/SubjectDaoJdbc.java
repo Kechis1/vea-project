@@ -1,30 +1,33 @@
 package bil0104.vea.DAO.JDBC;
 
+import bil0104.vea.DAO.JDBC.Mappers.StudentMapper;
+import bil0104.vea.DAO.JDBC.Mappers.StudyMapper;
+import bil0104.vea.DAO.JDBC.Mappers.SubjectMapper;
+import bil0104.vea.DAO.JDBC.Mappers.TeacherMapper;
 import bil0104.vea.DAO.SubjectDao;
+import bil0104.vea.Entities.Student;
+import bil0104.vea.Entities.Study;
 import bil0104.vea.Entities.Subject;
+import bil0104.vea.Entities.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.List;
 
 @Repository
 public class SubjectDaoJdbc implements SubjectDao {
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert subjectInsert;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
         jdbcTemplate = new JdbcTemplate(dataSource);
-        subjectInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("subjects").usingGeneratedKeyColumns("id")
-                .usingColumns("abbreviation", "name", "year", "semester", "credits", "teacher_id");
     }
 
     @PostConstruct
@@ -57,47 +60,79 @@ public class SubjectDaoJdbc implements SubjectDao {
     }
 
     @Override
-    public Subject insert(Subject entity) {
-        return null;
+    public Subject insert(Subject subject) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement("insert into subjects (abbreviation, name, year, semester, credits, teacher_id) values (?,?,?,?,?,?)");
+            ps.setString(1, subject.getAbbreviation());
+            ps.setString(2, subject.getName());
+            ps.setInt(3, subject.getYear());
+            ps.setString(4, subject.getSemester().toString());
+            ps.setInt(5, subject.getCredits());
+            ps.setLong(6, subject.getTeacher().getId());
+            return ps;
+        }, keyHolder);
+        subject.setId((long) keyHolder.getKey());
+        return subject;
     }
 
     @Override
     public List<Subject> getAll() {
-        return null;
+        List<Subject> subjects = jdbcTemplate.query("select * from subjects", new SubjectMapper());
+        for (Subject t : subjects) {
+            if (t.getTeacherId() != 0) {
+                Teacher teacher = jdbcTemplate.queryForObject("select * from teachers where id = ?", new Object[]{t.getTeacherId()}, new TeacherMapper());
+                t.setTeacher(teacher);
+            }
+            List<Study> studies = jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.subject_id = ?", new Object[] {t.getId()}, new StudyMapper());
+            t.setStudies(studies);
+        }
+        return subjects;
     }
 
     @Override
     public Subject findById(long id) {
-        return null;
+        Subject subject = jdbcTemplate.queryForObject("select * from subjects where id = ?", new Object[]{id}, new SubjectMapper());
+        if (subject != null) {
+            if (subject.getTeacherId() != 0) {
+                Teacher teacher = jdbcTemplate.queryForObject("select * from teachers where id = ?", new Object[]{subject.getTeacherId()}, new TeacherMapper());
+                subject.setTeacher(teacher);
+            }
+            List<Study> studies = jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.subject_id = ?", new Object[]{subject.getId()}, new StudyMapper());
+            subject.setStudies(studies);
+        }
+        return subject;
     }
 
     @Override
-    public Subject update(Subject entity) {
-        return null;
+    public Subject update(Subject subject) {
+        jdbcTemplate.update("UPDATE subjects SET abbreviation = ?, name = ?, year = ?, semester = ?, credits = ?, teacher_id = ? WHERE id = ?",
+                subject.getAbbreviation(), subject.getName(), subject.getYear(), subject.getSemester().toString(), subject.getCredits(), subject.getTeacher().getId(), subject.getId());
+        return subject;
     }
 
     @Override
     public void delete(long id) {
-
+        jdbcTemplate.update("DELETE FROM subjects WHERE id = ?", id);
     }
 
     @Override
     public List<Subject> getWithoutStudent(long id) {
-        return null;
+        return jdbcTemplate.query("select * from subjects s where s.id not in (select st.subject_id from studies st where st.student_id = ?)", new Object[] {id}, new SubjectMapper());
     }
 
     @Override
     public List<Subject> getWithoutTeacher() {
-        return null;
-    }
-
-    @Override
-    public void delete(Subject subject) {
-
+        return jdbcTemplate.query("select * from subjects where teacher_id is null", new SubjectMapper());
     }
 
     @Override
     public void detachTeacher(long id) {
+        jdbcTemplate.update("UPDATE subjects SET teacher_id = null WHERE teacher_id = ?", id);
+    }
 
+    @Override
+    public void delete(Subject subject) {
+        jdbcTemplate.update("DELETE FROM subjects WHERE id = ?", subject.getId());
     }
 }
