@@ -29,7 +29,13 @@ public class TeacherDaoJpa implements TeacherDao {
 
     @Override
     public Teacher findById(long id) {
-        return em.find(Teacher.class, id);
+        List<Teacher> teacher = em.createQuery("select t from Teacher t where t.id = :id", Teacher.class)
+                .setParameter("id", id)
+                .getResultList();
+        if (teacher.isEmpty()) {
+            return null;
+        }
+        return teacher.get(0);
     }
 
     @Override
