@@ -108,9 +108,16 @@
                             </td>
                             <td class="p-2 border border-black" th:if="${authUser.getRole().isAdmin()}">
                                 <div class="flex">
-                                    <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
-                                       th:href="@{/studies/{id}/delete?url=students/{studentId}/detail(id=${s.id}, studentId=${s.student.id})}"
-                                       href="" th:text="#{Actions.Delete}"></a>
+                                    <div th:if="${#request.getParameter('ayear') == null}">
+                                        <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
+                                           th:href="@{/studies/{id}/delete?url=students/{studentId}/detail(id=${s.id}, studentId=${s.student.id})}"
+                                           th:text="#{Actions.Delete}"></a>
+                                    </div>
+                                    <div th:if="${#request.getParameter('ayear') != null}">
+                                        <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
+                                           th:href="@{/studies/{id}/delete?url=students/{studentId}/detail?ayear={ayear}(id=${s.id}, studentId=${s.student.id}, ayear=${#request.getParameter('ayear')})}"
+                                           th:text="#{Actions.Delete}"></a>
+                                    </div>
                                 </div>
                             </td>
                     </tr>

@@ -79,8 +79,8 @@
         <div class="p-3 border border-gray-300 rounded-md">
             <div class="mb-4">
                 <form th:action="@{/subjects/{id}/detail(id=${subject.id})}" method="get">
-                    <label class="inline-flex" for="year" th:text="#{Labels.AcademicYear} + ':'"></label>
-                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="year" name="ayear">
+                    <label class="inline-flex" for="ayear" th:text="#{Labels.AcademicYear} + ':'"></label>
+                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="ayear" name="ayear">
                         <option th:each="y : ${years}" th:text="${y}" th:value="${y}" th:selected="${#request.getParameter('ayear') == null or not #request.getParameter('ayear').equals(y) ? false : true}"></option>
                     </select>
                     <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit" th:text="OK"></button>
@@ -122,9 +122,16 @@
                         </td>
                         <td class="p-2 border border-black" th:if="${authUser.getRole().isAdmin()}">
                             <div class="flex">
-                                <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
-                                   th:href="@{/studies/{id}/delete?url=subjects/{subjectId}/detail(id=${s.id}, subjectId=${subject.id})}"
-                                   href="" th:text="#{Actions.Delete}"></a>
+                                <div th:if="${#request.getParameter('ayear') == null}">
+                                    <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
+                                       th:href="@{/studies/{id}/delete?url=subjects/{subjectId}/detail(id=${s.id}, subjectId=${subject.id})}"
+                                       th:text="#{Actions.Delete}"></a>
+                                </div>
+                                <div th:if="${#request.getParameter('ayear') != null}">
+                                    <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
+                                       th:href="@{/studies/{id}/delete?url=subjects/{subjectId}/detail?ayear={ayear}(id=${s.id}, subjectId=${subject.id}, ayear=${#request.getParameter('ayear')})}"
+                                       th:text="#{Actions.Delete}"></a>
+                                </div>
                             </div>
                         </td>
                     </tr>
@@ -133,7 +140,7 @@
             </div>
 
             <div th:if="${authUser.getRole().isAdmin() and students.size() != 0}">
-                <form modelAttribute="study" th:object="${student}" th:action="${#request.getParameter('ayear') == null ? '/studies/add?url=subjects/' + subject.id + '/detail' : '/studies/add?url=subjects/' + subject.id + '/detail?ayear=' + #request.getParameter('ayear')}" method="post">
+                <form modelAttribute="study" th:object="${study}" th:action="${#request.getParameter('ayear') == null ? '/studies/add?url=subjects/' + subject.id + '/detail' : '/studies/add?url=subjects/' + subject.id + '/detail?ayear=' + #request.getParameter('ayear')}" method="post">
                     <label class="inline-flex" for="student" th:text="#{Labels.AddStudent} + ':'"></label>
                     <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="student" th:name="studentId">
                         <option th:each="stu : ${students}" th:text="${stu.getLogin() + ' | ' + stu.getFirstName() + ' ' + stu.getLastName()}" th:value="${stu.id}"></option>
