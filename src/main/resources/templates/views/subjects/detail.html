@@ -8,7 +8,8 @@
     <div class="p-2" th:fragment="content">
         <h1 class="font-bold text-3xl mb-4" th:text="#{Subjects.Body.Title} + ' - ' + #{Actions.Detail}"></h1>
         <h2 class="font-medium text-xl mb-3" th:text="#{Labels.Details}"></h2>
-        <div th:if="${!authUser.getRole().isAdmin()}" class="p-3 border border-gray-300 rounded-md mb-5 grid grid-cols-6 gap-6">
+        <div th:if="${!authUser.getRole().isAdmin()}"
+             class="p-3 border border-gray-300 rounded-md mb-5 grid grid-cols-6 gap-6">
             <div class="col-span-6 sm:col-span-3">
                 <div class="font-medium" th:text="#{Subjects.Properties.Abbreviation} + ':'"></div>
                 <div th:text="${subject.abbreviation}"></div>
@@ -35,123 +36,160 @@
             </div>
         </div>
         <div class="p-3 mb-5 border border-gray-300 rounded-md" th:if="${authUser.getRole().isAdmin()}">
-            <form modelAttribute="subject" th:action="${#request.getParameter('ayear') == null ? '/subjects/'+subject.id+'/update' : '/subjects/'+subject.id+'/update?ayear=' + #request.getParameter('ayear')}" th:object="${subject}" th:method="post">
+            <form modelAttribute="subject"
+                  th:action="${#request.getParameter('ayear') == null ? '/subjects/'+subject.id+'/update' : '/subjects/'+subject.id+'/update?ayear=' + #request.getParameter('ayear')}"
+                  th:object="${subject}" th:method="post">
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
-                        <label class="block text-sm font-medium text-gray-700" for="abbreviation" th:text="#{Subjects.Properties.Abbreviation}"></label>
-                        <input th:value="${subject.abbreviation}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="abbreviation" id="abbreviation">
+                        <label class="block text-sm font-medium text-gray-700" for="abbreviation"
+                               th:text="#{Subjects.Properties.Abbreviation}"></label>
+                        <input th:value="${subject.abbreviation}" th:required="true"
+                               class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                               type="text" th:name="abbreviation" id="abbreviation">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <label class="block text-sm font-medium text-gray-700" for="name" th:text="#{Subjects.Properties.Name}"></label>
-                        <input th:value="${subject.name}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="name" id="name">
+                        <label class="block text-sm font-medium text-gray-700" for="name"
+                               th:text="#{Subjects.Properties.Name}"></label>
+                        <input th:value="${subject.name}" th:required="true"
+                               class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                               type="text" th:name="name" id="name">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <label class="block text-sm font-medium text-gray-700" for="semester" th:text="#{Subjects.Properties.Semester}"></label>
-                        <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" id="semester" th:name="semester">
-                            <option th:each="se : ${semesters}" th:value="${se}" th:text="${#messages.msg('Semesters.' + se)}" th:selected="${subject.semester.equals(se)}"></option>
+                        <label class="block text-sm font-medium text-gray-700" for="semester"
+                               th:text="#{Subjects.Properties.Semester}"></label>
+                        <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                id="semester" th:name="semester">
+                            <option th:each="se : ${semesters}" th:value="${se}"
+                                    th:text="${#messages.msg('Semesters.' + se)}"
+                                    th:selected="${subject.semester.equals(se)}"></option>
                         </select>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <label class="block text-sm font-medium text-gray-700" for="year" th:text="#{Subjects.Properties.Year}"></label>
-                        <input th:value="${subject.year}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="number" th:name="year" id="year">
+                        <label class="block text-sm font-medium text-gray-700" for="year"
+                               th:text="#{Subjects.Properties.Year}"></label>
+                        <input th:value="${subject.year}" th:required="true"
+                               class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                               type="number" th:name="year" id="year">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
-                        <label class="block text-sm font-medium text-gray-700" for="credits" th:text="#{Subjects.Properties.Credits}"></label>
-                        <input th:value="${subject.credits}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="number" th:name="credits" id="credits">
+                        <label class="block text-sm font-medium text-gray-700" for="credits"
+                               th:text="#{Subjects.Properties.Credits}"></label>
+                        <input th:value="${subject.credits}" th:required="true"
+                               class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                               type="number" th:name="credits" id="credits">
                     </div>
                     <div class="mb-4 col-span-6 sm:col-span-3">
-                        <label class="block text-sm font-medium text-gray-700" for="teacher.id" th:text="#{Subjects.Properties.Teacher}"></label>
-                        <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" id="teacher.id" name="teacher.id">
+                        <label class="block text-sm font-medium text-gray-700" for="teacher.id"
+                               th:text="#{Subjects.Properties.Teacher}"></label>
+                        <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                id="teacher.id" name="teacher.id">
                             <option th:value="0" th:selected="${subject.teacher == null}">-</option>
-                            <option th:each="t : ${teachers}" th:value="${t.id}" th:text="${t.firstName} + ' ' + ${t.lastName}" th:selected="${subject.teacher != null and subject.teacher.id == t.id}"></option>
+                            <option th:each="t : ${teachers}" th:value="${t.id}"
+                                    th:text="${t.firstName} + ' ' + ${t.lastName}"
+                                    th:selected="${subject.teacher != null and subject.teacher.id == t.id}"></option>
                         </select>
                     </div>
                 </div>
                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" th:text="#{Actions.Save}"></button>
+                    <button type="submit"
+                            class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                            th:text="#{Actions.Save}"></button>
                 </div>
             </form>
         </div>
-    </div>
 
-    <div th:if="${authUser.getRole().isTeacher() or authUser.getRole().isAdmin()}">
-        <h2 class="font-medium text-xl mb-3" th:text="#{Labels.Evaluation}"></h2>
-        <div class="p-3 border border-gray-300 rounded-md">
-            <div class="mb-4">
-                <form th:action="@{/subjects/{id}/detail(id=${subject.id})}" method="get">
-                    <label class="inline-flex" for="ayear" th:text="#{Labels.AcademicYear} + ':'"></label>
-                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="ayear" name="ayear">
-                        <option th:each="y : ${years}" th:text="${y}" th:value="${y}" th:selected="${#request.getParameter('ayear') == null or not #request.getParameter('ayear').equals(y) ? false : true}"></option>
-                    </select>
-                    <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit" th:text="OK"></button>
-                </form>
-            </div>
-            <div class="mb-4">
-                <table class="border-collapse table-auto">
-                    <thead>
-                    <tr>
-                        <th class="p-2 border border-black" th:text="#{Person.Properties.Login}"></th>
-                        <th class="p-2 border border-black" th:text="#{Person.Properties.FirstName}"></th>
-                        <th class="p-2 border border-black" th:text="#{Person.Properties.LastName}"></th>
-                        <th class="p-2 border border-black" th:text="#{Students.Properties.Year}"></th>
-                        <th class="p-2 border border-black" th:text="#{Study.Properties.Points}"></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:if="${studies == null or studies.isEmpty()}">
-                        <td class="p-2 border border-black" th:text="#{Labels.NoData}" colspan="6"></td>
-                    </tr>
-                    <tr th:each="s : ${studies}">
-                        <td class="p-2 border border-black" th:text="${s.student.login}"></td>
-                        <td class="p-2 border border-black" th:text="${s.student.firstName}"></td>
-                        <td class="p-2 border border-black" th:text="${s.student.lastName}"></td>
-                        <td class="p-2 border border-black" th:text="${s.student.year}"></td>
-                        <td th:if="${authUser.getRole().isTeacher() and subject.teacher != null and authUser.getId() != subject.teacher.getId()}"
-                            th:classappend="${s.points < 51 ? 'text-red-500' : 'text-black'}"
-                            class="p-2 border border-black" th:text="${s.points}"></td>
-                        <td th:if="${authUser.getRole().isAdmin() or (subject.teacher != null and authUser.getId() == subject.teacher.getId())}"
-                            class="p-2 border border-black">
-                            <form th:action="${#request.getParameter('ayear') == null ? '/studies/' + s.id + '/update?url=subjects/' + subject.id + '/detail' : '/studies/' + s.id + '/update?url=subjects/' + subject.id + '/detail?ayear=' + #request.getParameter('ayear')}"
-                                  method="post" class="flex">
-                                <input max="100" min="0" th:required="true" class="mr-2 p-2 border focus:ring-blue-500 focus:border-blue-500 flex-auto shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                       type="number" th:name="points" id="points" th:value="${s.points}">
-                                <button type="submit" class="inline-block justify-center px-3 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-                                        th:text="#{Actions.Save}"></button>
-                            </form>
+        <div th:if="${authUser.getRole().isTeacher() or authUser.getRole().isAdmin()}">
+            <h2 class="font-medium text-xl mb-3" th:text="#{Labels.Evaluation}"></h2>
+            <div class="p-3 border border-gray-300 rounded-md">
+                <div class="mb-4">
+                    <form th:action="@{/subjects/{id}/detail(id=${subject.id})}" method="get">
+                        <label class="inline-flex" for="ayear" th:text="#{Labels.AcademicYear} + ':'"></label>
+                        <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                id="ayear" name="ayear">
+                            <option th:each="y : ${years}" th:text="${y}" th:value="${y}"
+                                    th:selected="${#request.getParameter('ayear') == null or not #request.getParameter('ayear').equals(y) ? false : true}"></option>
+                        </select>
+                        <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                type="submit" th:text="OK"></button>
+                    </form>
+                </div>
+                <div class="mb-4">
+                    <table class="border-collapse table-auto">
+                        <thead>
+                        <tr>
+                            <th class="p-2 border border-black" th:text="#{Person.Properties.Login}"></th>
+                            <th class="p-2 border border-black" th:text="#{Person.Properties.FirstName}"></th>
+                            <th class="p-2 border border-black" th:text="#{Person.Properties.LastName}"></th>
+                            <th class="p-2 border border-black" th:text="#{Students.Properties.Year}"></th>
+                            <th class="p-2 border border-black" th:text="#{Study.Properties.Points}"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${studies == null or studies.isEmpty()}">
+                            <td class="p-2 border border-black" th:text="#{Labels.NoData}" colspan="6"></td>
+                        </tr>
+                        <tr th:each="s : ${studies}">
+                            <td class="p-2 border border-black" th:text="${s.student.login}"></td>
+                            <td class="p-2 border border-black" th:text="${s.student.firstName}"></td>
+                            <td class="p-2 border border-black" th:text="${s.student.lastName}"></td>
+                            <td class="p-2 border border-black" th:text="${s.student.year}"></td>
+                            <td th:if="${authUser.getRole().isTeacher() and subject.teacher != null and authUser.getId() != subject.teacher.getId()}"
+                                th:classappend="${s.points < 51 ? 'text-red-500' : 'text-black'}"
+                                class="p-2 border border-black" th:text="${s.points}"></td>
+                            <td th:if="${authUser.getRole().isAdmin() or (subject.teacher != null and authUser.getId() == subject.teacher.getId())}"
+                                class="p-2 border border-black">
+                                <form th:action="${#request.getParameter('ayear') == null ? '/studies/' + s.id + '/update?url=subjects/' + subject.id + '/detail' : '/studies/' + s.id + '/update?url=subjects/' + subject.id + '/detail?ayear=' + #request.getParameter('ayear')}"
+                                      method="post" class="flex">
+                                    <input max="100" min="0" th:required="true"
+                                           class="mr-2 p-2 border focus:ring-blue-500 focus:border-blue-500 flex-auto shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                           type="number" th:name="points" id="points" th:value="${s.points}">
+                                    <button type="submit"
+                                            class="inline-block justify-center px-3 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                            th:text="#{Actions.Save}"></button>
+                                </form>
 
-                        </td>
-                        <td class="p-2 border border-black" th:if="${authUser.getRole().isAdmin()}">
-                            <div class="flex">
-                                <div th:if="${#request.getParameter('ayear') == null}">
-                                    <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
-                                       th:href="@{/studies/{id}/delete?url=subjects/{subjectId}/detail(id=${s.id}, subjectId=${subject.id})}"
-                                       th:text="#{Actions.Delete}"></a>
+                            </td>
+                            <td class="p-2 border border-black" th:if="${authUser.getRole().isAdmin()}">
+                                <div class="flex">
+                                    <div th:if="${#request.getParameter('ayear') == null}">
+                                        <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
+                                           th:href="@{/studies/{id}/delete?url=subjects/{subjectId}/detail(id=${s.id}, subjectId=${subject.id})}"
+                                           th:text="#{Actions.Delete}"></a>
+                                    </div>
+                                    <div th:if="${#request.getParameter('ayear') != null}">
+                                        <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
+                                           th:href="@{/studies/{id}/delete?url=subjects/{subjectId}/detail?ayear={ayear}(id=${s.id}, subjectId=${subject.id}, ayear=${#request.getParameter('ayear')})}"
+                                           th:text="#{Actions.Delete}"></a>
+                                    </div>
                                 </div>
-                                <div th:if="${#request.getParameter('ayear') != null}">
-                                    <a class="flex-auto ml-3 mr-3 text-red-500 hover:underline"
-                                       th:href="@{/studies/{id}/delete?url=subjects/{subjectId}/detail?ayear={ayear}(id=${s.id}, subjectId=${subject.id}, ayear=${#request.getParameter('ayear')})}"
-                                       th:text="#{Actions.Delete}"></a>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
-            <div th:if="${authUser.getRole().isAdmin() and students.size() != 0}">
-                <form modelAttribute="study" th:object="${study}" th:action="${#request.getParameter('ayear') == null ? '/studies/add?url=subjects/' + subject.id + '/detail' : '/studies/add?url=subjects/' + subject.id + '/detail?ayear=' + #request.getParameter('ayear')}" method="post">
-                    <label class="inline-flex" for="student" th:text="#{Labels.AddStudent} + ':'"></label>
-                    <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="student" th:name="studentId">
-                        <option th:each="stu : ${students}" th:text="${stu.getLogin() + ' | ' + stu.getFirstName() + ' ' + stu.getLastName()}" th:value="${stu.id}"></option>
-                    </select>
-                    <input type="hidden" th:name="subjectId" th:value="${subject.id}">
-                    <input type="hidden" th:name="year" th:value="${#request.getParameter('ayear') == null ? years.get(0) : #request.getParameter('ayear')}">
-                    <label class="inline-flex" for="addPoints" th:text="#{Study.Properties.Points} + ':'"></label>
-                    <input max="100" min="0" th:required="true" class="mr-2 p-2 border focus:ring-blue-500 focus:border-blue-500 flex-auto shadow-sm sm:text-sm border-gray-300 rounded-md"
-                           type="number" th:name="points" id="addPoints" th:value="0">
-                    <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" type="submit" th:text="OK"></button>
-                </form>
+                <div th:if="${authUser.getRole().isAdmin() and students.size() != 0}">
+                    <form modelAttribute="study" th:object="${study}"
+                          th:action="${#request.getParameter('ayear') == null ? '/studies/add?url=subjects/' + subject.id + '/detail' : '/studies/add?url=subjects/' + subject.id + '/detail?ayear=' + #request.getParameter('ayear')}"
+                          method="post">
+                        <label class="inline-flex" for="student" th:text="#{Labels.AddStudent} + ':'"></label>
+                        <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                id="student" th:name="studentId">
+                            <option th:each="stu : ${students}"
+                                    th:text="${stu.getLogin() + ' | ' + stu.getFirstName() + ' ' + stu.getLastName()}"
+                                    th:value="${stu.id}"></option>
+                        </select>
+                        <input type="hidden" th:name="subjectId" th:value="${subject.id}">
+                        <input type="hidden" th:name="year"
+                               th:value="${#request.getParameter('ayear') == null ? years.get(0) : #request.getParameter('ayear')}">
+                        <label class="inline-flex" for="addPoints" th:text="#{Study.Properties.Points} + ':'"></label>
+                        <input max="100" min="0" th:required="true"
+                               class="mr-2 p-2 border focus:ring-blue-500 focus:border-blue-500 flex-auto shadow-sm sm:text-sm border-gray-300 rounded-md"
+                               type="number" th:name="points" id="addPoints" th:value="0">
+                        <button class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-blue-400 hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                type="submit" th:text="OK"></button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
