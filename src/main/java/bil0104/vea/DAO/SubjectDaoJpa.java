@@ -58,9 +58,8 @@ public class SubjectDaoJpa implements SubjectDao {
     }
 
     @Override
-    public List<Subject> getWithoutTeacher(long id) {
-        return em.createQuery("select s from Subject s where s.teacher.id <> :teacherId", Subject.class)
-                .setParameter("teacherId", id)
+    public List<Subject> getWithoutTeacher() {
+        return em.createQuery("select s from Subject s where s.teacher is null", Subject.class)
                 .getResultList();
     }
 

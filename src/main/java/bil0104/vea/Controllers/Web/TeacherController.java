@@ -64,9 +64,8 @@ public class TeacherController extends AbstractController {
         model.addAttribute("pageActive", "teachers");
         model.addAttribute("teacher", teacher);
         model.addAttribute("metaTitle", messageSource.getMessage("Teachers.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Detail", null, LocaleContextHolder.getLocale()));
-        System.out.println(teacher);
         if (getAuthUser().getRole().isAdmin()) {
-            model.addAttribute("subjects", subjectService.getWithoutTeacher(id));
+            model.addAttribute("subjects", subjectService.getWithoutTeacher());
         }
         return "views/teachers/detail";
     }
@@ -86,7 +85,6 @@ public class TeacherController extends AbstractController {
     @Secured({"ROLE_ADMIN"})
     public String attachSubject(@RequestParam int subjectId, @PathVariable long id) {
         Teacher st = teacherService.findById(id);
-        System.out.println(subjectId);
         st.addTeaches(subjectService.findById(subjectId));
         teacherService.update(st);
         return "redirect:/teachers/" + id + "/detail";

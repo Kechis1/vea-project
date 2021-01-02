@@ -41,8 +41,8 @@ public class SubjectService {
         return subjectDao.getWithoutStudent(id);
     }
 
-    public List<Subject> getWithoutTeacher(long id) {
-        return subjectDao.getWithoutTeacher(id);
+    public List<Subject> getWithoutTeacher() {
+        return subjectDao.getWithoutTeacher();
     }
 
     public void update(Subject subject) {
