@@ -59,7 +59,7 @@
                         <td class="p-2 border border-black" th:text="${#messages.msg('Semesters.' + s.subject.semester)}"></td>
                         <td class="p-2 border border-black" th:text="${s.subject.abbreviation}"></td>
                         <td class="p-2 border border-black" th:text="${s.subject.name}"></td>
-                        <td class="p-2 border border-black" th:text="${s.subject.teacher.firstName} + ' ' + ${s.subject.teacher.lastName}"></td>
+                        <td class="p-2 border border-black" th:text="${s.subject.teacher == null ? '-' : s.subject.teacher.firstName + ' ' + s.subject.teacher.lastName}"></td>
                         <td class="p-2 border border-black" th:text="${s.subject.credits}"></td>
                         <td th:classappend="${s.points < 51 ? 'text-red-500' : 'text-black'}"
                             class="p-2 border border-black" th:text="${s.points}"></td>

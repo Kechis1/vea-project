@@ -90,12 +90,12 @@
                             <td class="p-2 border border-black" th:text="${#messages.msg('Semesters.' + s.subject.semester)}"></td>
                             <td class="p-2 border border-black" th:text="${s.subject.abbreviation}"></td>
                             <td class="p-2 border border-black" th:text="${s.subject.name}"></td>
-                            <td class="p-2 border border-black" th:text="${s.subject.teacher.firstName} + ' ' + ${s.subject.teacher.lastName}"></td>
+                            <td class="p-2 border border-black" th:text="${s.subject.teacher == null ? '-' : s.subject.teacher.firstName + ' ' + s.subject.teacher.lastName}"></td>
                             <td class="p-2 border border-black" th:text="${s.subject.credits}"></td>
-                            <td th:if="${authUser.getRole().isTeacher() and authUser.getId() != s.subject.teacher.getId()}"
+                            <td th:if="${authUser.getRole().isTeacher() and s.subject.teacher != null and authUser.getId() != s.subject.teacher.getId()}"
                                 th:classappend="${s.points < 51 ? 'text-red-500' : 'text-black'}"
                                 class="p-2 border border-black" th:text="${s.points}"></td>
-                            <td th:if="${authUser.getRole().isAdmin() or authUser.getId() == s.subject.teacher.getId()}"
+                            <td th:if="${authUser.getRole().isAdmin() or (s.subject.teacher != null and authUser.getId() == s.subject.teacher.getId())}"
                                 class="p-2 border border-black">
                                 <form th:action="${#request.getParameter('ayear') == null ? '/studies/' + s.id + '/update' : '/studies/' + s.id + '/update?url=students/' + student.id + '/detail?ayear=' + #request.getParameter('ayear')}"
                                       method="post" class="flex">
