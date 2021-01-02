@@ -84,8 +84,5 @@ public class InitDbService {
             sub.setTeacher(teas.get(0));
             subjectDao.update(sub);
         }
-
-        System.out.println(subjectDao.getAll());
-        System.out.println(teacherDao.getAll());
     }
 }
