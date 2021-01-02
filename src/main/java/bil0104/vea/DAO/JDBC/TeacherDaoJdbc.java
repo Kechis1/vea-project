@@ -19,16 +19,16 @@ import org.springframework.stereotype.Repository;
 
 
 @Repository
-public class TeacherJdbc implements TeacherDao {
+public class TeacherDaoJdbc implements TeacherDao {
 
     private JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert personInsert;
+    private SimpleJdbcInsert teacherInsert;
 
     @Autowired
     public void setDataSource(DataSource dataSource) {
-        /* jdbcTemplate = new JdbcTemplate(dataSource);
-        personInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("Person").usingGeneratedKeyColumns("id")
-                .usingColumns("firstName", "secondName", "age");*/
+        jdbcTemplate = new JdbcTemplate(dataSource);
+        teacherInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("teachers").usingGeneratedKeyColumns("id")
+                .usingColumns("login", "firstName", "lastName", "dateOfBirth", "password", "role");
     }
 
     @PostConstruct
@@ -39,22 +39,21 @@ public class TeacherJdbc implements TeacherDao {
                 DatabaseMetaData metaData = con.getMetaData();
                 dbProducerName = metaData.getDatabaseProductName();
             }
-            System.out.println(dbProducerName);
-/*            String sqlCreateTable;
-            if ("Apache Derby".equals(dbProducerName)) {
-                sqlCreateTable = "CREATE TABLE Person (id INTEGER NOT NULL "
-                        + "GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1), "
-                        + "firstName varchar(255), secondName varchar(255), "
-                        + "age int";
-            } else if ("H2".equals(dbProducerName)) {
-                sqlCreateTable = "create table Person(id INTEGER NOT NULL " + "AUTO_INCREMENT," + " firstName varchar(255), "
-                        + "secondName varchar(255), " + "age int);";
+            String sqlCreateTable;
+            if ("H2".equals(dbProducerName)) {
+                sqlCreateTable = "create table teachers(id BIGINT NOT NULL AUTO_INCREMENT," +
+                        " login varchar(10) not null, " +
+                        " firstName varchar(255) not null, " +
+                        " lastName varchar(255) not null, " +
+                        " dateOfBirth date, " +
+                        " password varchar (128) not null, " +
+                        " role varchar (20) not null )";
             } else {
-                throw new RuntimeException("Unsuported database type");
+                throw new RuntimeException("Unsupported database type");
             }
-            jdbcTemplate.update(sqlCreateTable);*/
+            jdbcTemplate.update(sqlCreateTable);
         } catch (DataAccessException e) {
-            System.out.println("Table already exist.");
+            System.out.println("Table already exists.");
             e.printStackTrace();
         } catch (SQLException e) {
             e.printStackTrace();

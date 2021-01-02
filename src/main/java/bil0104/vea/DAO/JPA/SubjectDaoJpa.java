@@ -1,3 +1,4 @@
+/*
 package bil0104.vea.DAO.JPA;
 
 import bil0104.vea.DAO.SubjectDao;
@@ -71,3 +72,4 @@ public class SubjectDaoJpa implements SubjectDao {
                 .executeUpdate();
     }
 }
+*/

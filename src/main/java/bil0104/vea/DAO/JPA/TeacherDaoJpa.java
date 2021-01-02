@@ -1,3 +1,4 @@
+/*
 package bil0104.vea.DAO.JPA;
 
 import bil0104.vea.DAO.TeacherDao;
@@ -61,3 +62,4 @@ public class TeacherDaoJpa implements TeacherDao {
         }
     }
 }
+*/

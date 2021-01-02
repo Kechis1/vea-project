@@ -5,9 +5,9 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
 @Entity
-@Table(name = "studies", uniqueConstraints = {
+/*@Table(name = "studies", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"year", "student_id", "subject_id"}, name = "study_uk")
-})
+})*/
 public class Study {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

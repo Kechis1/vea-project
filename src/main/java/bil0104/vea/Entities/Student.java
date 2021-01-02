@@ -8,6 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
+// @Table(name = "students")
 public class Student extends Person {
     @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
     public List<Study> studies;

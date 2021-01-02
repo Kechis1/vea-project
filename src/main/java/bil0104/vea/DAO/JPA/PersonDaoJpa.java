@@ -1,3 +1,4 @@
+/*
 package bil0104.vea.DAO.JPA;
 
 import bil0104.vea.DAO.PersonDao;
@@ -54,4 +55,4 @@ public class PersonDaoJpa implements PersonDao<Person> {
             return null;
         }
     }
-}
+}*/

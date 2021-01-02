@@ -1,3 +1,4 @@
+/*
 package bil0104.vea.DAO.JPA;
 
 import bil0104.vea.DAO.StudyDao;
@@ -91,3 +92,4 @@ public class StudyDaoJpa implements StudyDao {
         em.merge(study);
     }
 }
+*/
