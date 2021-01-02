@@ -47,4 +47,8 @@ public class StudyService {
     public void deleteWhereSubjectId(long id) {
         studyDao.deleteWhereSubjectId(id);
     }
+
+    public void deleteWhereStudentId(long id) {
+        studyDao.deleteWhereStudentId(id);
+    }
 }

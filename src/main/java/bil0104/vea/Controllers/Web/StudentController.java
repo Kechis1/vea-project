@@ -94,6 +94,8 @@ public class StudentController extends AbstractController {
     @GetMapping(value = "/students/{id}/delete")
     @Secured("ROLE_ADMIN")
     public String delete(@PathVariable long id) {
+        // delete from studies where student_id = :id
+        studyService.deleteWhereStudentId(id);
         studentService.delete(id);
         return "redirect:/students";
     }
