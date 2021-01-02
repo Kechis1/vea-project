@@ -95,6 +95,7 @@ public class TeacherController extends AbstractController {
     @GetMapping(value = "/teachers/{id}/delete")
     @Secured({"ROLE_ADMIN"})
     public String delete(@PathVariable long id) {
+        subjectService.detachTeacher(id);
         teacherService.delete(id);
         return "redirect:/teachers";
     }

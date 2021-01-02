@@ -8,4 +8,5 @@ public interface SubjectDao extends AbstractDao<Subject> {
     List<Subject> getWithoutStudent(long id);
     List<Subject> getWithoutTeacher(long id);
     void delete(Subject subject);
+    void detachTeacher(long id);
 }

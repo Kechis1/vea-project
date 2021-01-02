@@ -63,4 +63,11 @@ public class SubjectDaoJpa implements SubjectDao {
                 .setParameter("teacherId", id)
                 .getResultList();
     }
+
+    @Override
+    public void detachTeacher(long id) {
+        em.createQuery("update Subject s set s.teacher = null where s.teacher.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
 }

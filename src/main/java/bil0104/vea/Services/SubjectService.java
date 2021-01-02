@@ -48,4 +48,8 @@ public class SubjectService {
     public void update(Subject subject) {
         subjectDao.update(subject);
     }
+
+    public void detachTeacher(long id) {
+        subjectDao.detachTeacher(id);
+    }
 }
