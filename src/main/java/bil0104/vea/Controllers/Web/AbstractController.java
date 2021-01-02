@@ -23,7 +23,6 @@ public abstract class AbstractController {
             User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             return personService.findByLogin(user.getUsername());
         }
-        System.out.println("halo ajo");
         return null;
     }
 

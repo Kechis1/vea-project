@@ -58,11 +58,6 @@ public class TeacherController extends AbstractController {
     @GetMapping(value = "/teachers/{id}/detail")
     public String detail(Model model, @PathVariable long id) {
         Teacher teacher = teacherService.findById(id);
-        System.out.println("teaches: ");
-        for (Subject s : teacher.getTeaches()) {
-            System.out.println(s.getAbbreviation());
-        }
-        System.out.println("-----");
         model.addAttribute("pageActive", "teachers");
         model.addAttribute("teacher", teacher);
         model.addAttribute("metaTitle", messageSource.getMessage("Teachers.Body.Title", null, LocaleContextHolder.getLocale()) + " - " + messageSource.getMessage("Actions.Detail", null, LocaleContextHolder.getLocale()));

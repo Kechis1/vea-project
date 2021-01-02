@@ -40,11 +40,8 @@ public class PersonService implements UserDetailsService {
         Person appUser = this.personDao.findByLogin(userName);
 
         if (appUser == null) {
-            System.out.println("User not found! " + userName);
             throw new UsernameNotFoundException("User " + userName + " was not found in the database");
         }
-
-        System.out.println("Found User: " + appUser);
 
         return User.withUsername(appUser.getLogin())
                 .password(appUser.getPassword())
