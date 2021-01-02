@@ -27,7 +27,7 @@ public class StudyController extends AbstractController {
     public String update(@RequestParam int points, @RequestParam String url, @PathVariable long id) {
         if (points >= 0 && points <= 100) {
             Study study = studyService.find(id);
-            if (getAuthUser().getRole().isTeacher() && getAuthUser().getId() != study.getSubject().getTeacher().getId()) {
+            if (study == null || (getAuthUser().getRole().isTeacher() && getAuthUser().getId() != study.getSubject().getTeacher().getId())) {
                 return "redirect:/" + url;
             }
             study.setPoints(points);

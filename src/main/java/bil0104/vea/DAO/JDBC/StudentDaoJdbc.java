@@ -7,6 +7,7 @@ import bil0104.vea.Entities.Student;
 import bil0104.vea.Entities.Study;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -64,7 +65,7 @@ public class StudentDaoJdbc implements StudentDao {
             ps.setString(1, student.getLogin());
             ps.setString(2, student.getFirstName());
             ps.setString(3, student.getLastName());
-            ps.setDate(4, student.getDateOfBirth());
+            ps.setDate(4, new Date(student.getDateOfBirth().getTime()));
             ps.setString(5, student.getPassword());
             ps.setString(6, student.getRole().toString());
             ps.setInt(7, student.getYear());
@@ -86,12 +87,16 @@ public class StudentDaoJdbc implements StudentDao {
 
     @Override
     public Student findById(long id) {
-        Student student = jdbcTemplate.queryForObject("select * from students where id = ?", new Object[]{id}, new StudentMapper());
-        if (student != null) {
-            List<Study> studies = jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{id}, new StudyMapper());
-            student.setStudies(studies);
+        try {
+            Student student = jdbcTemplate.queryForObject("select * from students where id = ?", new Object[]{id}, new StudentMapper());
+            if (student != null) {
+                List<Study> studies = jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{id}, new StudyMapper());
+                student.setStudies(studies);
+            }
+            return student;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
         }
-        return student;
     }
 
     @Override
@@ -108,11 +113,15 @@ public class StudentDaoJdbc implements StudentDao {
 
     @Override
     public Student findByLogin(String login) {
-        Student student = jdbcTemplate.queryForObject("select * from students where login=?", new Object[] {login} , new StudentMapper());
-        if (student != null) {
-            List<Study> studies = jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{student.getId()}, new StudyMapper());
-            student.setStudies(studies);
+        try {
+            Student student = jdbcTemplate.queryForObject("select * from students where login=?", new Object[]{login}, new StudentMapper());
+            if (student != null) {
+                List<Study> studies = jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{student.getId()}, new StudyMapper());
+                student.setStudies(studies);
+            }
+            return student;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
         }
-        return student;
     }
 }

@@ -5,6 +5,7 @@ import bil0104.vea.DAO.PersonDao;
 import bil0104.vea.Entities.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -60,7 +61,11 @@ public class PersonDaoJdbc implements PersonDao<Person> {
 
     @Override
     public Person findById(long id) {
-        return jdbcTemplate.queryForObject("select * from persons where id=?", new Object[] {id} , new PersonMapper());
+        try {
+            return jdbcTemplate.queryForObject("select * from persons where id=?", new Object[]{id}, new PersonMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
@@ -71,7 +76,7 @@ public class PersonDaoJdbc implements PersonDao<Person> {
             ps.setString(1, person.getLogin());
             ps.setString(2, person.getFirstName());
             ps.setString(3, person.getLastName());
-            ps.setDate(4, person.getDateOfBirth());
+            ps.setDate(4, new Date(person.getDateOfBirth().getTime()));
             ps.setString(5, person.getPassword());
             ps.setString(6, person.getRole().toString());
             return ps;
@@ -94,6 +99,10 @@ public class PersonDaoJdbc implements PersonDao<Person> {
 
     @Override
     public Person findByLogin(String login) {
-        return jdbcTemplate.queryForObject("select * from persons where login=?", new Object[] {login} , new PersonMapper());
+        try {
+            return jdbcTemplate.queryForObject("select * from persons where login=?", new Object[] {login} , new PersonMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 }

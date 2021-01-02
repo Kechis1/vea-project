@@ -83,6 +83,7 @@ public class StudentController extends AbstractController {
             System.out.println(studentResult.getAllErrors());
             return "views/students/add";
         }
+        System.out.println("jsem tu");
         student.setLogin(Person.findNextLogin(student, studentService::findByLogin));
         student.setRole(Role.STUDENT);
         student.setPassword(encryptPassword(student.getPassword()));

@@ -7,6 +7,7 @@ import bil0104.vea.Entities.Study;
 import bil0104.vea.Entities.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -86,22 +87,30 @@ public class StudyDaoJdbc implements StudyDao {
 
     @Override
     public Study find(long id) {
-        return jdbcTemplate.queryForObject("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{id}, new StudyMapper());
+        try {
+            return jdbcTemplate.queryForObject("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.id = ?", new Object[]{id}, new StudyMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public Study findByUniqueKey(long studentId, long subjectId, String year) {
-        return jdbcTemplate.queryForObject("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ? and st.subject_id = ? and st.year = ?", new Object[]{studentId, subjectId, year}, new StudyMapper());
+        try {
+            return jdbcTemplate.queryForObject("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ? and st.subject_id = ? and st.year = ?", new Object[]{studentId, subjectId, year}, new StudyMapper());
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     @Override
     public void deleteWhereSubjectId(long id) {
-        jdbcTemplate.update("DELETE FROM teachers WHERE subject_id = ?", id);
+        jdbcTemplate.update("DELETE FROM studies WHERE subject_id = ?", id);
     }
 
     @Override
     public void deleteWhereStudentId(long id) {
-        jdbcTemplate.update("DELETE FROM teachers WHERE student_id = ?", id);
+        jdbcTemplate.update("DELETE FROM studies WHERE student_id = ?", id);
     }
 
     @Override

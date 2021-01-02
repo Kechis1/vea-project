@@ -5,7 +5,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.Normalizer;
-import java.sql.Date;
+import java.util.Date;
 import java.util.function.Function;
 
 @Entity

@@ -14,6 +14,7 @@ import bil0104.vea.Entities.Subject;
 import bil0104.vea.Entities.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -67,7 +68,7 @@ public class TeacherDaoJdbc implements TeacherDao {
             ps.setString(1, teacher.getLogin());
             ps.setString(2, teacher.getFirstName());
             ps.setString(3, teacher.getLastName());
-            ps.setDate(4, teacher.getDateOfBirth());
+            ps.setDate(4, new Date(teacher.getDateOfBirth().getTime()));
             ps.setString(5, teacher.getPassword());
             ps.setString(6, teacher.getRole().toString());
             return ps;
@@ -80,7 +81,7 @@ public class TeacherDaoJdbc implements TeacherDao {
     public List<Teacher> getAll() {
         List<Teacher> teachers = jdbcTemplate.query("select * from teachers", new TeacherMapper());
         for (Teacher t : teachers) {
-            List<Subject> subjects = jdbcTemplate.query("select * from subjects where teacher_id = ?", new Object[] {t.getId()}, new SubjectMapper());
+            List<Subject> subjects = jdbcTemplate.query("select * from subjects where teacher_id = ?", new Object[]{t.getId()}, new SubjectMapper());
             subjects.forEach(x -> x.setTeacher(t));
             t.setTeaches(subjects);
         }
@@ -89,13 +90,17 @@ public class TeacherDaoJdbc implements TeacherDao {
 
     @Override
     public Teacher findById(long id) {
-        Teacher teacher = jdbcTemplate.queryForObject("select * from teachers where id=?", new Object[] {id} , new TeacherMapper());
-        if (teacher != null) {
-            List<Subject> subjects = jdbcTemplate.query("select * from subjects where teacher_id = ?", new Object[]{id}, new SubjectMapper());
-            subjects.forEach(x -> x.setTeacher(teacher));
-            teacher.setTeaches(subjects);
+        try {
+            Teacher teacher = jdbcTemplate.queryForObject("select * from teachers where id=?", new Object[]{id}, new TeacherMapper());
+            if (teacher != null) {
+                List<Subject> subjects = jdbcTemplate.query("select * from subjects where teacher_id = ?", new Object[]{id}, new SubjectMapper());
+                subjects.forEach(x -> x.setTeacher(teacher));
+                teacher.setTeaches(subjects);
+            }
+            return teacher;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
         }
-        return teacher;
     }
 
     @Override
@@ -112,12 +117,16 @@ public class TeacherDaoJdbc implements TeacherDao {
 
     @Override
     public Teacher findByLogin(String login) {
-        Teacher teacher = jdbcTemplate.queryForObject("select * from teachers where login=?", new Object[] {login} , new TeacherMapper());
-        if (teacher != null) {
-            List<Subject> subjects = jdbcTemplate.query("select * from subjects where teacher_id = ?", new Object[]{teacher.getId()}, new SubjectMapper());
-            subjects.forEach(x -> x.setTeacher(teacher));
-            teacher.setTeaches(subjects);
+        try {
+            Teacher teacher = jdbcTemplate.queryForObject("select * from teachers where login=?", new Object[]{login}, new TeacherMapper());
+            if (teacher != null) {
+                List<Subject> subjects = jdbcTemplate.query("select * from subjects where teacher_id = ?", new Object[]{teacher.getId()}, new SubjectMapper());
+                subjects.forEach(x -> x.setTeacher(teacher));
+                teacher.setTeaches(subjects);
+            }
+            return teacher;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
         }
-        return teacher;
     }
 }
