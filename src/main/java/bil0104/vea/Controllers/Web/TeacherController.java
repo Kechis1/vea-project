@@ -1,9 +1,6 @@
 package bil0104.vea.Controllers.Web;
 
-import bil0104.vea.JPA.Person;
-import bil0104.vea.JPA.Role;
-import bil0104.vea.JPA.Student;
-import bil0104.vea.JPA.Teacher;
+import bil0104.vea.JPA.*;
 import bil0104.vea.Services.SubjectService;
 import bil0104.vea.Services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +14,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.Normalizer;
+import java.util.List;
 
 import static bil0104.vea.Utils.EncryptedPasswordUtils.encryptPassword;
 
@@ -84,6 +82,16 @@ public class TeacherController extends AbstractController {
         return "redirect:/teachers/" + id + "/detail";
     }
 
+    @PostMapping(value = "/teachers/{id}/subject/attach")
+    @Secured({"ROLE_ADMIN"})
+    public String attachSubject(@RequestParam int subjectId, @PathVariable long id) {
+        Teacher st = teacherService.findById(id);
+        System.out.println(subjectId);
+        st.addTeaches(subjectService.findById(subjectId));
+        teacherService.update(st);
+        return "redirect:/teachers/" + id + "/detail";
+    }
+
     @GetMapping(value = "/teachers/{id}/delete")
     @Secured({"ROLE_ADMIN"})
     public String delete(@PathVariable long id) {
@@ -94,7 +102,14 @@ public class TeacherController extends AbstractController {
     @GetMapping(value = "/teachers/{id}/subject/{subjectId}/detach")
     @Secured({"ROLE_ADMIN"})
     public String detachSubject(@PathVariable long id, @PathVariable long subjectId) {
-
+        Teacher teacher = teacherService.findById(id);
+        Subject teaches = teacher.getTeaches().stream().filter(x -> x.getId() == subjectId).findFirst().orElse(null);
+        if (teaches != null) {
+            teacher.getTeaches().remove(teaches);
+            teaches.setTeacher(null);
+            teacherService.update(teacher);
+            subjectService.update(teaches);
+        }
         return "redirect:/teachers/" + id + "/detail";
     }
 }

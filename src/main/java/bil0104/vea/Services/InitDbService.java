@@ -47,12 +47,16 @@ public class InitDbService {
         subs.add(new Subject("AVD", "Algority vykonání dotazů", 5, Semester.SUMMER, 5, null, null));
         subs.add(new Subject("ADBS", "Administrace DBS", 3, Semester.WINTER, 3, null, null));
 
+        subjectDao.insert(subs.get(0));
+        subjectDao.insert(subs.get(1));
+        subjectDao.insert(subs.get(2));
 
-        teas.get(0).setTeaches(subs);
+        teas.get(0).setTeaches(subjectDao.getAll());
 
         teacherDao.insert(teas.get(0));
         teacherDao.insert(teas.get(1));
         teacherDao.insert(teas.get(2));
+
 
         stu.add(new Student("BIL104", "Daniel", "Bill", new Date(99, Calendar.APRIL,2), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null, 3));
         stu.add(new Student("ALE201", "Alena", "Aleso", new Date(98, Calendar.MARCH,5), "$2a$10$SAiB6hw6yWnPpAp82L9OqeHGQU9KjSKAKLRBgYAuysJe4pF25I4Gy", null, 4));
@@ -74,5 +78,14 @@ public class InitDbService {
         studyDao.insert(studies.get(1));
         studyDao.insert(studies.get(2));
         studyDao.insert(studies.get(3));
+
+
+        for (Subject sub : subs) {
+            sub.setTeacher(teas.get(0));
+            subjectDao.update(sub);
+        }
+
+        System.out.println(subjectDao.getAll());
+        System.out.println(teacherDao.getAll());
     }
 }

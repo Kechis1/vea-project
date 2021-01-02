@@ -25,6 +25,10 @@ public class SubjectService {
         subjectDao.delete(id);
     }
 
+    public void delete(Subject subject) {
+        subjectDao.delete(subject);
+    }
+
     public void insert(Subject subject) {
         subjectDao.insert(subject);
     }
@@ -41,4 +45,7 @@ public class SubjectService {
         return subjectDao.getWithoutTeacher(id);
     }
 
+    public void update(Subject subject) {
+        subjectDao.update(subject);
+    }
 }

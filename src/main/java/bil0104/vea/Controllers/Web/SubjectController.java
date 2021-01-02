@@ -1,7 +1,10 @@
 package bil0104.vea.Controllers.Web;
 
+import bil0104.vea.DAO.StudyDao;
 import bil0104.vea.JPA.Semester;
 import bil0104.vea.JPA.Subject;
+import bil0104.vea.JPA.Teacher;
+import bil0104.vea.Services.StudyService;
 import bil0104.vea.Services.SubjectService;
 import bil0104.vea.Services.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Controller
 public class SubjectController extends AbstractController {
@@ -27,6 +33,8 @@ public class SubjectController extends AbstractController {
     private SubjectService subjectService;
     @Autowired
     private TeacherService teacherService;
+    @Autowired
+    private StudyService studyService;
 
     @GetMapping("/subjects")
     public String list(Model model) {
@@ -57,11 +65,13 @@ public class SubjectController extends AbstractController {
     @PostMapping(value = "/subjects/add")
     @Secured({"ROLE_ADMIN"})
     public String create(@ModelAttribute("subject") @Validated Subject subject, BindingResult subjectResult) {
-        if (subjectResult.hasErrors() || subjectResult.getRawFieldValue("teacher.id") == null) {
+        if (subjectResult.hasErrors()) {
             System.out.println(subjectResult.getAllErrors());
             return "views/subjects/add";
         }
-        subject.setTeacher(teacherService.findById((long) subjectResult.getRawFieldValue("teacher.id")));
+        if (subjectResult.getRawFieldValue("teacher.id") != null) {
+            subject.setTeacher(teacherService.findById((long) subjectResult.getRawFieldValue("teacher.id")));
+        }
         subjectService.insert(subject);
         return "redirect:/subjects/add";
     }
@@ -69,7 +79,20 @@ public class SubjectController extends AbstractController {
     @GetMapping(value = "/subjects/{id}/delete")
     @Secured({"ROLE_ADMIN"})
     public String delete(@PathVariable long id) {
-        subjectService.delete(id);
+        Subject found = subjectService.findById(id);
+        if (found.teacher != null) {
+            Teacher t = teacherService.findById(found.teacher.getId());
+            List<Subject> newSubs = new ArrayList<>();
+            for (Subject s : t.getTeaches()) {
+                if (s.getId() != id) {
+                    newSubs.add(s);
+                }
+            }
+            t.setTeaches(newSubs);
+            teacherService.update(t);
+        }
+        studyService.deleteWhereSubjectId(id);
+        subjectService.delete(found);
         return "redirect:/subjects";
     }
 }

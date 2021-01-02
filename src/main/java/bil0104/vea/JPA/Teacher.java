@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 public class Teacher extends Person {
-    @OneToMany(cascade={CascadeType.ALL}, mappedBy = "teacher", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "teacher", fetch = FetchType.EAGER)
     public List<Subject> teaches = new ArrayList<>();
 
     public Teacher() {
@@ -40,6 +40,11 @@ public class Teacher extends Person {
         for (Subject s : teaches) {
             s.teacher = this;
         }
+    }
+
+    public void addTeaches(Subject subject) {
+        this.teaches.add(subject);
+        subject.setTeacher(this);
     }
 
 

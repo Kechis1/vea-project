@@ -19,7 +19,7 @@ public class Subject {
     public Semester semester;
     @NotNull
     private int credits;
-    @OneToMany(mappedBy = "subject", cascade={CascadeType.ALL, CascadeType.PERSIST}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "subject", fetch = FetchType.EAGER)
     public List<Study> studies;
     @ManyToOne
     @JoinColumn(name="teacher_id")
@@ -132,7 +132,7 @@ public class Subject {
                 ", year='" + year + '\'' +
                 ", semester=" + semester +
                 ", credits=" + credits +
-                ", teacher=" + teacher.getLogin() +
+                ", teacher=" + (teacher == null ? "null" : teacher.getLogin()) +
                 ", studies=" + studies +
                 '}';
     }

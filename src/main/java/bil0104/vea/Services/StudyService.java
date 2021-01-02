@@ -43,4 +43,8 @@ public class StudyService {
     public List<Study> getAll() {
         return studyDao.getAll();
     }
+
+    public void deleteWhereSubjectId(long id) {
+        studyDao.deleteWhereSubjectId(id);
+    }
 }

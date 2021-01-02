@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 public class Student extends Person {
-    @OneToMany(mappedBy = "student", cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
     public List<Study> studies;
     public int year;
 

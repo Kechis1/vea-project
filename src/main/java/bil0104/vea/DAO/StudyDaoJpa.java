@@ -64,6 +64,13 @@ public class StudyDaoJpa implements StudyDao {
     }
 
     @Override
+    public void deleteWhereSubjectId(long id) {
+        em.createQuery("delete from Study s where s.subject.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
+
+    @Override
     public void update(Study study) {
         em.merge(study);
     }

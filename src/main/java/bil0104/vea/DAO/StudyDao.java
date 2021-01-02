@@ -19,4 +19,6 @@ public interface StudyDao {
     void update(Study study);
 
     Study findByUniqueKey(long studentId, long subjectId, String year);
+
+    void deleteWhereSubjectId(long id);
 }

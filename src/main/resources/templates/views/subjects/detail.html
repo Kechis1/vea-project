@@ -30,7 +30,7 @@
         </div>
         <div>
             <div th:text="#{Subjects.Properties.Teacher}"></div>
-            <div th:text="${subject.teacher.firstName} + ' ' + ${subject.teacher.lastName}"></div>
+            <div th:text="${subject.teacher == null ? '-' : subject.teacher.firstName + ' ' + subject.teacher.lastName}"></div>
         </div>
     </div>
 
