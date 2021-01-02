@@ -60,14 +60,14 @@ public class StudentDaoJdbc implements StudentDao {
     public Student insert(Student student) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement("insert into students (login, firstname, lastname, dateofbirth, password, role, year) values (?,?,?,?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("insert into students (login, firstname, lastname, dateofbirth, password, role, year) values (?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, student.getLogin());
             ps.setString(2, student.getFirstName());
             ps.setString(3, student.getLastName());
-            ps.setDate(4, (Date) student.getDateOfBirth());
+            ps.setDate(4, student.getDateOfBirth());
             ps.setString(5, student.getPassword());
             ps.setString(6, student.getRole().toString());
-            ps.setInt(6, student.getYear());
+            ps.setInt(7, student.getYear());
             return ps;
         }, keyHolder);
         student.setId((long) keyHolder.getKey());
@@ -78,7 +78,7 @@ public class StudentDaoJdbc implements StudentDao {
     public List<Student> getAll() {
         List<Student> students = jdbcTemplate.query("select * from students", new StudentMapper());
         for (Student t : students) {
-            List<Study> studies = jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[] {t.getId()}, new StudyMapper());
+            List<Study> studies = jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[] {t.getId()}, new StudyMapper());
             t.setStudies(studies);
         }
         return students;
@@ -88,7 +88,7 @@ public class StudentDaoJdbc implements StudentDao {
     public Student findById(long id) {
         Student student = jdbcTemplate.queryForObject("select * from students where id = ?", new Object[]{id}, new StudentMapper());
         if (student != null) {
-            List<Study> studies = jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{id}, new StudyMapper());
+            List<Study> studies = jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{id}, new StudyMapper());
             student.setStudies(studies);
         }
         return student;
@@ -110,7 +110,7 @@ public class StudentDaoJdbc implements StudentDao {
     public Student findByLogin(String login) {
         Student student = jdbcTemplate.queryForObject("select * from students where login=?", new Object[] {login} , new StudentMapper());
         if (student != null) {
-            List<Study> studies = jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{student.getId()}, new StudyMapper());
+            List<Study> studies = jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{student.getId()}, new StudyMapper());
             student.setStudies(studies);
         }
         return student;

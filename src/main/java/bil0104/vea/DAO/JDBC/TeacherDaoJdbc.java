@@ -63,11 +63,11 @@ public class TeacherDaoJdbc implements TeacherDao {
     public Teacher insert(Teacher teacher) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement("insert into teachers (login, firstname, lastname, dateofbirth, password, role) values (?,?,?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("insert into teachers (login, firstname, lastname, dateofbirth, password, role) values (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, teacher.getLogin());
             ps.setString(2, teacher.getFirstName());
             ps.setString(3, teacher.getLastName());
-            ps.setDate(4, (Date) teacher.getDateOfBirth());
+            ps.setDate(4, teacher.getDateOfBirth());
             ps.setString(5, teacher.getPassword());
             ps.setString(6, teacher.getRole().toString());
             return ps;

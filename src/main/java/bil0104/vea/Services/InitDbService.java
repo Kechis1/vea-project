@@ -10,7 +10,7 @@ import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @Transactional
@@ -30,7 +30,7 @@ public class InitDbService {
 
     @PostConstruct
     public void init() {
-       /* List<Subject> subs = new ArrayList<>();
+        List<Subject> subs = new ArrayList<>();
         List<Student> stu = new ArrayList<>();
         List<Teacher> teas = new ArrayList<>();
         List<Study> studies = new ArrayList<>();
@@ -83,6 +83,6 @@ public class InitDbService {
         for (Subject sub : subs) {
             sub.setTeacher(teas.get(0));
             subjectDao.update(sub);
-        }*/
+        }
     }
 }

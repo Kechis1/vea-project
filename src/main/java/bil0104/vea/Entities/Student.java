@@ -4,11 +4,11 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @Entity
-// @Table(name = "students")
+//@Table(name = "students")
 public class Student extends Person {
     @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
     public List<Study> studies;

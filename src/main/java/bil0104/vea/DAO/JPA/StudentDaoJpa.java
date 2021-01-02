@@ -1,4 +1,5 @@
-/*package bil0104.vea.DAO.JPA;
+/*
+package bil0104.vea.DAO.JPA;
 
 import bil0104.vea.DAO.StudentDao;
 import bil0104.vea.Entities.Student;

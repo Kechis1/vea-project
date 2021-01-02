@@ -59,7 +59,7 @@ public class StudyDaoJdbc implements StudyDao {
     public void insert(Study study) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement("insert into studies (year, points, student_id, subject_id) values (?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("insert into studies (year, points, student_id, subject_id) values (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, study.getYear());
             ps.setInt(2, study.getPoints());
             ps.setLong(3, study.getStudent().getId());
@@ -71,7 +71,7 @@ public class StudyDaoJdbc implements StudyDao {
 
     @Override
     public List<Study> getAll() {
-        return jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id", new StudyMapper());
+        return jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id", new StudyMapper());
     }
 
     @Override
@@ -81,17 +81,17 @@ public class StudyDaoJdbc implements StudyDao {
 
     @Override
     public List<Study> findByStudentAndYear(Person person, String year) {
-        return jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ? and st.year = ?", new Object[]{person.getId(), year}, new StudyMapper());
+        return jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ? and st.year = ?", new Object[]{person.getId(), year}, new StudyMapper());
     }
 
     @Override
     public Study find(long id) {
-        return jdbcTemplate.queryForObject("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{id}, new StudyMapper());
+        return jdbcTemplate.queryForObject("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ?", new Object[]{id}, new StudyMapper());
     }
 
     @Override
     public Study findByUniqueKey(long studentId, long subjectId, String year) {
-        return jdbcTemplate.queryForObject("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ? and st.subject_id = ? and st.year = ?", new Object[]{studentId, subjectId, year}, new StudyMapper());
+        return jdbcTemplate.queryForObject("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.student_id = ? and st.subject_id = ? and st.year = ?", new Object[]{studentId, subjectId, year}, new StudyMapper());
     }
 
     @Override
@@ -112,6 +112,6 @@ public class StudyDaoJdbc implements StudyDao {
 
     @Override
     public List<Study> findBySubjectAndYear(Subject subject, String year) {
-        return jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.subject_id = ? and st.year = ?", new Object[]{subject.getId(), year}, new StudyMapper());
+        return jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.subject_id = ? and st.year = ?", new Object[]{subject.getId(), year}, new StudyMapper());
     }
 }

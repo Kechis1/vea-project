@@ -67,11 +67,11 @@ public class PersonDaoJdbc implements PersonDao<Person> {
     public Person insert(Person person) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement("insert into persons (login, firstname, lastname, dateofbirth, password, role) values (?,?,?,?,?,?)");
+            PreparedStatement ps = connection.prepareStatement("insert into persons (login, firstname, lastname, dateofbirth, password, role) values (?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, person.getLogin());
             ps.setString(2, person.getFirstName());
             ps.setString(3, person.getLastName());
-            ps.setDate(4, (Date) person.getDateOfBirth());
+            ps.setDate(4, person.getDateOfBirth());
             ps.setString(5, person.getPassword());
             ps.setString(6, person.getRole().toString());
             return ps;

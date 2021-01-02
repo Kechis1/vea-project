@@ -1,7 +1,7 @@
 <header class="bg-indigo-100" th:fragment="header">
-    <div class="lg:container lg:mx-auto" sec:authorize="isAuthenticated()">
-        <div class="relative sm:flex items-center justify-between">
-            <div class="block p-2 sm:flex-1 sm:flex sm:items-stretch sm:justify-start">
+    <div class="lg:container lg:mx-auto" th:if="${authUser != null}">
+        <div class="relative flex items-center justify-between h-16">
+            <div class="block pl-2 sm:flex-1 sm:flex sm:items-stretch sm:justify-start">
                 <div class="flex space-x-4">
                     <a th:classappend="${pageActive == 'home' ? 'bg-indigo-600' : 'bg-indigo-300'}"
                        class="text-white hover:bg-indigo-500 px-3 py-2 rounded-md text-sm font-medium"
@@ -17,7 +17,7 @@
                        href="#" th:href="@{/subjects}" th:text="#{Nav.Subjects}"></a>
                 </div>
             </div>
-            <div class="block sm:inset-y-0 sm:right-0 sm:flex sm:items-center p-2 sm:static sm:inset-auto sm:ml-6">
+            <div class="block sm:inset-y-0 sm:right-0 sm:flex sm:items-center pr-2 sm:static sm:inset-auto sm:ml-6">
                 <div class="flex space-x-4">
                     <span class="text-black px-3 py-2 rounded-md text-sm font-medium"
                           th:text="${authUser.login} + ', ' + ${authUser.firstName} + ' ' + ${authUser.lastName}"

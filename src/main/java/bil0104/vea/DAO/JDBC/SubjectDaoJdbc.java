@@ -63,13 +63,18 @@ public class SubjectDaoJdbc implements SubjectDao {
     public Subject insert(Subject subject) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement("insert into subjects (abbreviation, name, year, semester, credits, teacher_id) values (?,?,?,?,?,?)");
+            String sql = subject.getTeacher() == null ?
+                    "insert into subjects (abbreviation, name, year, semester, credits, teacher_id) values (?,?,?,?,?,null)" :
+                    "insert into subjects (abbreviation, name, year, semester, credits, teacher_id) values (?,?,?,?,?,?)";
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             ps.setString(1, subject.getAbbreviation());
             ps.setString(2, subject.getName());
             ps.setInt(3, subject.getYear());
             ps.setString(4, subject.getSemester().toString());
             ps.setInt(5, subject.getCredits());
-            ps.setLong(6, subject.getTeacher().getId());
+            if (subject.getTeacher() != null) {
+                ps.setLong(6, subject.getTeacher().getId());
+            }
             return ps;
         }, keyHolder);
         subject.setId((long) keyHolder.getKey());
@@ -84,7 +89,7 @@ public class SubjectDaoJdbc implements SubjectDao {
                 Teacher teacher = jdbcTemplate.queryForObject("select * from teachers where id = ?", new Object[]{t.getTeacherId()}, new TeacherMapper());
                 t.setTeacher(teacher);
             }
-            List<Study> studies = jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.subject_id = ?", new Object[] {t.getId()}, new StudyMapper());
+            List<Study> studies = jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.subject_id = ?", new Object[] {t.getId()}, new StudyMapper());
             t.setStudies(studies);
         }
         return subjects;
@@ -98,7 +103,7 @@ public class SubjectDaoJdbc implements SubjectDao {
                 Teacher teacher = jdbcTemplate.queryForObject("select * from teachers where id = ?", new Object[]{subject.getTeacherId()}, new TeacherMapper());
                 subject.setTeacher(teacher);
             }
-            List<Study> studies = jdbcTemplate.query("select st.*, stu.*, sub.* from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.subject_id = ?", new Object[]{subject.getId()}, new StudyMapper());
+            List<Study> studies = jdbcTemplate.query("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.subject_id = ?", new Object[]{subject.getId()}, new StudyMapper());
             subject.setStudies(studies);
         }
         return subject;
