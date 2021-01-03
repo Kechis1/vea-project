@@ -10,18 +10,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class Config implements WebMvcConfigurer {
     @Autowired StudentConverter studentConverter;
     @Autowired SubjectConverter subjectConverter;
-    @Autowired StudyConverter studyConverter;
     @Autowired TeacherConverter teacherConverter;
 
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(studentConverter);
-        registry.addConverter(new StudentConverter2());
         registry.addConverter(teacherConverter);
-        registry.addConverter(new TeacherConverter2());
         registry.addConverter(subjectConverter);
-        registry.addConverter(new SubjectConverter2());
-        registry.addConverter(studyConverter);
-        registry.addConverter(new StudyConverter2());
     }
 }

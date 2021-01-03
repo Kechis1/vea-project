@@ -1,5 +1,6 @@
 package bil0104.vea.Controllers.Web;
 
+import bil0104.vea.Converters.TeacherConverter;
 import bil0104.vea.Entities.Semester;
 import bil0104.vea.Entities.Subject;
 import bil0104.vea.Entities.Teacher;
@@ -34,6 +35,8 @@ public class SubjectController extends AbstractController {
     private StudentService studentService;
     @Autowired
     private StudyService studyService;
+    @Autowired
+    private TeacherConverter teacherConverter;
 
     @GetMapping("/subjects")
     public String list(Model model) {
@@ -73,19 +76,14 @@ public class SubjectController extends AbstractController {
 
     @PostMapping(value = "/subjects/{id}/update")
     @Secured({"ROLE_ADMIN"})
-    public String update(@Validated @ModelAttribute("subject") Subject subject, @RequestParam(value = "teacher.id") Teacher teacher, BindingResult subjectResult, @PathVariable long id, @RequestParam(required = false) String ayear) {
-        System.out.println(teacher);
+    public String update(@Validated @ModelAttribute("subject") Subject subject, @RequestParam(value = "teacher.id") Teacher teacher, @PathVariable long id, @RequestParam(required = false) String ayear) {
         Subject st = subjectService.findById(id);
         st.setAbbreviation(subject.getAbbreviation());
         st.setName(subject.getName());
         st.setSemester(subject.getSemester());
         st.setYear(subject.getYear());
         st.setCredits(subject.getCredits());
-        if (subjectResult.getRawFieldValue("teacher.id") != null) {
-            st.setTeacher(teacherService.findById((long) subjectResult.getRawFieldValue("teacher.id")));
-        } else {
-            st.setTeacher(null);
-        }
+        st.setTeacher(teacher);
         subjectService.update(st);
 
         return "redirect:/subjects/" + id + "/detail" + (ayear == null ? "" : "?ayear=" + ayear);
@@ -99,7 +97,7 @@ public class SubjectController extends AbstractController {
             return "views/subjects/add";
         }
         if (subjectResult.getRawFieldValue("teacher.id") != null) {
-            subject.setTeacher(teacherService.findById((long) subjectResult.getRawFieldValue("teacher.id")));
+            subject.setTeacher(teacherConverter.convert(subjectResult.getRawFieldValue("teacher.id").toString()));
         }
         subjectService.insert(subject);
         return "redirect:/subjects/add";

@@ -14,7 +14,7 @@ public class TeacherConverter implements Converter<String, Teacher> {
 
     @Override
     public Teacher convert(String s) {
-        if (s == null || s.isEmpty()) {
+        if (s == null || s.equals("0") || s.isEmpty()) {
             return null;
         } else {
             return teacherService.findById(Long.parseLong(s));

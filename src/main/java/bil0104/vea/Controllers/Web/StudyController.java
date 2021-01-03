@@ -1,9 +1,11 @@
 package bil0104.vea.Controllers.Web;
 
+import bil0104.vea.Converters.StudentConverter;
+import bil0104.vea.Converters.SubjectConverter;
+import bil0104.vea.Entities.Student;
 import bil0104.vea.Entities.Study;
-import bil0104.vea.Services.StudentService;
+import bil0104.vea.Entities.Subject;
 import bil0104.vea.Services.StudyService;
-import bil0104.vea.Services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -16,11 +18,11 @@ import org.springframework.web.bind.annotation.*;
 public class StudyController extends AbstractController {
 
     @Autowired
+    private StudentConverter studentConverter;
+    @Autowired
+    private SubjectConverter subjectConverter;
+    @Autowired
     private StudyService studyService;
-    @Autowired
-    private StudentService studentService;
-    @Autowired
-    private SubjectService subjectService;
 
     @PostMapping(value = "/studies/{id}/update")
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
@@ -51,7 +53,9 @@ public class StudyController extends AbstractController {
             System.out.println(studyResult.getAllErrors());
             return "redirect:/" + url;
         }
-        Study newStudy = new Study(study.getYear(), study.getPoints(), studentService.findById((long) studyResult.getRawFieldValue("studentId")), subjectService.findById((long) studyResult.getRawFieldValue("subjectId")));
+        Student student = studentConverter.convert(studyResult.getRawFieldValue("studentId").toString());
+        Subject subject = subjectConverter.convert(studyResult.getRawFieldValue("subjectId").toString());
+        Study newStudy = new Study(study.getYear(), study.getPoints(), student, subject);
         Study found = studyService.findByUniqueKey(newStudy.getStudent().getId(), newStudy.getSubject().getId(), newStudy.getYear());
         if (found != null) {
             return "redirect:/" + url;
