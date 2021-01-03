@@ -56,4 +56,8 @@ public class StudyService {
     public List<Study> findBySubjectAndYear(Subject subject, String year) {
         return studyDao.findBySubjectAndYear(subject, year);
     }
+
+    public Study findById(long id) {
+        return studyDao.find(id);
+    }
 }
