@@ -52,4 +52,8 @@ public class PersonService implements UserDetailsService {
     public Person findById(long id) {
         return personDao.findById(id);
     }
+
+    public void update(Person person) {
+        personDao.update(person);
+    }
 }

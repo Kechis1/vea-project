@@ -3,10 +3,8 @@ package bil0104.vea.REST;
 import bil0104.vea.Entities.Person;
 import bil0104.vea.Services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,14 +24,18 @@ public class PersonRestController {
     }
 
     @RequestMapping(path = "/api/persons", method = RequestMethod.POST)
-    public Person create() {
-
+    public Person create(@Validated @RequestBody Person person) {
+        personService.insert(person);
         return null;
     }
 
     @RequestMapping(path = "/api/persons/{id}", method = RequestMethod.PUT)
-    public void edit(@PathVariable long id) {
-
+    public void edit(@Validated @RequestBody Person person, @PathVariable long id) {
+        Person found = personService.findById(id);
+        if (found != null) {
+            person.setId(id);
+            personService.update(person);
+        }
     }
 
     @RequestMapping(path = "/api/persons/{id}", method = RequestMethod.DELETE)
