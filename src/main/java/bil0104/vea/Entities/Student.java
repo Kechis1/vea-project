@@ -1,5 +1,6 @@
 package bil0104.vea.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -11,6 +12,7 @@ import java.util.List;
 //@Table(name = "students")
 public class Student extends Person {
     @OneToMany(mappedBy = "student", fetch = FetchType.EAGER)
+    @JsonBackReference
     public List<Study> studies;
     public int year;
 

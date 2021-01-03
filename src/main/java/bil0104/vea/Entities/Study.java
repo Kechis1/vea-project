@@ -1,5 +1,7 @@
 package bil0104.vea.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -25,9 +27,11 @@ public class Study {
     @JoinColumn(name = "subject_id")
     public Subject subject;
 
+    @JsonBackReference
     @Transient
     public long studentId;
     @Transient
+    @JsonBackReference
     public long subjectId;
 
     public Study() {

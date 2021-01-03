@@ -1,5 +1,6 @@
 package bil0104.vea.Entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -23,12 +24,14 @@ public class Subject {
     @NotNull
     private int credits;
     @OneToMany(mappedBy = "subject", fetch = FetchType.EAGER)
+    @JsonBackReference
     public List<Study> studies;
     @ManyToOne
     @JoinColumn(name="teacher_id")
     public Teacher teacher;
     @Transient
     @Nullable
+    @JsonBackReference
     public long teacherId;
 
     public Subject() {
@@ -43,6 +46,9 @@ public class Subject {
         this.credits = credits;
         this.studies = studies;
         this.teacher = teacher;
+        if (teacher != null) {
+            this.teacherId = teacher.getId();
+        }
     }
 
 
@@ -54,6 +60,9 @@ public class Subject {
         this.credits = credits;
         this.studies = studies;
         this.teacher = teacher;
+        if (teacher != null) {
+            this.teacherId = teacher.getId();
+        }
     }
 
     public String getAbbreviation() {
@@ -69,6 +78,9 @@ public class Subject {
     }
 
     public void setTeacher(Teacher teacher) {
+        if (teacher != null) {
+            this.teacherId = teacher.getId();
+        }
         this.teacher = teacher;
     }
 
