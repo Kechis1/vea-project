@@ -3,6 +3,7 @@ package bil0104.vea.DAO.JDBC;
 import bil0104.vea.DAO.JDBC.Mappers.PersonMapper;
 import bil0104.vea.DAO.PersonDao;
 import bil0104.vea.Entities.Person;
+import bil0104.vea.Entities.Teacher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -56,7 +57,12 @@ public class PersonDaoJdbc implements PersonDao<Person> {
 
     @Override
     public List<Person> getAll() {
-        return jdbcTemplate.query("select * from persons", new PersonMapper());
+        List<Person> persons = jdbcTemplate.query("select * from persons", new PersonMapper());
+        List<Person> teachers = jdbcTemplate.query("select * from teachers", new PersonMapper());
+        List<Person> students = jdbcTemplate.query("select * from students", new PersonMapper());
+        persons.addAll(teachers);
+        persons.addAll(students);
+        return persons;
     }
 
     @Override
@@ -101,6 +107,14 @@ public class PersonDaoJdbc implements PersonDao<Person> {
     public Person findByLogin(String login) {
         try {
             return jdbcTemplate.queryForObject("select * from persons where login=?", new Object[] {login} , new PersonMapper());
+        } catch (EmptyResultDataAccessException e) {
+        }
+        try {
+            return jdbcTemplate.queryForObject("select * from teachers where login=?", new Object[] {login} , new PersonMapper());
+        } catch (EmptyResultDataAccessException e) {
+        }
+        try {
+            return jdbcTemplate.queryForObject("select * from students where login=?", new Object[] {login} , new PersonMapper());
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
