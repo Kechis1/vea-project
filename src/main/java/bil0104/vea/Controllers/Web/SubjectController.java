@@ -73,7 +73,8 @@ public class SubjectController extends AbstractController {
 
     @PostMapping(value = "/subjects/{id}/update")
     @Secured({"ROLE_ADMIN"})
-    public String update(@Validated @ModelAttribute("subject") Subject subject, BindingResult subjectResult, @PathVariable long id, @RequestParam(required = false) String ayear) {
+    public String update(@Validated @ModelAttribute("subject") Subject subject, @RequestParam(value = "teacher.id") Teacher teacher, BindingResult subjectResult, @PathVariable long id, @RequestParam(required = false) String ayear) {
+        System.out.println(teacher);
         Subject st = subjectService.findById(id);
         st.setAbbreviation(subject.getAbbreviation());
         st.setName(subject.getName());

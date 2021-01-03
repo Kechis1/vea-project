@@ -32,6 +32,7 @@ public class TeacherService {
     }
 
     public Teacher findById(long id) {
+        System.out.println("jsem tu find by id");
         return teacherDao.findById(id);
     }
 
