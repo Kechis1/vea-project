@@ -43,7 +43,7 @@ public class TeacherController extends AbstractController {
 
     @PostMapping(value = "/teachers/add")
     @Secured({"ROLE_ADMIN"})
-    public String create(@ModelAttribute @Validated Teacher teacher, BindingResult teacherResult) {
+    public String create(@ModelAttribute("teacher") @Validated Teacher teacher, BindingResult teacherResult) {
         if (teacherResult.hasErrors()) {
             System.out.println(teacherResult.getAllErrors());
             return "views/teachers/add";
@@ -69,7 +69,7 @@ public class TeacherController extends AbstractController {
 
     @PostMapping(value = "/teachers/{id}/update")
     @Secured({"ROLE_ADMIN"})
-    public String update(@Validated @ModelAttribute Teacher teacher, @PathVariable long id) {
+    public String update(@Validated @ModelAttribute("teacher") Teacher teacher, @PathVariable long id) {
         Teacher st = teacherService.findById(id);
         st.setFirstName(teacher.getFirstName());
         st.setLastName(teacher.getLastName());
@@ -82,8 +82,10 @@ public class TeacherController extends AbstractController {
     @Secured({"ROLE_ADMIN"})
     public String attachSubject(@RequestParam int subjectId, @PathVariable long id) {
         Teacher st = teacherService.findById(id);
-        st.addTeaches(subjectService.findById(subjectId));
-        teacherService.update(st);
+        Subject sb = subjectService.findById(subjectId);
+        st.addTeaches(sb);
+        sb.setTeacher(st);
+        subjectService.update(sb);
         return "redirect:/teachers/" + id + "/detail";
     }
 
@@ -99,6 +101,9 @@ public class TeacherController extends AbstractController {
     @Secured({"ROLE_ADMIN"})
     public String detachSubject(@PathVariable long id, @PathVariable long subjectId) {
         Teacher teacher = teacherService.findById(id);
+        if (teacher == null) {
+            return "redirect:/teachers/" + id + "/detail";
+        }
         Subject teaches = teacher.getTeaches().stream().filter(x -> x.getId() == subjectId).findFirst().orElse(null);
         if (teaches != null) {
             teacher.getTeaches().remove(teaches);

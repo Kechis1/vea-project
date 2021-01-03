@@ -52,7 +52,7 @@ public class StudentController extends AbstractController {
 
     @PostMapping(value = "/students/{id}/update")
     @Secured({"ROLE_ADMIN"})
-    public String update(@RequestParam(required = false) String ayear, @Validated @ModelAttribute Student student, @PathVariable long id) {
+    public String update(@RequestParam(required = false) String ayear, @Validated @ModelAttribute("student") Student student, @PathVariable long id) {
         Student st = studentService.findById(id);
         st.setFirstName(student.getFirstName());
         st.setLastName(student.getLastName());
@@ -82,7 +82,7 @@ public class StudentController extends AbstractController {
 
     @PostMapping(value = "/students/add")
     @Secured("ROLE_ADMIN")
-    public String create(@ModelAttribute @Validated Student student, BindingResult studentResult) {
+    public String create(@ModelAttribute("student") @Validated Student student, BindingResult studentResult) {
         if (studentResult.hasErrors()) {
             System.out.println(studentResult.getAllErrors());
             return "views/students/add";

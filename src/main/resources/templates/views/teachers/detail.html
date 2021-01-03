@@ -31,11 +31,11 @@
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="firstName" th:text="#{Person.Properties.FirstName}"></label>
-                        <input th:value="${teacher.firstName}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="firstName" id="firstName">
+                        <input th:field="*{firstName}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" id="firstName">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="lastName" th:text="#{Person.Properties.LastName}"></label>
-                        <input th:value="${teacher.lastName}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="lastName" id="lastName">
+                        <input th:field="*{lastName}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" id="lastName">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <div class="font-medium" th:text="#{Person.Properties.Login} + ':'"></div>
@@ -43,7 +43,7 @@
                     </div>
                     <div class="mb-4 col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="dateOfBirth" th:text="#{Person.Properties.DateOfBirth}"></label>
-                        <input th:value="${#dates.format(teacher.dateOfBirth, 'yyyy-MM-dd')}" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="yyyy-mm-dd" type="date" th:name="dateOfBirth" id="dateOfBirth">
+                        <input th:field="*{dateOfBirth}" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="yyyy-mm-dd" type="date" id="dateOfBirth">
                     </div>
                 </div>
                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">

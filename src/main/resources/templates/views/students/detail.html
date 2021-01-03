@@ -35,23 +35,23 @@
                 <div class="grid grid-cols-6 gap-6">
                     <div class="col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="firstName" th:text="#{Person.Properties.FirstName}"></label>
-                        <input th:value="${student.firstName}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="firstName" id="firstName">
+                        <input th:field="*{firstName}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" id="firstName">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="lastName" th:text="#{Person.Properties.LastName}"></label>
-                        <input th:value="${student.lastName}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" th:name="lastName" id="lastName">
+                        <input th:field="*{lastName}" th:required="true" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="text" id="lastName">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <div class="font-medium" th:text="#{Person.Properties.Login} + ':'"></div>
-                        <div th:text="${student.login}"></div>
+                        <div th:field="*{login}"></div>
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="dateOfBirth" th:text="#{Person.Properties.DateOfBirth}"></label>
-                        <input th:value="${#dates.format(student.dateOfBirth, 'yyyy-MM-dd')}" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="yyyy-mm-dd" type="date" th:name="dateOfBirth" id="dateOfBirth">
+                        <input th:field="*{dateOfBirth}" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" placeholder="yyyy-mm-dd" type="date" id="dateOfBirth">
                     </div>
                     <div class="pb-4 col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="studentYear" th:text="#{Students.Properties.Year}"></label>
-                        <input th:value="${student.year}" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="number" th:name="year" id="studentYear">
+                        <input th:field="*{year}" class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md" type="number" id="studentYear">
                     </div>
                 </div>
                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
@@ -125,7 +125,7 @@
                 </table>
             </div>
             <div th:if="${authUser.getRole().isAdmin() and subjects.size() != 0}">
-                <form modelAttribute="study" th:object="${study}" th:action="${#request.getParameter('ayear') == null ? '/studies/add?url=students/' + student.id + '/detail' : '/studies/add?url=students/' + student.id + '/detail?ayear=' + #request.getParameter('ayear')}" method="post">
+                <form th:action="${#request.getParameter('ayear') == null ? '/studies/add?url=students/' + student.id + '/detail' : '/studies/add?url=students/' + student.id + '/detail?ayear=' + #request.getParameter('ayear')}" method="post">
                     <label class="inline-flex" for="subject" th:text="#{Labels.AddSubject} + ':'"></label>
                     <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md" id="subject" th:name="subjectId">
                         <option th:each="subj : ${subjects}" th:text="${subj.getAbbreviation() + ' | ' + subj.getName()}" th:value="${subj.id}"></option>

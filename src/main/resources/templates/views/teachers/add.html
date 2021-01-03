@@ -7,7 +7,7 @@
 <div layout:fragment="content">
     <div class="p-2" th:fragment="content">
         <h1 class="font-bold text-3xl mb-4" th:text="#{Teachers.Body.Title} + ' - ' + #{Actions.Create}"></h1>
-        <form th:action="@{/teachers/add}" th:object="${teacher}" th:method="post">
+        <form th:action="@{/teachers/add}" th:method="post">
             <div class="grid grid-cols-6 gap-6">
                 <div class="col-span-6 sm:col-span-3">
                     <label class="block text-sm font-medium text-gray-700" for="firstName" th:text="#{Person.Properties.FirstName}"></label>

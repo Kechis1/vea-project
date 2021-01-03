@@ -46,7 +46,7 @@ public class StudyController extends AbstractController {
 
     @PostMapping(value = "/studies/add")
     @Secured({"ROLE_ADMIN"})
-    public String create(@Validated @ModelAttribute("study") Study study, @RequestParam String url, BindingResult studyResult) {
+    public String create(@Validated @ModelAttribute(value = "study") Study study, @RequestParam String url, BindingResult studyResult) {
         if (studyResult.hasErrors() || studyResult.getRawFieldValue("studentId") == null || studyResult.getRawFieldValue("subjectId") == null) {
             System.out.println(studyResult.getAllErrors());
             return "redirect:/" + url;

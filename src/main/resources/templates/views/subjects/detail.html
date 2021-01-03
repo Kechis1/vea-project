@@ -43,22 +43,22 @@
                     <div class="col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="abbreviation"
                                th:text="#{Subjects.Properties.Abbreviation}"></label>
-                        <input th:value="${subject.abbreviation}" th:required="true"
+                        <input th:field="*{abbreviation}" th:required="true"
                                class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                               type="text" th:name="abbreviation" id="abbreviation">
+                               type="text" id="abbreviation">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="name"
                                th:text="#{Subjects.Properties.Name}"></label>
-                        <input th:value="${subject.name}" th:required="true"
+                        <input th:field="*{name}" th:required="true"
                                class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                               type="text" th:name="name" id="name">
+                               type="text" id="name">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="semester"
                                th:text="#{Subjects.Properties.Semester}"></label>
                         <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                id="semester" th:name="semester">
+                                id="semester" th:field="*{semester}">
                             <option th:each="se : ${semesters}" th:value="${se}"
                                     th:text="${#messages.msg('Semesters.' + se)}"
                                     th:selected="${subject.semester.equals(se)}"></option>
@@ -67,22 +67,22 @@
                     <div class="col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="year"
                                th:text="#{Subjects.Properties.Year}"></label>
-                        <input th:value="${subject.year}" th:required="true"
+                        <input th:field="*{year}" th:required="true"
                                class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                               type="number" th:name="year" id="year">
+                               type="number" id="year">
                     </div>
                     <div class="col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="credits"
                                th:text="#{Subjects.Properties.Credits}"></label>
-                        <input th:value="${subject.credits}" th:required="true"
+                        <input th:field="*{credits}" th:required="true"
                                class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                               type="number" th:name="credits" id="credits">
+                               type="number" id="credits">
                     </div>
                     <div class="mb-4 col-span-6 sm:col-span-3">
                         <label class="block text-sm font-medium text-gray-700" for="teacher.id"
                                th:text="#{Subjects.Properties.Teacher}"></label>
                         <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                id="teacher.id" name="teacher.id">
+                                id="teacher.id" th:field="*{teacher.id}">
                             <option th:value="0" th:selected="${subject.teacher == null}">-</option>
                             <option th:each="t : ${teachers}" th:value="${t.id}"
                                     th:text="${t.firstName} + ' ' + ${t.lastName}"
@@ -169,8 +169,7 @@
                 </div>
 
                 <div th:if="${authUser.getRole().isAdmin() and students.size() != 0}">
-                    <form modelAttribute="study" th:object="${study}"
-                          th:action="${#request.getParameter('ayear') == null ? '/studies/add?url=subjects/' + subject.id + '/detail' : '/studies/add?url=subjects/' + subject.id + '/detail?ayear=' + #request.getParameter('ayear')}"
+                    <form th:action="${#request.getParameter('ayear') == null ? '/studies/add?url=subjects/' + subject.id + '/detail' : '/studies/add?url=subjects/' + subject.id + '/detail?ayear=' + #request.getParameter('ayear')}"
                           method="post">
                         <label class="inline-flex" for="student" th:text="#{Labels.AddStudent} + ':'"></label>
                         <select class="p-2 border mt-1 focus:ring-blue-500 focus:border-blue-500 inline-flex shadow-sm sm:text-sm border-gray-300 rounded-md"

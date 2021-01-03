@@ -116,8 +116,13 @@ public class SubjectDaoJdbc implements SubjectDao {
 
     @Override
     public Subject update(Subject subject) {
-        jdbcTemplate.update("UPDATE subjects SET abbreviation = ?, name = ?, year = ?, semester = ?, credits = ?, teacher_id = ? WHERE id = ?",
-                subject.getAbbreviation(), subject.getName(), subject.getYear(), subject.getSemester().toString(), subject.getCredits(), subject.getTeacher().getId(), subject.getId());
+        if (subject.getTeacher() == null) {
+            jdbcTemplate.update("UPDATE subjects SET abbreviation = ?, name = ?, year = ?, semester = ?, credits = ?, teacher_id = null WHERE id = ?",
+                    subject.getAbbreviation(), subject.getName(), subject.getYear(), subject.getSemester().toString(), subject.getCredits(), subject.getId());
+        } else {
+            jdbcTemplate.update("UPDATE subjects SET abbreviation = ?, name = ?, year = ?, semester = ?, credits = ?, teacher_id = ? WHERE id = ?",
+                    subject.getAbbreviation(), subject.getName(), subject.getYear(), subject.getSemester().toString(), subject.getCredits(), subject.getTeacher().getId(), subject.getId());
+        }
         return subject;
     }
 
