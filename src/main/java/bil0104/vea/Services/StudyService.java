@@ -17,8 +17,8 @@ public class StudyService {
     @Autowired
     private StudyDao studyDao;
 
-    public void insert(Study study) {
-        studyDao.insert(study);
+    public Study insert(Study study) {
+        return studyDao.insert(study);
     }
 
     public List<Study> findByStudentAndYear(Person person, String year) {
@@ -29,12 +29,8 @@ public class StudyService {
         studyDao.delete(id);
     }
 
-    public Study find(long id) {
-        return studyDao.find(id);
-    }
-
-    public void update(Study study) {
-        studyDao.update(study);
+    public Study update(Study study) {
+        return studyDao.update(study);
     }
 
     public Study findByUniqueKey(long studentId, long subjectId, String year) {
@@ -58,6 +54,6 @@ public class StudyService {
     }
 
     public Study findById(long id) {
-        return studyDao.find(id);
+        return studyDao.findById(id);
     }
 }

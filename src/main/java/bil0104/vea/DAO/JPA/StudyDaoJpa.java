@@ -25,13 +25,14 @@ public class StudyDaoJpa implements StudyDao {
     }
 
     @Override
-    public void insert(Study study) {
+    public Study insert(Study study) {
         em.createNativeQuery("insert into studies (year, points, student_id, subject_id) VALUES (?,?,?,?)")
                 .setParameter(1, study.getYear())
                 .setParameter(2, study.getPoints())
                 .setParameter(3, study.getStudent().getId())
                 .setParameter(4, study.getSubject().getId())
                 .executeUpdate();
+        return study;
     }
 
     @Override
@@ -43,7 +44,7 @@ public class StudyDaoJpa implements StudyDao {
     }
 
     @Override
-    public Study find(long id) {
+    public Study findById(long id) {
         return em.createQuery("select st from Study st where st.id = :id", Study.class)
                 .setParameter("id", id)
                 .getSingleResult();
@@ -88,8 +89,9 @@ public class StudyDaoJpa implements StudyDao {
     }
 
     @Override
-    public void update(Study study) {
+    public Study update(Study study) {
         em.merge(study);
+        return study;
     }
 }
 */

@@ -28,7 +28,7 @@ public class StudyController extends AbstractController {
     @Secured({"ROLE_ADMIN", "ROLE_TEACHER"})
     public String update(@RequestParam int points, @RequestParam String url, @PathVariable long id) {
         if (points >= 0 && points <= 100) {
-            Study study = studyService.find(id);
+            Study study = studyService.findById(id);
             if (study == null || (getAuthUser().getRole().isTeacher() && getAuthUser().getId() != study.getSubject().getTeacher().getId())) {
                 return "redirect:/" + url;
             }

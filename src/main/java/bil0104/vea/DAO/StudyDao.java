@@ -7,17 +7,8 @@ import bil0104.vea.Entities.Subject;
 import java.util.List;
 
 
-public interface StudyDao {
-
-    void insert(Study study);
-    List<Study> getAll();
-
+public interface StudyDao extends AbstractDao<Study> {
     List<Study> findByStudentAndYear(Person person, String year);
-    void delete(long id);
-
-    Study find(long id);
-
-    void update(Study study);
 
     Study findByUniqueKey(long studentId, long subjectId, String year);
 

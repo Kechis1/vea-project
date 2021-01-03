@@ -57,7 +57,7 @@ public class StudyDaoJdbc implements StudyDao {
     }
 
     @Override
-    public void insert(Study study) {
+    public Study insert(Study study) {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement("insert into studies (year, points, student_id, subject_id) values (?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
@@ -68,6 +68,7 @@ public class StudyDaoJdbc implements StudyDao {
             return ps;
         }, keyHolder);
         study.setId((long) keyHolder.getKey());
+        return study;
     }
 
     @Override
@@ -86,7 +87,7 @@ public class StudyDaoJdbc implements StudyDao {
     }
 
     @Override
-    public Study find(long id) {
+    public Study findById(long id) {
         try {
             return jdbcTemplate.queryForObject("select st.id st_id, st.year st_year, st.points st_points, st.subject_id, st.student_id, stu.id stu_id, stu.firstname stu_firstname, stu.lastname stu_lastname, stu.year stu_year, stu.login stu_login, stu.dateofbirth stu_dateofbirth, sub.id sub_id, sub.abbreviation sub_abbreviation, sub.name sub_name, sub.year sub_year, sub.semester sub_semester, sub.credits sub_credits, sub.teacher_id from studies st join students stu on st.student_id = stu.id join subjects sub on st.subject_id = sub.id where st.id = ?", new Object[]{id}, new StudyMapper());
         } catch (EmptyResultDataAccessException e) {
@@ -114,9 +115,10 @@ public class StudyDaoJdbc implements StudyDao {
     }
 
     @Override
-    public void update(Study study) {
+    public Study update(Study study) {
         jdbcTemplate.update("UPDATE studies SET points = ? WHERE id = ?",
                 study.getPoints(), study.getId());
+        return study;
     }
 
     @Override
