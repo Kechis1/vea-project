@@ -27,8 +27,8 @@ public class TeacherService {
         teacherDao.delete(id);
     }
 
-    public void insert(Teacher teacher) {
-        teacherDao.insert(teacher);
+    public Teacher insert(Teacher teacher) {
+        return teacherDao.insert(teacher);
     }
 
     public Teacher findById(long id) {

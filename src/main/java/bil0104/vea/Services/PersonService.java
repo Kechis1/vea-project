@@ -31,8 +31,8 @@ public class PersonService implements UserDetailsService {
         personDao.delete(id);
     }
 
-    public void insert(Person person) {
-        personDao.insert(person);
+    public Person insert(Person person) {
+        return personDao.insert(person);
     }
 
     @Override

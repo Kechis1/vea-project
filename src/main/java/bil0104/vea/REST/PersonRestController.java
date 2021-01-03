@@ -31,8 +31,7 @@ public class PersonRestController {
         person.setLogin(Person.findNextLogin(person, personService::findByLogin));
         person.setRole(Role.ADMIN);
         person.setPassword(encryptPassword(person.getPassword()));
-        personService.insert(person);
-        return null;
+        return personService.insert(person);
     }
 
     @RequestMapping(path = "/api/persons/{id}", method = RequestMethod.PUT)

@@ -27,8 +27,8 @@ public class StudentService {
         studentDao.delete(id);
     }
 
-    public void insert(Student student) {
-        studentDao.insert(student);
+    public Student insert(Student student) {
+        return studentDao.insert(student);
     }
 
     public Student findById(long id) {

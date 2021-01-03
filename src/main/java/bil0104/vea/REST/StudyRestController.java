@@ -3,10 +3,7 @@ package bil0104.vea.REST;
 import bil0104.vea.Entities.Study;
 import bil0104.vea.Services.StudyService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,17 +20,6 @@ public class StudyRestController {
     @RequestMapping(path = "/api/studies/{id}", method = RequestMethod.GET)
     public Study find(@PathVariable long id) {
         return studyService.findById(id);
-    }
-
-    @RequestMapping(path = "/api/studies", method = RequestMethod.POST)
-    public Study create() {
-
-        return null;
-    }
-
-    @RequestMapping(path = "/api/studies/{id}", method = RequestMethod.PUT)
-    public void edit(@PathVariable long id) {
-
     }
 
     @RequestMapping(path = "/api/studies/{id}", method = RequestMethod.DELETE)

@@ -29,8 +29,8 @@ public class SubjectService {
         subjectDao.delete(subject);
     }
 
-    public void insert(Subject subject) {
-        subjectDao.insert(subject);
+    public Subject insert(Subject subject) {
+        return subjectDao.insert(subject);
     }
 
     public Subject findById(long id) {
