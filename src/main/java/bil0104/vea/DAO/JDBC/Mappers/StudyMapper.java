@@ -30,15 +30,17 @@ public class StudyMapper implements RowMapper<Study> {
                         Semester.valueOf(rs.getString("sub_semester")),
                         rs.getInt("sub_credits"),
                         null,
-                        !isThere(rs, "t_firstname") ?
-                                null :
-                                new Teacher(rs.getLong("t_id"),
-                                        null,
-                                        rs.getString("t_firstname"),
-                                        rs.getString("t_lastname"),
-                                        null,
-                                        rs.getString("t_password"),
-                                        null)));
+                        null));
+        if (isThere(rs, "t_id") && rs.getLong("t_id") != 0) {
+            st.getSubject().setTeacher(new Teacher(rs.getLong("t_id"),
+                null,
+                rs.getString("t_firstname"),
+                rs.getString("t_lastname"),
+                null,
+                rs.getString("t_password"),
+                null));
+        }
+
         st.setStudentId(rs.getInt("student_id"));
         st.setSubjectId(rs.getInt("subject_id"));
         return st;
